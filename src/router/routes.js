@@ -1,4 +1,4 @@
-import { auth } from './middlewares';
+import { auth, admin } from './middlewares';
 
 const routes = [
   {
@@ -11,6 +11,10 @@ const routes = [
       { path: 'dispatch', component: () => import('pages/Dispatch.vue'), meta: { middlewares: [auth] } },
       { path: 'fire', component: () => import('pages/Fire.vue'), meta: { middlewares: [auth] } },
       { path: 'police', component: () => import('pages/Police.vue'), meta: { middlewares: [auth] } },
+
+      { path: 'admin', component: () => import('pages/Admin.vue'), meta: { middlewares: [auth, admin] } },
+
+      { path: 'error', component: () => import('pages/Error.vue') },
     ],
   },
 
