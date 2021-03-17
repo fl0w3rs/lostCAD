@@ -1,0 +1,49 @@
+// app global css in SCSS form
+.q-page-container {
+background: #0E0E0E;
+}
+  
+body {
+    font-family: Helvetica!important;
+}
+
+.accent {
+    background: #191919;
+    border: 1px solid #545c63;
+}
+.accentLight {
+    border: 1px solid #545c63;
+}
+.accentLight, .accentLight-no-border {
+    background: #242424;
+}
+
+.accentDark {
+    background: #131313;
+}
+
+.accentBorder, .accentDark {
+    border: 1px solid #545c63;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.section {
+    border: 1px solid #d3d3d3;
+    background-color: hsla(0,0%,39.2%,0.2);
+}
+
+.border-maroon-thick {
+    border: 2px solid #5f1919;
+}
+
+.accentMaroon {
+    background: #5f1919!important;
+}
+
+.sectionTitle {
+    color: #ff6f00;
+}
