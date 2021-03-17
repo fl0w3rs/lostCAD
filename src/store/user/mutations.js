@@ -10,4 +10,5 @@ export function requestDepartments(state, payload) {
 export function updateInfo(state, payload) {
   state.name = payload.name;
   state.isAdmin = payload.isAdmin;
+  state.departments = payload.departments;
 }
