@@ -90,17 +90,9 @@ export default {
       dialogMinWidth: this.window.dialogMinWidth,
     };
   },
-  // watch: {
-  //   '$store.getters.window/getLastClickedWindowId': function () {
-  //     // eslint-disable-next-line eqeqeq
-  //     if (this.$store.getters['window/getLastClickedWindowId'] == this.window.id) {
-  //       this.zIndex = this.$store.getters['window/getCurrentWindowZ'];
-  //     }
-  //   },
-  // },
   mounted() {
     this.$store.watch(
-      (state) => state.window.getLastClickedWindowId, (val) => {
+      (state) => state.window.lastClickedWindowId, (val) => {
         // eslint-disable-next-line eqeqeq
         if (val == this.window.id) {
           this.zIndex = this.$store.getters['window/getCurrentWindowZ'];
