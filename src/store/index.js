@@ -6,6 +6,7 @@ import user from './user';
 import window from './window';
 import error from './error';
 import characters from './characters';
+import identifier from './identifier';
 
 Vue.use(Vuex);
 
@@ -26,6 +27,7 @@ export default function (/* { ssrContext } */) {
       window,
       error,
       characters,
+      identifier,
     },
 
     // enable strict mode (adds overhead!)

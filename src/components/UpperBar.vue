@@ -2,7 +2,7 @@
     <div class="row items-center q-py-xs">
         <div class="col-6">
             <span class="clock">
-                UNIT IS NOT SELECTED
+              ИДЕНТИФИКАТОР НЕ ВЫБРАН
             </span>
         </div>
 
