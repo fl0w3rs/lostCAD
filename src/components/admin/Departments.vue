@@ -32,14 +32,14 @@ export default {
   },
 
   sockets: {
-    'admin/updateDepartmentList': function (val) {
+    'admin/departments/getAll': function (val) {
       // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
       this.departments = val;
     },
   },
 
   mounted() {
-    this.$socket.client.emit('admin/getDepartmentList');
+    this.$socket.client.emit('admin/departments/getAll');
   },
 };
 </script>
