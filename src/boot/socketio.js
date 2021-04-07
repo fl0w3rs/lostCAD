@@ -1,8 +1,6 @@
 import VueSocketIOExt from 'vue-socket.io-extended';
-import { io } from 'socket.io-client';
+import $socket from 'src/boot/socketio-instance';
 
-const socket = io('https://lostws.fl0w3rs.dev', { path: '/' });
-
-export default async ({ Vue, store }) => {
-  Vue.use(VueSocketIOExt, socket, { store });
+export default async ({ app, store }) => {
+  app.use(VueSocketIOExt, $socket, { store });
 };

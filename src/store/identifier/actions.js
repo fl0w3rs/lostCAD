@@ -1,9 +1,5 @@
-/*
-export function someAction (context) {
-}
-*/
-import Vue from 'vue';
+import $socket from 'src/boot/socketio-instance';
 
 export function request() {
-  Vue.prototype.$socket.client.emit('user/identifiers/request', {});
+  $socket.emit('user/identifiers/request', {});
 }

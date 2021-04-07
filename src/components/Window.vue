@@ -1,9 +1,9 @@
 <template>
-    <vue-draggable-resizable
+    <Vue3DraggableResizable
         :min-width="300" :min-height="150" :w="width" :h="height"
-        :style="{position: 'absolute', zIndex: zIndex}" @resizing="onResize"
-        :parent="true" class-name="bg-grey-10 border-maroon-thick"
-        class="position-absolute shadow-3" @activated="handleWindowClick" v-if="!isDialog"
+        :style="{position: 'absolute', zIndex: zIndex}"
+        :parent="true" class="bg-grey-10 border-maroon-thick position-absolute shadow-3"
+        @activated="handleWindowClick" v-if="!getWindow.dialog"
     >
         <q-bar class="accentMaroon">
             <q-icon name="laptop_chromebook" />
@@ -20,16 +20,19 @@
             v-bind:window="window" v-bind="getWindow.params">
           </component>
         </q-scroll-area>
-    </vue-draggable-resizable>
+    </Vue3DraggableResizable>
 
     <q-dialog
-      v-model="isDialog"
+      v-model="getWindow.dialog"
       persistent
       transition-show="slide-up"
       transition-hide="slide-down"
       v-else
     >
-        <q-card class="bg-dark text-white border-maroon-thick" :style="{minWidth: dialogMinWidth}">
+        <q-card
+          class="bg-dark text-white border-maroon-thick"
+          :style="{minWidth: getWindow.dialogMinWidth}"
+        >
             <q-bar class="accentMaroon">
                 <q-icon name="laptop_chromebook" />
                 <div>{{window.title}}</div>
@@ -59,6 +62,10 @@
 </style>
 
 <script>
+import { ref, computed, defineAsyncComponent } from 'vue';
+import { useStore } from 'vuex';
+import { useQuasar } from 'quasar';
+
 export default {
   name: 'Window',
 
@@ -66,53 +73,44 @@ export default {
     window: Object,
   },
 
-  computed: {
-    getWindow() {
-      return this.window;
-    },
-    getWindowComponent() {
-      // eslint-disable-next-line prefer-template
-      return () => import('components/' + this.window.component + '.vue');
-    },
-    authInitialized() {
-      return this.$store.getters['auth/isAuthInitialized'];
-    },
-  },
-  data() {
-    return {
-      // eslint-disable-next-line no-nested-ternary
-      height: this.window.windowHeight == null
-        ? (this.$q.platform.is.mobile ? 300 : 450)
-        : this.window.windowHeight,
-      width: this.$q.platform.is.mobile ? 300 : 600,
-      zIndex: this.$store.getters['window/getCurrentWindowZ'],
-      isDialog: this.window.dialog,
-      dialogMinWidth: this.window.dialogMinWidth,
-    };
-  },
-  mounted() {
-    this.$store.watch(
+  setup(params) {
+    console.log(`components/${params.window.component}.vue`);
+    const store = useStore();
+    const $q = useQuasar();
+
+    const zIndex = ref(store.getters['window/getCurrentWindowZ']);
+
+    store.watch(
       (state) => state.window.lastClickedWindowId, (val) => {
         // eslint-disable-next-line eqeqeq
-        if (val == this.window.id) {
-          this.zIndex = this.$store.getters['window/getCurrentWindowZ'];
+        if (val == params.window.id) {
+          zIndex.value = store.getters['window/getCurrentWindowZ'];
         }
       },
     );
-  },
-  methods: {
-    closeWindow() {
-      this.$store.commit('window/close', this.window.id);
-    },
 
-    handleWindowClick() {
-      this.$store.commit('window/click', { id: this.window.id });
-    },
+    const closeWindow = () => {
+      store.commit('window/close', params.window.id);
+    };
 
-    onResize(x, y, width, height) {
-      this.width = width;
-      this.height = height;
-    },
+    const handleWindowClick = () => {
+      store.commit('window/click', { id: params.window.id });
+    };
+
+    return {
+      getWindow: computed(() => params.window),
+      // eslint-disable-next-line prefer-template
+      getWindowComponent: defineAsyncComponent(() => import('components/' + params.window.component + '.vue')),
+      authInitialized: computed(() => store.getters['auth/isAuthInitialized']),
+
+      // eslint-disable-next-line no-nested-ternary
+      height: params.window.windowHeight || $q.platform.is.mobile ? 300 : 450,
+      width: $q.platform.is.mobile ? 300 : 600,
+      zIndex,
+
+      closeWindow,
+      handleWindowClick,
+    };
   },
 };
 </script>

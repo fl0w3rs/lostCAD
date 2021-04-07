@@ -2,8 +2,10 @@
 export function someAction (context) {
 }
 */
-export function requestDepartments({ Vue }) {
-  Vue.prototype.$socket.client.emit('user/departments/get', {});
+import $socket from 'src/boot/socketio-instance';
+
+export function requestDepartments() {
+  $socket.emit('user/departments/get', {});
 }
 
 // eslint-disable-next-line camelcase

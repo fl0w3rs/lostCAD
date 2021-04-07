@@ -13,8 +13,8 @@
 
         <div class="col-6">
           <div class="clock">
-            {{ date }}<br/>
-            {{ time }}
+            {{ rDate }}<br/>
+            {{ rTime }}
           </div>
         </div>
     </div>
@@ -22,38 +22,37 @@
 
 <script>
 import { date } from 'quasar';
+import { ref, onBeforeUnmount, computed } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
   name: 'UpperBarComponent',
 
-  data() {
-    return {
-      date: 'YYYY-MM-DD ddd',
-      time: 'HH:mm:ss',
-      interval: null,
-    };
-  },
+  setup() {
+    const store = useStore();
 
-  computed: {
-    selectedIdentifier() {
-      return this.$store.getters['identifier/getSelectedIdentifierObject'];
-    },
-  },
+    store.dispatch('identifier/request');
 
-  mounted() {
-    this.$store.dispatch('identifier/request');
+    const rDate = ref('YYYY-MM-DD ddd');
+    const rTime = ref('HH:mm:ss');
 
-    this.interval = setInterval(() => {
+    const timeInterval = setInterval(() => {
       const now = Date.now();
-      this.date = date.formatDate(now, 'YYYY-MM-DD ddd', {
+      rDate.value = date.formatDate(now, 'YYYY-MM-DD ddd', {
         daysShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
       });
-      this.time = date.formatDate(now, 'HH:mm:ss');
+      rTime.value = date.formatDate(now, 'HH:mm:ss');
     }, 1000);
-  },
 
-  beforeUnmount() {
-    clearInterval(this.interval);
+    onBeforeUnmount(() => {
+      clearInterval(timeInterval);
+    });
+
+    return {
+      rDate,
+      rTime,
+      selectedIdentifier: computed(() => store.getters['identifier/getSelectedIdentifierObject']),
+    };
   },
 };
 </script>

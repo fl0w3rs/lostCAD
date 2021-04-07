@@ -1,17 +1,15 @@
-import Vue from 'vue';
+import { Notify } from 'quasar';
+import $socket from 'src/boot/socketio-instance';
 
-const showErrorNotify = (message) => {
-  Vue.prototype.$q.notify({
+export function authError({ commit }, message) {
+  Notify.create({
     type: 'negative',
     message,
     position: 'top',
   });
-};
 
-export function authError({ commit }, message) {
-  showErrorNotify(message);
   commit('authError');
-  Vue.prototype.$socket.client.close();
+  $socket.close();
 }
 
 /* eslint-disable no-underscore-dangle */
@@ -20,23 +18,23 @@ export function authRequest({ commit, dispatch }) {
     fetch('ak.php').then(async (resp) => {
       const data = await resp.json();
       if (data.status === 'success') {
-        Vue.prototype.$socket.client.emit('authenticate', { key: data.auth_key });
+        $socket.emit('authenticate', { key: data.auth_key });
 
         const to = setTimeout(() => {
           dispatch('authError', 'Ошибка аутентификации.');
           resolve(false);
         }, 5000);
 
-        Vue.prototype.$socket.client.on('authenticated', (payload) => {
+        $socket.on('authenticated', (payload) => {
           commit('authSuccess');
           commit('user/updateInfo', payload.userdata, { root: true });
           clearTimeout(to);
-          Vue.prototype.$socket.client.removeAllListeners('authenticated');
-          Vue.prototype.$socket.client.removeAllListeners('unauthenticated');
+          $socket.removeAllListeners('authenticated');
+          $socket.removeAllListeners('unauthenticated');
           resolve(true);
         });
 
-        Vue.prototype.$socket.client.on('unauthenticated', () => {
+        $socket.on('unauthenticated', () => {
           dispatch('authError', 'Вы не участник сообщества..');
           clearTimeout(to);
           resolve(false);
@@ -48,12 +46,12 @@ export function authRequest({ commit, dispatch }) {
     }).catch((rsn) => {
       console.log(rsn);
       if (process.env.DEV) {
-        Vue.prototype.$socket.client.emit('authenticate', { key: 'REDACTED_DEV_LOGIN_KEY' });
+        $socket.emit('authenticate', { key: 'REDACTED_DEV_LOGIN_KEY' });
 
-        Vue.prototype.$socket.client.on('authenticated', (payload) => {
+        $socket.on('authenticated', (payload) => {
           commit('authSuccess');
           commit('user/updateInfo', payload.userdata, { root: true });
-          Vue.prototype.$socket.client.removeAllListeners('authenticated');
+          $socket.removeAllListeners('authenticated');
           resolve(true);
         });
       } else {

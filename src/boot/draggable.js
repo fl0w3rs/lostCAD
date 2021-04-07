@@ -1,6 +1,7 @@
-import VueDraggableResizable from 'vue-draggable-resizable';
-import 'vue-draggable-resizable/dist/VueDraggableResizable.css';
+import Vue3DraggableResizable from 'vue3-draggable-resizable';
 
-export default async ({ Vue }) => {
-  Vue.component('vue-draggable-resizable', VueDraggableResizable);
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
+
+export default async ({ app }) => {
+  app.use(Vue3DraggableResizable);
 };

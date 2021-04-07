@@ -1,11 +1,9 @@
 <template>
-  <div id="q-app">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <style lang="scss">
-#q-app {
+body {
   background-color: #121212;
 }
 </style>
@@ -13,6 +11,7 @@
 <script>
 export default {
   name: 'App',
+
   sockets: {
     connect() {
       console.log('socket connected');

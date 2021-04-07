@@ -59,6 +59,12 @@
 
 <script>
 /* eslint-disable eqeqeq */
+import { ref, reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+import socket from 'src/boot/socketio-instance';
+
+const requestId = Math.round((Date.now() / 2) * Math.random());
+const ncicResults = ref([]);
 
 export default {
   name: 'Lookup',
@@ -68,20 +74,37 @@ export default {
     types: { type: Object, required: false, default: null },
   },
 
-  data() {
+  setup(params) {
+    const store = useStore();
+
+    const ncic = reactive({
+      first: '',
+      last: '',
+    });
+
+    const requestNcic = () => {
+      socket.emit('ncic/request', { data: ncic, rId: requestId });
+    };
+
+    const onNcicRowClick = (evt, row) => {
+      store.commit('window/add', {
+        component: 'civilian/Character', params: { type: 'view', character: row }, windowHeight: 355, title: `Просмотр ${row.name} ${row.surname}`,
+      });
+    };
+
     return {
       allowedTypes: {
-        ncic: this?.types?.ncic == undefined ? true : this?.types?.ncic,
-        dmv: this?.types?.dmv == undefined ? true : this?.types?.dmv,
+        ncic: params?.types?.ncic == undefined ? true : params?.types?.ncic,
+        dmv: params?.types?.dmv == undefined ? true : params?.types?.dmv,
       },
 
-      tab: 'ncic',
-      requestId: Math.round((Date.now() / 2) * Math.random()),
-      ncic: {
-        first: '',
-        last: '',
-      },
-      ncicResults: [],
+      ncic,
+
+      requestNcic,
+      onNcicRowClick,
+
+      tab: ref('ncic'),
+      ncicResults: computed(() => Object.values(ncicResults.value)),
 
       ncicColumns: [
         {
@@ -97,23 +120,11 @@ export default {
     };
   },
 
-  methods: {
-    requestNcic() {
-      this.$socket.client.emit('ncic/request', { data: this.ncic, rId: this.requestId });
-    },
-
-    onNcicRowClick(evt, row) {
-      this.$store.commit('window/add', {
-        component: 'civilian/Character', params: { type: 'view', character: row }, windowHeight: 355, title: `Просмотр ${row.name} ${row.surname}`,
-      });
-    },
-  },
-
   sockets: {
-    'ncic/response': function (data) {
-      if (data.rId != this.requestId) return;
+    'ncic/response': (data) => {
+      if (data.rId != requestId) return;
 
-      this.ncicResults = data.results;
+      ncicResults.value = data.results;
     },
   },
 };
