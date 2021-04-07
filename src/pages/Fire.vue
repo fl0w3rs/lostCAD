@@ -1,5 +1,5 @@
 <template>
-  <div class="fire-page column full-width text-center">
+  <div class="fire-page full-width text-center">
 
     <div class="accentDark q-py-xs q-px-lg">
         <UpperBarComponent/>

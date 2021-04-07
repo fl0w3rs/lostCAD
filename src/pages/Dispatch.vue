@@ -1,5 +1,5 @@
 <template>
-  <div class="dispatch-page column full-width text-center">
+  <div class="dispatch-page full-width text-center">
 
     <div class="accentDark q-py-xs q-px-lg">
         <UpperBarComponent/>

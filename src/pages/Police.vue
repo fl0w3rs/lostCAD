@@ -1,5 +1,5 @@
 <template>
-  <div class="police-page column full-width text-center">
+  <div class="police-page full-width text-center">
 
     <div class="accentDark q-py-xs q-px-lg">
         <UpperBarComponent/>

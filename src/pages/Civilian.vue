@@ -1,5 +1,5 @@
 <template>
-  <div class="civilian-page column full-width text-center">
+  <div class="civilian-page full-width text-center">
 
     <div class="accent q-pa-md">
       <div class="row justify-center q-gutter-xs">
