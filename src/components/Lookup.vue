@@ -39,7 +39,7 @@
 
                 <q-table
                     dense
-                    :data="ncicResults"
+                    :rows="ncicResults"
                     :columns="ncicColumns"
                     row-key="id"
                     dark
@@ -59,7 +59,7 @@
 
 <script>
 /* eslint-disable eqeqeq */
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 import socket from 'src/boot/socketio-instance';
 
@@ -104,7 +104,7 @@ export default {
       onNcicRowClick,
 
       tab: ref('ncic'),
-      ncicResults: computed(() => Object.values(ncicResults.value)),
+      ncicResults,
 
       ncicColumns: [
         {
@@ -125,6 +125,8 @@ export default {
       if (data.rId != requestId) return;
 
       ncicResults.value = data.results;
+
+      console.log(ncicResults.value);
     },
   },
 };

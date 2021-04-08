@@ -1,9 +1,10 @@
 <template>
     <Vue3DraggableResizable
-        :min-width="300" :min-height="150" :w="width" :h="height"
+        :minW="300" :minH="150" :initW="width" :initH="height"
         :style="{position: 'absolute', zIndex: zIndex}"
         :parent="true" class="bg-grey-10 border-maroon-thick position-absolute shadow-3"
         @activated="handleWindowClick" v-if="!getWindow.dialog"
+        @resizing="onResize"
     >
         <q-bar class="accentMaroon">
             <q-icon name="laptop_chromebook" />
@@ -74,7 +75,6 @@ export default {
   },
 
   setup(params) {
-    console.log(`components/${params.window.component}.vue`);
     const store = useStore();
     const $q = useQuasar();
 
@@ -97,6 +97,12 @@ export default {
       store.commit('window/click', { id: params.window.id });
     };
 
+    const height = ref(params.window.windowHeight || $q.platform.is.mobile ? 300 : 450);
+
+    const onResize = ({ h }) => {
+      height.value = h;
+    };
+
     return {
       getWindow: computed(() => params.window),
       // eslint-disable-next-line prefer-template
@@ -104,12 +110,14 @@ export default {
       authInitialized: computed(() => store.getters['auth/isAuthInitialized']),
 
       // eslint-disable-next-line no-nested-ternary
-      height: params.window.windowHeight || $q.platform.is.mobile ? 300 : 450,
+      height,
       width: $q.platform.is.mobile ? 300 : 600,
       zIndex,
 
       closeWindow,
       handleWindowClick,
+
+      onResize,
     };
   },
 };

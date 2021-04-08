@@ -2,7 +2,7 @@
   <div>
     <q-table
         title="Департаменты"
-        :data="departments"
+        :rows="departments"
         :columns="columns"
         row-key="id"
         dark
