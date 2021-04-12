@@ -97,7 +97,12 @@ export default {
       store.commit('window/click', { id: params.window.id });
     };
 
-    const height = ref(params.window.windowHeight || $q.platform.is.mobile ? 300 : 450);
+    const height = ref(
+      // eslint-disable-next-line no-nested-ternary
+      Number.isInteger(params.window.windowHeight)
+        ? params.window.windowHeight
+        : $q.platform.is.mobile ? 300 : 450,
+    );
 
     const onResize = ({ h }) => {
       height.value = h;
@@ -109,7 +114,6 @@ export default {
       getWindowComponent: defineAsyncComponent(() => import('components/' + params.window.component + '.vue')),
       authInitialized: computed(() => store.getters['auth/isAuthInitialized']),
 
-      // eslint-disable-next-line no-nested-ternary
       height,
       width: $q.platform.is.mobile ? 300 : 600,
       zIndex,

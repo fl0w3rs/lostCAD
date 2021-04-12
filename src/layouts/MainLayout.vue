@@ -30,6 +30,8 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
 import WindowComponent from 'components/Window.vue';
 
 export default {
@@ -37,14 +39,13 @@ export default {
 
   components: { WindowComponent },
 
-  computed: {
-    username() {
-      return this.$store.getters['user/getName'];
-    },
+  setup() {
+    const store = useStore();
 
-    windowList() {
-      return this.$store.getters['window/getWindowList'];
-    },
+    return {
+      username: computed(() => store.getters['user/getName']),
+      windowList: computed(() => store.getters['window/getWindowList']),
+    };
   },
 };
 </script>

@@ -1,11 +1,11 @@
 <template>
     <div class="row items-center q-py-xs">
         <div class="col-6">
-          <div class="clock" v-if="!selectedIdentifier">
+          <div class="clock" v-if="!selectedIdentifier" @click="openIdentifierWindow">
             ИДЕНТИФИКАТОР НЕ ВЫБРАН
           </div>
 
-          <div class="clock" v-else>
+          <div class="clock" v-else @click="openIdentifierWindow">
             <p>{{ selectedIdentifier['name'] }}</p>
             <p>{{ selectedIdentifier['rank'] }} | {{ selectedIdentifier['callsign'] }}</p>
           </div>
@@ -22,7 +22,12 @@
 
 <script>
 import { date } from 'quasar';
-import { ref, onBeforeUnmount, computed } from 'vue';
+import {
+  ref,
+  onBeforeUnmount,
+  computed,
+  onMounted,
+} from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -31,18 +36,30 @@ export default {
   setup() {
     const store = useStore();
 
-    store.dispatch('identifier/request');
-
     const rDate = ref('YYYY-MM-DD ddd');
     const rTime = ref('HH:mm:ss');
 
-    const timeInterval = setInterval(() => {
-      const now = Date.now();
-      rDate.value = date.formatDate(now, 'YYYY-MM-DD ddd', {
-        daysShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+    let timeInterval;
+
+    const openIdentifierWindow = () => {
+      store.commit('window/add', {
+        component: 'Identifier',
+        dialog: true,
+        title: 'Идентификатор',
       });
-      rTime.value = date.formatDate(now, 'HH:mm:ss');
-    }, 1000);
+    };
+
+    onMounted(() => {
+      store.dispatch('identifier/request');
+
+      timeInterval = setInterval(() => {
+        const now = Date.now();
+        rDate.value = date.formatDate(now, 'YYYY-MM-DD ddd', {
+          daysShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+        });
+        rTime.value = date.formatDate(now, 'HH:mm:ss');
+      }, 1000);
+    });
 
     onBeforeUnmount(() => {
       clearInterval(timeInterval);
@@ -51,6 +68,7 @@ export default {
     return {
       rDate,
       rTime,
+      openIdentifierWindow,
       selectedIdentifier: computed(() => store.getters['identifier/getSelectedIdentifierObject']),
     };
   },

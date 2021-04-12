@@ -52,18 +52,19 @@
 </template>
 
 <script>
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   name: 'HomePage',
-  computed: {
-    isAdmin() {
-      return this.$store.getters['user/isAdmin'];
-    },
-    departments() {
-      return this.$store.getters['user/getDepartments'];
-      // return {
-      //   civilian: true, police: true, dispatch: true, fire: true,
-      // };
-    },
+
+  setup() {
+    const store = useStore();
+
+    return {
+      isAdmin: computed(() => store.getters['user/isAdmin']),
+      departments: computed(() => store.getters['user/getDepartments']),
+    };
   },
 };
 </script>

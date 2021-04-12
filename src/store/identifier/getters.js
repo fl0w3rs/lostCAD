@@ -12,3 +12,5 @@ export const getSelectedIdentifierObject = (state) => {
   }
   return null;
 };
+
+export const getAllIdentifiers = (state) => state.list;
