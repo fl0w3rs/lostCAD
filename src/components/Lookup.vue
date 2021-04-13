@@ -125,8 +125,6 @@ export default {
       if (data.rId != requestId) return;
 
       ncicResults.value = data.results;
-
-      console.log(ncicResults.value);
     },
   },
 };

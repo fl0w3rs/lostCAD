@@ -1,8 +1,26 @@
 <template>
   <div class="q-pa-sm">
-    {{selectedIdentifier}}
     <div v-if="!selectedIdentifier">
-      f
+      <div class="row q-col-gutter-sm">
+        <div class="col-12">
+          <q-table
+            dense
+            :rows="allIdentifiers"
+            :columns="columns"
+            row-key="id"
+            dark
+            class="shadow-0 bg-grey-10 accentBorder"
+            @row-click="onSelectIdentifier"
+          />
+        </div>
+
+        <div class="col-12">
+          <q-btn label="Создать новый" outline class="full-width"
+          :disabled="!isCreateButtonAvailable"
+          color="green" @click="createIdentifier"></q-btn>
+        </div>
+      </div>
+
     </div>
 
     <div v-else>
@@ -17,6 +35,24 @@
           <q-input dense dark filled v-model="currentIdentifier.rank" label="Звание" />
         </div>
 
+        <div class="col-6">
+          <q-btn label="Сохранить" outline class="full-width"
+            color="green" @click="saveIdentifier"></q-btn>
+
+        </div>
+
+        <div class="col-6">
+          <q-btn label="Удалить" outline class="full-width"
+            color="red" @click="deleteIdentifier"></q-btn>
+
+        </div>
+
+        <div class="col-12">
+          <q-btn label="Сменить идентификатор" outline class="full-width"
+            color="orange" @click="changeIdentifier"></q-btn>
+
+        </div>
+
       </div>
     </div>
   </div>
@@ -24,25 +60,97 @@
 
 <script>
 import { useStore } from 'vuex';
-import { computed, ref, watch } from 'vue';
+import {
+  computed,
+  ref,
+  watch,
+  onMounted,
+} from 'vue';
+import $socket from 'src/boot/socketio-instance';
+import { useQuasar } from 'quasar';
+
+const isCreateButtonAvailable = ref(true);
+let store;
+let $q;
 
 export default {
+
+  sockets: {
+    'user/identifiers/createSuccess': (payload) => {
+      store.commit('identifier/selectIdentifier', payload.id);
+      isCreateButtonAvailable.value = true;
+    },
+
+    'user/identifiers/editSuccess': () => {
+      $q.notify({
+        type: 'positive',
+        message: 'Идентификатор успешно отредактирован',
+        position: 'top',
+      });
+    },
+  },
+
   setup() {
-    const store = useStore();
+    store = useStore();
+    $q = useQuasar();
 
     const selectedIdentifier = computed(() => store.getters['identifier/getSelectedIdentifierObject']);
 
-    const currentIdentifier = ref(store.getters['identifier/getSelectedIdentifierObject']);
+    const currentIdentifier = ref({});
 
     watch(selectedIdentifier, (newval) => {
-      console.log(newval);
-      currentIdentifier.value = newval;
+      currentIdentifier.value = { ...newval };
+    });
+
+    const changeIdentifier = () => {
+      store.commit('identifier/selectIdentifier', null);
+    };
+
+    const createIdentifier = () => {
+      isCreateButtonAvailable.value = false;
+      $socket.emit('user/identifiers/create', []);
+    };
+
+    const onSelectIdentifier = (evt, row) => {
+      store.commit('identifier/selectIdentifier', row.id);
+    };
+
+    const deleteIdentifier = () => {
+      $socket.emit('user/identifiers/delete', currentIdentifier.value.id);
+      changeIdentifier();
+    };
+
+    const saveIdentifier = () => {
+      $socket.emit('user/identifiers/edit', currentIdentifier.value);
+    };
+
+    onMounted(() => {
+      store.dispatch('identifier/request');
+      currentIdentifier.value = { ...store.getters['identifier/getSelectedIdentifierObject'] };
     });
 
     return {
       selectedIdentifier,
       allIdentifiers: computed(() => store.getters['identifier/getAllIdentifiers']),
       currentIdentifier,
+
+      changeIdentifier,
+      createIdentifier,
+      onSelectIdentifier,
+
+      deleteIdentifier,
+      saveIdentifier,
+
+      isCreateButtonAvailable,
+
+      columns: [
+        {
+          name: 'name', align: 'center', label: 'Имя', field: 'name', sortable: false,
+        },
+        {
+          name: 'callsign', align: 'center', label: 'Позывной', field: 'callsign', sortable: false,
+        },
+      ],
     };
   },
 };
