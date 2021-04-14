@@ -41,9 +41,13 @@
               dialog: true, title: 'Редактирование персонажа', dialogMinWidth: '75vw'
             })"
           />
+          <q-btn
+            color="blue" size="md" icon="fas fa-car" outline v-if="selectedCharacter != null"
+          />
 
       </div>
-      <div class="accentLight q-pa-sm q-mt-sm rounded-borders" v-if="selectedCharacter !== null">
+      <q-separator class="q-mt-md" dark v-if="selectedCharacter !== null" />
+      <div v-if="selectedCharacter !== null">
         <Character type="view" :character="currentCharacter" />
       </div>
     </div>

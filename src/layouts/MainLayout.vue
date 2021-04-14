@@ -4,7 +4,7 @@
     <q-header elevated style="background-color: #0b0b0b;">
       <q-toolbar>
         <div class="col-3 text-left q-pl-md">
-          <q-btn flat round dense icon="menu" />
+          <q-btn flat round dense icon="home" v-if="isAuthenticated" to="/home" />
         </div>
 
         <div class="col-6">
@@ -45,6 +45,7 @@ export default {
     return {
       username: computed(() => store.getters['user/getName']),
       windowList: computed(() => store.getters['window/getWindowList']),
+      isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
     };
   },
 };

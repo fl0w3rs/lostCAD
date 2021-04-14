@@ -1,5 +1,5 @@
 <template>
-  <div class="login-page column items-center justify-center bg-grey-10 full-width">
+  <div class="login-page column items-center justify-center full-width">
     <q-img
       :src="require('../assets/logo.png')"
       style="max-height: 200px; max-width: 500px;"
