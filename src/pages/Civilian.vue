@@ -41,14 +41,12 @@
               dialog: true, title: 'Редактирование персонажа', dialogMinWidth: '75vw'
             })"
           />
-          <q-btn
-            color="blue" size="md" icon="fas fa-car" outline v-if="selectedCharacter != null"
-          />
 
       </div>
       <q-separator class="q-mt-md" dark v-if="selectedCharacter !== null" />
       <div v-if="selectedCharacter !== null">
         <Character type="view" :character="currentCharacter" />
+        <VehicleList/>
       </div>
     </div>
 
@@ -58,11 +56,12 @@
 <script>
 
 import Character from 'components/civilian/Character.vue';
+import VehicleList from 'components/civilian/VehicleList.vue';
 
 export default {
   name: 'CivilianPage',
 
-  components: { Character },
+  components: { Character, VehicleList },
 
   computed: {
     characterListOptions() {
@@ -94,6 +93,7 @@ export default {
 
   mounted() {
     this.$store.dispatch('characters/request');
+    this.$store.dispatch('characters/requestVehicles');
   },
 };
 </script>

@@ -50,7 +50,31 @@
             </q-tab-panel>
 
             <q-tab-panel name="dmv">
-                gg
+              <div class="row q-col-gutter-xs">
+                  <div class="col-8">
+                    <q-input dense dark filled v-model="dmv" label="Номера" />
+                  </div>
+
+                  <div class="col-4">
+                    <q-btn
+                      color="green" class="full-width full-height"
+                      outline icon="fas fa-search" @click="requestDmv"
+                    />
+                  </div>
+              </div>
+
+              <q-separator class="q-my-sm" dark />
+
+              <q-table
+                  dense
+                  :rows="dmvResults"
+                  :columns="dmvColumns"
+                  row-key="id"
+                  dark
+                  v-if="dmvResults.length != 0"
+                  class="shadow-0 bg-grey-10 accentBorder"
+                  @row-click="onDmvRowClick"
+              />
             </q-tab-panel>
         </q-tab-panels>
 
@@ -65,6 +89,7 @@ import socket from 'src/boot/socketio-instance';
 
 const requestId = Math.round((Date.now() / 2) * Math.random());
 const ncicResults = ref([]);
+const dmvResults = ref([]);
 
 export default {
   name: 'Lookup',
@@ -82,13 +107,25 @@ export default {
       last: '',
     });
 
+    const dmv = ref('');
+
     const requestNcic = () => {
       socket.emit('ncic/request', { data: ncic, rId: requestId });
+    };
+
+    const requestDmv = () => {
+      socket.emit('dmv/request', { data: dmv.value, rId: requestId });
     };
 
     const onNcicRowClick = (evt, row) => {
       store.commit('window/add', {
         component: 'civilian/Character', params: { type: 'view', character: row }, windowHeight: 355, title: `Просмотр ${row.name} ${row.surname}`,
+      });
+    };
+
+    const onDmvRowClick = (evt, row) => {
+      store.commit('window/add', {
+        component: 'civilian/Vehicle', params: { type: 'dmv', vehicle: row.veh, character: row.char }, windowHeight: 300, title: 'Просмотр т/с',
       });
     };
 
@@ -102,6 +139,11 @@ export default {
 
       requestNcic,
       onNcicRowClick,
+
+      dmv,
+      requestDmv,
+      dmvResults,
+      onDmvRowClick,
 
       tab: ref('ncic'),
       ncicResults,
@@ -117,6 +159,18 @@ export default {
           name: 'dob', align: 'center', label: 'Дата рождения', field: 'dob', sortable: false,
         },
       ],
+
+      dmvColumns: [
+        {
+          name: 'numberplate', align: 'center', label: 'Номера', field: (row) => row.veh.numberplate, sortable: false,
+        },
+        {
+          name: 'mark', align: 'center', label: 'Марка', field: (row) => row.veh.mark, sortable: false,
+        },
+        {
+          name: 'model', align: 'center', label: 'Модель', field: (row) => row.veh.model, sortable: false,
+        },
+      ],
     };
   },
 
@@ -125,6 +179,11 @@ export default {
       if (data.rId != requestId) return;
 
       ncicResults.value = data.results;
+    },
+    'dmv/response': (data) => {
+      if (data.rId != requestId) return;
+
+      dmvResults.value = data.results;
     },
   },
 };

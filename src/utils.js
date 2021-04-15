@@ -697,6 +697,42 @@ export const vehicleList = {
     'Pony',
     'Taco Van',
   ],
+  'Vom Feuer': [
+    'Противовоздушный прицеп',
+  ],
+  Stanley: [
+    'Fieldmaster',
+  ],
+  Speedophile: [
+    'Seashark',
+  ],
+  Buckingham: [
+    'Tug',
+    'Maverick',
+    'Police Maverick',
+    'SuperVolito',
+    'Swift',
+    'Valkyrie',
+    'Volatus',
+    'Luxor',
+    'Mil-Jet',
+    'Nimbus',
+    'Shamal',
+    'Vestra',
+    'Alpha-Z1',
+    'Howard NX-25',
+    'Pyro',
+  ],
+  Western: [
+    'Annihilator',
+    'Cargobob',
+    'Besra',
+    'Cuban 800',
+    'Duster',
+    'Mallard',
+    'Rogue',
+    'Seabreeze',
+  ],
   'Без марки': [
     'Dock Handler',
     'Tipper 2',
@@ -748,42 +784,6 @@ export const vehicleList = {
     'Metro Train',
     'Freight Train',
   ],
-  'Vom Feuer': [
-    'Противовоздушный прицеп',
-  ],
-  Stanley: [
-    'Fieldmaster',
-  ],
-  Speedophile: [
-    'Seashark',
-  ],
-  Buckingham: [
-    'Tug',
-    'Maverick',
-    'Police Maverick',
-    'SuperVolito',
-    'Swift',
-    'Valkyrie',
-    'Volatus',
-    'Luxor',
-    'Mil-Jet',
-    'Nimbus',
-    'Shamal',
-    'Vestra',
-    'Alpha-Z1',
-    'Howard NX-25',
-    'Pyro',
-  ],
-  Western: [
-    'Annihilator',
-    'Cargobob',
-    'Besra',
-    'Cuban 800',
-    'Duster',
-    'Mallard',
-    'Rogue',
-    'Seabreeze',
-  ],
 };
 
 export function getRandomInt(min, max) {
@@ -809,4 +809,11 @@ export function getRandomObjectKeyname(obj) {
 
 export function getRandomArrayItem(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+export function getRandomByDict(length, chars) {
+  let result = '';
+  // eslint-disable-next-line no-plusplus
+  for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
 }
