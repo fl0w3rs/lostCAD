@@ -83,13 +83,14 @@
 
 <script>
 /* eslint-disable eqeqeq */
-import { ref, reactive } from 'vue';
+import {
+  ref, reactive, onMounted,
+  onBeforeMount, onBeforeUnmount,
+} from 'vue';
 import { useStore } from 'vuex';
-import socket from 'src/boot/socketio-instance';
+import $socket from 'src/boot/socketio-instance';
 
-const requestId = Math.round((Date.now() / 2) * Math.random());
-const ncicResults = ref([]);
-const dmvResults = ref([]);
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
   name: 'Lookup',
@@ -107,27 +108,49 @@ export default {
       last: '',
     });
 
+    const requestId = uuidv4();
+    const socketWrapper = $socket.initWrapper(requestId);
+
+    const ncicResults = ref([]);
+    const dmvResults = ref([]);
+
     const dmv = ref('');
 
     const requestNcic = () => {
-      socket.emit('ncic/request', { data: ncic, rId: requestId });
+      socketWrapper.emit('ncic/request', { data: ncic });
     };
 
     const requestDmv = () => {
-      socket.emit('dmv/request', { data: dmv.value, rId: requestId });
+      socketWrapper.emit('dmv/request', { data: dmv.value });
     };
 
     const onNcicRowClick = (evt, row) => {
       store.commit('window/add', {
-        component: 'civilian/Character', params: { type: 'view', character: row }, windowHeight: 355, title: `Просмотр ${row.name} ${row.surname}`,
+        component: 'civilian/Character', params: { type: 'ncic', character: row }, windowHeight: 355, title: `Просмотр ${row.name} ${row.surname}`,
       });
     };
 
     const onDmvRowClick = (evt, row) => {
       store.commit('window/add', {
-        component: 'civilian/Vehicle', params: { type: 'dmv', vehicle: row.veh, character: row.char }, windowHeight: 300, title: 'Просмотр т/с',
+        component: 'civilian/Vehicle', params: { type: 'dmv', vehicle: row.veh, character: row.char }, windowHeight: 300, title: 'Просмотр Т/С',
       });
     };
+
+    onMounted(() => {
+      ncicResults.value = [];
+      dmvResults.value = [];
+    });
+
+    socketWrapper.listen('ncic/response', (data) => {
+      ncicResults.value = data.results;
+    });
+
+    socketWrapper.listen('dmv/response', (data) => {
+      dmvResults.value = data.results;
+    });
+
+    onBeforeMount(socketWrapper.mount);
+    onBeforeUnmount(socketWrapper.unmount);
 
     return {
       allowedTypes: {
@@ -172,19 +195,6 @@ export default {
         },
       ],
     };
-  },
-
-  sockets: {
-    'ncic/response': (data) => {
-      if (data.rId != requestId) return;
-
-      ncicResults.value = data.results;
-    },
-    'dmv/response': (data) => {
-      if (data.rId != requestId) return;
-
-      dmvResults.value = data.results;
-    },
   },
 };
 </script>

@@ -1,22 +1,59 @@
 <template>
   <div class="q-pa-sm text-uppercase">
-    <div class="text-left sectionTitle">ИНФОРМАЦИЯ О Т/С</div>
+    <div class="text-left sectionTitle">РЕГИСТРАЦИОННАЯ ИНФОРМАЦИЯ</div>
     <div class="section rounded-borders row justify-center">
-      <div class="col-12 col-md-6">
+      <div class="col-6 col-md-4">
+        <q-select
+          :disable="disabled" dense options-dense
+          dark square outlined v-model="info.regStatus" label="Статус регистрации"
+          :options="vehicleRegStatusList"
+        />
+      </div>
+      <div class="col-6 col-md-4">
+        <q-input
+          :disable="disabled" dense dark square type="date" stack-label
+          outlined v-model="info.dor" label="Дата регистрации"
+        />
+      </div>
+      <div class="col-12 col-md-4">
+        <q-select
+          :disable="disabled" dense options-dense
+          dark square outlined v-model="info.insStatus" label="Статус страховки"
+          :options="vehicleInsStatusList"
+        />
+      </div>
+    </div>
+    <div class="q-mt-md text-left sectionTitle">ИНФОРМАЦИЯ О Т/С</div>
+    <div class="section rounded-borders row justify-center">
+      <div class="col-6">
+        <q-select
+          :disable="disabled" dense options-dense
+          dark square outlined v-model="info.type" label="Тип"
+          :options="vehicleTypeList"
+        />
+      </div>
+      <div class="col-6">
+        <q-select
+          :disable="disabled" dense options-dense
+          dark square outlined v-model="info.color" label="Цвет"
+          :options="vehicleColorList"
+        />
+      </div>
+      <div class="col-6">
         <q-select
           :disable="disabled" dense options-dense
           dark square outlined v-model="info.mark" label="Марка"
           :options="markList"
         />
       </div>
-      <div class="col-12 col-md-6">
+      <div class="col-6">
         <q-select
           :disable="disabled || modelList.length == 0" dense options-dense
           dark square outlined v-model="info.model" label="Модель"
           :options="modelList"
         />
       </div>
-      <div class="col-12">
+      <div class="col-6">
         <q-input
           :disable="disabled" dense dark square
           outlined v-model="info.numberplate" label="Номера"
@@ -29,6 +66,12 @@
           </template>
         </q-input>
       </div>
+      <div class="col-6">
+        <q-input
+          :disable="true" dense dark square
+          outlined v-model="info.vin" label="VIN"
+        />
+      </div>
     </div>
 
     <div class="q-mt-md text-left sectionTitle" v-if="type == 'dmv'">ВЛАДЕЛЕЦ Т/С</div>
@@ -39,7 +82,7 @@
           :label="`${character.name} ${character.surname}`"
           @click="$store.commit('window/add', {
             component: 'civilian/Character',
-            params: { type: 'view', character },
+            params: { type: 'ncic', character },
             windowHeight: 355, title: `Просмотр ${character.name} ${character.surname}`,
           });"
         />
@@ -47,11 +90,12 @@
     </div>
 
     <div
-      class="full-width q-mt-lg row justify-center" v-if="type == 'create' || type == 'edit'"
+      class="full-width q-mt-md row justify-center" v-if="type == 'create' || type == 'edit'"
     >
       <q-btn
         v-if="type == 'create'" color="green" outline class="shadow-2"
         @click="create" icon="fas fa-plus" label="Создать"
+        :disabled="!isCreateButtonAvailable"
       />
 
       <div class="row q-gutter-sm justify-center" v-if="type == 'edit'">
@@ -61,7 +105,7 @@
         />
         <q-btn
           color="red" outline class="shadow-2"
-          @click="remove" icon="fas fa-trash-alt" label="Удалить т/с"
+          @click="remove" icon="fas fa-trash-alt" label="Удалить Т/С"
         />
 
       </div>
@@ -74,7 +118,8 @@
 /* eslint-disable no-useless-return */
 
 import {
-  vehicleList, getRandomInt, getRandomByDict,
+  vehicleMarkList, getRandomInt, getRandomByDict, vehicleRegStatusList,
+  vehicleColorList, vehicleTypeList, vehicleInsStatusList,
 } from 'src/utils.js';
 
 import {
@@ -87,10 +132,14 @@ import $socket from 'src/boot/socketio-instance';
 
 import { useStore } from 'vuex';
 
+import { generateVin } from 'vin-generator';
+
 let store;
 let $q;
 
 let closeWindow;
+
+const isCreateButtonAvailable = ref(true);
 
 export default {
   name: 'Vehicle',
@@ -128,6 +177,10 @@ export default {
       });
       closeWindow();
     },
+
+    'user/civilian/characters/vehicles/createError': () => {
+      isCreateButtonAvailable.value = true;
+    },
   },
 
   setup(props) {
@@ -142,23 +195,26 @@ export default {
       if (val != props.vehicle.character_id) closeWindow();
     });
 
-    const markList = Object.keys(vehicleList);
+    const markList = Object.keys(vehicleMarkList);
     const modelList = ref([]);
 
     const info = ref({ ...props.vehicle });
+    if (!info.value.vin) info.value.vin = generateVin();
 
-    watch(props.vehicle, (val) => {
+    watch(() => props.vehicle, (val) => {
       info.value = { ...val };
+      if (!info.value.vin) info.value.vin = generateVin();
     });
 
-    if (info.value.mark) modelList.value = vehicleList[info.value.mark];
+    if (info.value.mark) modelList.value = vehicleMarkList[info.value.mark];
     watch(() => info.value.mark, (val) => {
-      modelList.value = vehicleList[val];
+      modelList.value = vehicleMarkList[val];
       info.value.model = '';
     });
 
     const create = () => {
       if (props.type != 'create') return;
+      isCreateButtonAvailable.value = false;
 
       $socket.emit('user/civilian/characters/vehicles/create', { character_owner: store.getters['characters/getSelectedCharacterId'], ...info.value });
     };
@@ -192,12 +248,18 @@ export default {
 
       markList,
       modelList,
+      vehicleRegStatusList,
+      vehicleInsStatusList,
+      vehicleColorList,
+      vehicleTypeList,
 
       randomizeNumberplate,
 
       info,
 
       disabled: computed(() => props.type == 'dmv'),
+
+      isCreateButtonAvailable,
     };
   },
 };

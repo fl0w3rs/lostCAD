@@ -104,6 +104,8 @@ export default {
         : $q.platform.is.mobile ? 300 : 450,
     );
 
+    const width = $q.platform.is.mobile ? 300 : 600;
+
     const onResize = ({ h }) => {
       height.value = h;
     };
@@ -115,7 +117,7 @@ export default {
       authInitialized: computed(() => store.getters['auth/isAuthInitialized']),
 
       height,
-      width: $q.platform.is.mobile ? 300 : 600,
+      width,
       zIndex,
 
       closeWindow,

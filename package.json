@@ -10,10 +10,12 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.10.3",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0-beta.12",
     "socket.io-client": "^4.0.0",
+    "uuid": "^8.3.2",
+    "vin-generator": "^1.0.1",
     "vue-draggable-resizable": "^2.3.0",
     "vue-socket.io-extended": "^5.0.0-alpha.4",
     "vue3-draggable-resizable": "^1.5.4"

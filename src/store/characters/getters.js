@@ -15,7 +15,7 @@ export const getSelectedCharacterVehicleList = (state) => {
   const list = [];
 
   for (let i = 0; i < state.vehicleList.length; i += 1) {
-    if (state.vehicleList[i].character_owner == state.selectedCharacter) {
+    if (state.vehicleList[i].characterId == state.selectedCharacter) {
       list.push(state.vehicleList[i]);
     }
   }

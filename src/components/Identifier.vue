@@ -16,7 +16,6 @@
 
         <div class="col-12">
           <q-btn label="Создать новый" outline class="full-width"
-          :disabled="!isCreateButtonAvailable"
           color="green" @click="createIdentifier"></q-btn>
         </div>
       </div>
@@ -69,16 +68,13 @@ import {
 import $socket from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 
-const isCreateButtonAvailable = ref(true);
 let store;
 let $q;
 
 export default {
-
   sockets: {
     'user/identifiers/createSuccess': (payload) => {
       store.commit('identifier/selectIdentifier', payload.id);
-      isCreateButtonAvailable.value = true;
     },
 
     'user/identifiers/editSuccess': () => {
@@ -107,7 +103,6 @@ export default {
     };
 
     const createIdentifier = () => {
-      isCreateButtonAvailable.value = false;
       $socket.emit('user/identifiers/create', []);
     };
 
@@ -140,8 +135,6 @@ export default {
 
       deleteIdentifier,
       saveIdentifier,
-
-      isCreateButtonAvailable,
 
       columns: [
         {

@@ -1082,10 +1082,10 @@
     core-js "^3.6.5"
     core-js-compat "^3.6.5"
 
-"@quasar/extras@^1.0.0":
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.10.2.tgz#8992bac8f94a077494ee4fae653729a3a5a47e6f"
-  integrity sha512-S5aE/If4Bgl6qAoHqDZcVw6GxeNpksix3N1dp8k3YPMniIaoU/BLACeQYnrGkn3ffZ1+5JzF0teAE3no6WGzEg==
+"@quasar/extras@^1.10.3":
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.10.3.tgz#caafc532ff99d41f63553b709c7ea1d9f2f10469"
+  integrity sha512-H0DFXyht6zslZXDjS/4Ga6+tERP4AIjqL05lISfem8C+7xhlo63J6ugqbemPiN9E2k/77R/3Q7wa38tHfxje2A==
 
 "@quasar/fastclick@1.1.4":
   version "1.1.4"
@@ -5793,7 +5793,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.5:
+lodash@^4.16.4, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.21, lodash@^4.17.5:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -9089,6 +9089,11 @@ uuid@^3.3.2, uuid@^3.4.0:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
 v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
@@ -9111,6 +9116,13 @@ vendors@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.4.tgz#e2b800a53e7a29b93506c3cf41100d16c4c4ad8e"
   integrity sha512-/juG65kTL4Cy2su4P8HjtkTxk6VmJDiOPBufWniqQ6wknac6jNiXS9vU+hO3wgusiyqWlzTbVHi0dyJqRONg3w==
+
+vin-generator@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vin-generator/-/vin-generator-1.0.1.tgz#f1c7e230fb1c04de150ed1b814c6bfb2c72cfbae"
+  integrity sha1-8cfiMPscBN4VDtG4FMa/sscs+64=
+  dependencies:
+    lodash "^4.16.4"
 
 vm-browserify@^1.0.1:
   version "1.1.2"
