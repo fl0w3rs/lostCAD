@@ -2,8 +2,8 @@
   <div class="civilian-page full-width text-center">
 
     <div class="accent q-pa-md">
-      <div class="row justify-center q-gutter-xs">
-
+      <div class="row q-col-gutter-xs">
+        <div class="col-4 justify-start">
           <q-select
             dense options-dense dark outlined v-model="selectedCharacter"
             :options="characterListOptions" :style="{minWidth: '200px'}"
@@ -25,22 +25,40 @@
             </template>
           </q-select>
 
-          <q-btn
-            color="secondary" size="md" icon="far fa-plus-square" outline
-            @click="$store.commit('window/add', {
-              component: 'civilian/Character', params: { type: 'create' },
-              dialog: true, title: 'Создание персонажа',
-              dialogMinWidth: '75vw'
-            })"
-          />
-          <q-btn
-            color="orange" size="md" icon="fas fa-edit" outline v-if="selectedCharacter != null"
-            @click="$store.commit('window/add', {
-              component: 'civilian/Character',
-              params: { type: 'edit', character: currentCharacter },
-              dialog: true, title: 'Редактирование персонажа', dialogMinWidth: '75vw'
-            })"
-          />
+        </div>
+
+        <div class="col-4 justify-center">
+          <div class="clock">
+            <p>{{rDate}}</p>
+            <p>{{rTime}}</p>
+          </div>
+        </div>
+
+        <div class="col-4 justify-end">
+          <GameZone/>
+        </div>
+
+      </div>
+
+      <div class="q-gutter-xs q-mt-sm">
+        <q-btn
+          color="secondary" size="sm" icon="far fa-plus-square" outline
+          label="Создать персонажа"
+          @click="$store.commit('window/add', {
+            component: 'civilian/Character', params: { type: 'create' },
+            dialog: true, title: 'Создание персонажа',
+            dialogMinWidth: '75vw'
+          })"
+        />
+        <q-btn
+          color="orange" size="sm" icon="fas fa-edit" outline v-if="selectedCharacter != null"
+          label="Отредактировать персонажа"
+          @click="$store.commit('window/add', {
+            component: 'civilian/Character',
+            params: { type: 'edit', character: currentCharacter },
+            dialog: true, title: 'Редактирование персонажа', dialogMinWidth: '75vw'
+          })"
+        />
 
       </div>
       <q-separator class="q-mt-md" dark v-if="selectedCharacter !== null" />
@@ -57,11 +75,38 @@
 
 import Character from 'components/civilian/Character.vue';
 import VehicleList from 'components/civilian/VehicleList.vue';
+import GameZone from 'components/GameZone.vue';
+
+import { ref, onBeforeMount, onBeforeUnmount } from 'vue';
+import { date } from 'quasar';
 
 export default {
   name: 'CivilianPage',
 
-  components: { Character, VehicleList },
+  components: { Character, VehicleList, GameZone },
+
+  setup() {
+    const rDate = ref('YYYY-MM-DD ddd');
+    const rTime = ref('HH:mm:ss');
+
+    let timeInterval;
+
+    onBeforeMount(() => {
+      timeInterval = setInterval(() => {
+        const now = Date.now();
+        rDate.value = date.formatDate(now, 'YYYY-MM-DD ddd', {
+          daysShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+        });
+        rTime.value = date.formatDate(now, 'HH:mm:ss');
+      }, 1000);
+    });
+
+    onBeforeUnmount(() => {
+      clearInterval(timeInterval);
+    });
+
+    return { rDate, rTime };
+  },
 
   computed: {
     characterListOptions() {

@@ -1,16 +1,19 @@
 import { io } from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
 
 const instance = io('https://lostws.fl0w3rs.dev', { path: '/' });
 
-instance.initWrapper = (rId) => {
+instance.initWrapper = () => {
   const wrapper = {};
+
+  wrapper.rId = uuidv4();
 
   wrapper.listeners = [];
 
-  wrapper.emit = (evt, data) => instance.emit(evt, { ...data, rId });
+  wrapper.emit = (evt, data) => instance.emit(evt, { ...data, rId: wrapper.rId });
   wrapper.listen = (evt, handler) => {
     const callback = (data) => {
-      if (data.rId !== rId) return;
+      if (data.rId !== wrapper.rId) return;
       handler(data);
     };
 

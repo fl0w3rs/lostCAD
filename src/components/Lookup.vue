@@ -1,11 +1,17 @@
 <template>
-    <div class="q-pa-sm">
+    <div class="q-pa-sm text-uppercase">
         <q-tabs
-            v-model="tab"
-            class="text-teal"
+          v-model="tab"
+          class="bg-teal-9 text-white shadow-2 rounded-borders"
+          dense
+          no-caps
+          inline-label
+          narrow-indicator
+          active-color="white"
+          indicator-color="red-10"
         >
-            <q-tab name="ncic" label="NCIC" v-if="allowedTypes.ncic" />
-            <q-tab name="dmv" label="DMV" v-if="allowedTypes.dmv" />
+          <q-tab name="ncic" label="ПОИСК ПО ИМЕНИ" v-if="allowedTypes.ncic" />
+          <q-tab name="dmv" label="ПОИСК ПО НОМЕРУ (Т/С)" v-if="allowedTypes.dmv" />
         </q-tabs>
 
         <q-tab-panels
@@ -18,54 +24,67 @@
           class="bg-grey-10"
         >
             <q-tab-panel name="ncic">
-                <div class="row q-col-gutter-xs">
-                    <div class="col-5">
-                      <q-input dense dark filled v-model="ncic.first" label="Имя" />
-                    </div>
-
-                    <div class="col-5">
-                      <q-input dense dark filled v-model="ncic.last" label="Фамилия" />
-                    </div>
-
-                    <div class="col-2">
-                      <q-btn
-                        color="green" class="full-width full-height"
-                        outline icon="fas fa-search" @click="requestNcic"
-                      />
-                    </div>
+              <div class="row q-col-gutter-xs">
+                <div class="col-4">
+                  <q-input dense dark outlined v-model="ncic.first" label="Имя" />
                 </div>
 
-                <q-separator class="q-my-sm" dark />
+                <div class="col-4">
+                  <q-input dense dark outlined v-model="ncic.last" label="Фамилия" />
+                </div>
 
-                <q-table
-                    dense
-                    :rows="ncicResults"
-                    :columns="ncicColumns"
-                    row-key="id"
-                    dark
-                    v-if="ncicResults.length != 0"
-                    class="shadow-0 bg-grey-10 accentBorder"
-                    @row-click="onNcicRowClick"
-                />
-            </q-tab-panel>
+                <div class="col-4">
+                  <q-input dense dark outlined v-model="ncic.dob" label="Дата рождения"
+                    type="date" stack-label />
+                </div>
 
-            <q-tab-panel name="dmv">
-              <div class="row q-col-gutter-xs">
-                  <div class="col-8">
-                    <q-input dense dark filled v-model="dmv" label="Номера" />
-                  </div>
+                <div class="col-12">
+                  <q-btn
+                    color="white" class="full-width"
+                    outline label="Найти" icon="fas fa-search" @click="requestNcic"
+                  />
+                </div>
 
-                  <div class="col-4">
-                    <q-btn
-                      color="green" class="full-width full-height"
-                      outline icon="fas fa-search" @click="requestDmv"
-                    />
-                  </div>
               </div>
 
               <q-separator class="q-my-sm" dark />
 
               <q-table
+                  dense
+                  :rows="ncicResults"
+                  :columns="ncicColumns"
+                  row-key="id"
+                  dark
+                  v-if="ncicResults.length != 0"
+                  class="shadow-0 bg-grey-10 accentBorder"
+                  @row-click="onNcicRowClick"
+              />
+            </q-tab-panel>
+
+            <q-tab-panel name="dmv">
+              <div class="row q-col-gutter-xs">
+                <div class="col-6">
+                  <q-input dense dark outlined v-model="dmv.numberplate" label="Номера" />
+                </div>
+
+                <div class="col-6">
+                  <q-input dense dark outlined v-model="dmv.vin" label="VIN" />
+                </div>
+
+                <div class="col-12">
+                  <q-btn
+                    color="white" class="full-width"
+                    outline label="Найти" icon="fas fa-search" @click="requestDmv"
+                  />
+                </div>
+
+              </div>
+
+              <q-separator class="q-my-sm" dark />
+
+              <VehicleList type="dmv" :vehicles="dmvResults" />
+
+              <!-- <q-table
                   dense
                   :rows="dmvResults"
                   :columns="dmvColumns"
@@ -74,7 +93,7 @@
                   v-if="dmvResults.length != 0"
                   class="shadow-0 bg-grey-10 accentBorder"
                   @row-click="onDmvRowClick"
-              />
+              /> -->
             </q-tab-panel>
         </q-tab-panels>
 
@@ -84,16 +103,19 @@
 <script>
 /* eslint-disable eqeqeq */
 import {
-  ref, reactive, onMounted,
+  ref, reactive,
   onBeforeMount, onBeforeUnmount,
 } from 'vue';
 import { useStore } from 'vuex';
 import $socket from 'src/boot/socketio-instance';
+import VehicleList from 'components/civilian/VehicleList';
 
-import { v4 as uuidv4 } from 'uuid';
+import { date } from 'quasar';
 
 export default {
   name: 'Lookup',
+
+  components: { VehicleList },
 
   props: {
     window: { type: Object, required: false, default: null },
@@ -106,22 +128,25 @@ export default {
     const ncic = reactive({
       first: '',
       last: '',
+      dob: '',
     });
 
-    const requestId = uuidv4();
-    const socketWrapper = $socket.initWrapper(requestId);
+    const socketWrapper = $socket.initWrapper();
 
     const ncicResults = ref([]);
     const dmvResults = ref([]);
 
-    const dmv = ref('');
+    const dmv = reactive({
+      numberplate: '',
+      vin: '',
+    });
 
     const requestNcic = () => {
       socketWrapper.emit('ncic/request', { data: ncic });
     };
 
     const requestDmv = () => {
-      socketWrapper.emit('dmv/request', { data: dmv.value });
+      socketWrapper.emit('dmv/request', { data: dmv });
     };
 
     const onNcicRowClick = (evt, row) => {
@@ -132,14 +157,9 @@ export default {
 
     const onDmvRowClick = (evt, row) => {
       store.commit('window/add', {
-        component: 'civilian/Vehicle', params: { type: 'dmv', vehicle: row.veh, character: row.char }, windowHeight: 300, title: 'Просмотр Т/С',
+        component: 'civilian/Vehicle', params: { type: 'dmv', vehicle: row }, windowHeight: 300, title: 'Просмотр Т/С',
       });
     };
-
-    onMounted(() => {
-      ncicResults.value = [];
-      dmvResults.value = [];
-    });
 
     socketWrapper.listen('ncic/response', (data) => {
       ncicResults.value = data.results;
@@ -147,6 +167,7 @@ export default {
 
     socketWrapper.listen('dmv/response', (data) => {
       dmvResults.value = data.results;
+      console.log(data.results);
     });
 
     onBeforeMount(socketWrapper.mount);
@@ -179,7 +200,12 @@ export default {
           name: 'surname', align: 'center', label: 'Фамилия', field: 'surname', sortable: false,
         },
         {
-          name: 'dob', align: 'center', label: 'Дата рождения', field: 'dob', sortable: false,
+          name: 'dob',
+          align: 'center',
+          label: 'Дата рождения',
+          field: 'dob',
+          sortable: false,
+          format: (val) => date.formatDate(val, 'DD.MM.YYYY'),
         },
       ],
 

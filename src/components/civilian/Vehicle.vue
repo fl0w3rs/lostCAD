@@ -95,7 +95,6 @@
       <q-btn
         v-if="type == 'create'" color="green" outline class="shadow-2"
         @click="create" icon="fas fa-plus" label="Создать"
-        :disabled="!isCreateButtonAvailable"
       />
 
       <div class="row q-gutter-sm justify-center" v-if="type == 'edit'">
@@ -123,7 +122,7 @@ import {
 } from 'src/utils.js';
 
 import {
-  watch, ref, computed,
+  watch, ref, computed, onBeforeMount, onBeforeUnmount,
 } from 'vue';
 
 import { useQuasar } from 'quasar';
@@ -134,13 +133,6 @@ import { useStore } from 'vuex';
 
 import { generateVin } from 'vin-generator';
 
-let store;
-let $q;
-
-let closeWindow;
-
-const isCreateButtonAvailable = ref(true);
-
 export default {
   name: 'Vehicle',
 
@@ -148,46 +140,15 @@ export default {
     window: { type: Object, required: false, default: null },
     type: { type: String, required: true },
     vehicle: { type: Object, required: false, default: null },
-    character: { type: Object, required: false, default: null },
-  },
-
-  sockets: {
-    'user/civilian/characters/vehicles/removeSuccess': () => {
-      $q.notify({
-        type: 'positive',
-        message: 'Т/С успешно удалено',
-        position: 'top',
-      });
-      closeWindow();
-    },
-
-    'user/civilian/characters/vehicles/editSuccess': () => {
-      $q.notify({
-        type: 'positive',
-        message: 'Т/С успешно отредактировано',
-        position: 'top',
-      });
-    },
-
-    'user/civilian/characters/vehicles/createSuccess': () => {
-      $q.notify({
-        type: 'positive',
-        message: 'Т/С успешно создано',
-        position: 'top',
-      });
-      closeWindow();
-    },
-
-    'user/civilian/characters/vehicles/createError': () => {
-      isCreateButtonAvailable.value = true;
-    },
   },
 
   setup(props) {
-    store = useStore();
-    $q = useQuasar();
+    const store = useStore();
+    const $q = useQuasar();
 
-    closeWindow = () => {
+    const socketWrapper = $socket.initWrapper();
+
+    const closeWindow = () => {
       store.commit('window/close', props.window.id);
     };
 
@@ -214,14 +175,13 @@ export default {
 
     const create = () => {
       if (props.type != 'create') return;
-      isCreateButtonAvailable.value = false;
 
-      $socket.emit('user/civilian/characters/vehicles/create', { character_owner: store.getters['characters/getSelectedCharacterId'], ...info.value });
+      socketWrapper.emit('user/civilian/characters/vehicles/create', { character_owner: store.getters['characters/getSelectedCharacterId'], ...info.value });
     };
     const save = () => {
       if (props.type != 'edit') return;
 
-      $socket.emit('user/civilian/characters/vehicles/edit', info.value);
+      socketWrapper.emit('user/civilian/characters/vehicles/edit', info.value);
     };
     const remove = () => {
       if (props.type != 'edit') return;
@@ -233,13 +193,51 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        $socket.emit('user/civilian/characters/vehicles/remove', info.value);
+        socketWrapper.emit('user/civilian/characters/vehicles/remove', info.value);
       });
     };
 
     const randomizeNumberplate = () => {
       info.value.numberplate = getRandomInt(10, 99) + getRandomByDict(3, 'ABCDEFGHIJKLMNPQRSTUVWXYZ') + getRandomInt(100, 999);
     };
+
+    const character = ref({});
+
+    if (props.type == 'dmv') {
+      socketWrapper.emit('dmv/requestVehicleOwner', { id: props.vehicle.id });
+      socketWrapper.listen('dmv/responseVehicleOwner', (payload) => {
+        character.value = payload.data;
+      });
+    }
+
+    socketWrapper.listen('user/civilian/characters/vehicles/removeSuccess', () => {
+      $q.notify({
+        type: 'positive',
+        message: 'Т/С успешно удалено',
+        position: 'top',
+      });
+      closeWindow();
+    });
+
+    socketWrapper.listen('user/civilian/characters/vehicles/editSuccess', () => {
+      $q.notify({
+        type: 'positive',
+        message: 'Т/С успешно отредактировано',
+        position: 'top',
+      });
+    });
+
+    socketWrapper.listen('user/civilian/characters/vehicles/createSuccess', () => {
+      $q.notify({
+        type: 'positive',
+        message: 'Т/С успешно создано',
+        position: 'top',
+      });
+      closeWindow();
+    });
+
+    onBeforeMount(socketWrapper.mount);
+    onBeforeUnmount(socketWrapper.unmount);
 
     return {
       create,
@@ -259,7 +257,7 @@ export default {
 
       disabled: computed(() => props.type == 'dmv'),
 
-      isCreateButtonAvailable,
+      character,
     };
   },
 };

@@ -1,6 +1,6 @@
 <template>
     <div class="row items-center q-py-xs">
-        <div class="col-6">
+        <div class="col-4">
           <div class="clock" v-if="!selectedIdentifier" @click="openIdentifierWindow">
             ИДЕНТИФИКАТОР НЕ ВЫБРАН
           </div>
@@ -11,11 +11,15 @@
           </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-4">
           <div class="clock">
-            {{ rDate }}<br/>
-            {{ rTime }}
+            <p>{{ rDate }}</p>
+            <p>{{ rTime }}</p>
           </div>
+        </div>
+
+        <div class="col-4">
+          <GameZone/>
         </div>
     </div>
 </template>
@@ -26,12 +30,16 @@ import {
   ref,
   onBeforeUnmount,
   computed,
-  onMounted,
+  onBeforeMount,
 } from 'vue';
 import { useStore } from 'vuex';
 
+import GameZone from 'components/GameZone';
+
 export default {
   name: 'UpperBarComponent',
+
+  components: { GameZone },
 
   setup() {
     const store = useStore();
@@ -49,7 +57,7 @@ export default {
       });
     };
 
-    onMounted(() => {
+    onBeforeMount(() => {
       store.dispatch('identifier/request');
 
       timeInterval = setInterval(() => {
@@ -75,10 +83,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.clock {
-  font-family: Share Tech Mono,monospace;
-  color: #fff;
-  text-shadow: 0 0 20px #0aafe6, 0 0 20px rgb(10 175 230 / 0%);
-}
+<style>
 </style>

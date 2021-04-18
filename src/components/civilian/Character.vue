@@ -202,8 +202,6 @@ import {
   onBeforeMount, onBeforeUnmount,
 } from 'vue';
 
-import { v4 as uuidv4 } from 'uuid';
-
 export default {
   name: 'Character',
 
@@ -217,8 +215,7 @@ export default {
     const store = useStore();
     const $q = useQuasar();
 
-    const requestId = uuidv4();
-    const socketWrapper = $socket.initWrapper(requestId);
+    const socketWrapper = $socket.initWrapper();
 
     const info = ref({ ...props.character });
     watch(() => props.character, (val) => {

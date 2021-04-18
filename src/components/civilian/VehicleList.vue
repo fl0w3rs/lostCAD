@@ -26,7 +26,7 @@
 
 <script>
 import { useStore } from 'vuex';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 let store;
 
@@ -39,12 +39,14 @@ export default {
 
     const onClickVehicleRow = (evt, row) => {
       store.commit('window/add', {
-        component: 'civilian/Vehicle', params: { type: props.type === 'ncic' ? 'ncic' : 'edit', vehicle: row }, windowHeight: 350, title: 'Просмотр Т/С',
+        component: 'civilian/Vehicle', params: { type: props.type === 'dmv' ? 'dmv' : 'edit', vehicle: row }, windowHeight: 350, title: 'Просмотр Т/С',
       });
     };
 
+    const vehicleList = props.vehicles ? computed(() => props.vehicles) : computed(() => store.getters['characters/getSelectedCharacterVehicleList']);
+
     return {
-      vehicleList: props.vehicles ? ref(props.vehicles) : computed(() => store.getters['characters/getSelectedCharacterVehicleList']),
+      vehicleList,
 
       columns: [
         {
@@ -55,6 +57,12 @@ export default {
         },
         {
           name: 'model', align: 'center', label: 'Модель', field: 'model', sortable: false,
+        },
+        {
+          name: 'color', align: 'center', label: 'Цвет', field: 'color', sortable: false,
+        },
+        {
+          name: 'type', align: 'center', label: 'Тип кузова', field: 'type', sortable: false,
         },
       ],
 
