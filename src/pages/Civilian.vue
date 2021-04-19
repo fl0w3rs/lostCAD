@@ -3,7 +3,7 @@
 
     <div class="accent q-pa-md">
       <div class="row q-col-gutter-xs">
-        <div class="col-4 justify-start">
+        <div class="col-12 col-sm-4 justify-start">
           <q-select
             dense options-dense dark outlined v-model="selectedCharacter"
             :options="characterListOptions" :style="{minWidth: '200px'}"
@@ -27,14 +27,14 @@
 
         </div>
 
-        <div class="col-4 justify-center">
+        <div class="col-12 col-sm-4 justify-center">
           <div class="clock">
             <p>{{rDate}}</p>
             <p>{{rTime}}</p>
           </div>
         </div>
 
-        <div class="col-4 justify-end">
+        <div class="col-12 col-sm-4 justify-end">
           <GameZone/>
         </div>
 
@@ -59,6 +59,29 @@
             dialog: true, title: 'Редактирование персонажа', dialogMinWidth: '75vw'
           })"
         />
+        <q-btn-dropdown
+          color="white" size="sm" icon="fas fa-database" outline v-if="selectedCharacter != null"
+          label="База данных"
+        >
+          <q-list dense dark bordered separator class="bg-grey-10">
+            <q-item clickable v-close-popup
+              @click="$store.commit('window/add', {
+                component: 'civilian/Vehicle',
+                params: { type: 'create' }, title: 'Создание Т/С',
+                dialog: true, dialogMinWidth: '60vw',
+              });">
+              <q-item-section>
+                <q-item-label>Создать Т/С</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-close-popup @click="onItemClick">
+              <q-item-section>
+                <q-item-label>Создать оружие</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
 
       </div>
       <q-separator class="q-mt-md" dark v-if="selectedCharacter !== null" />

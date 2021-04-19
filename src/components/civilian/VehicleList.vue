@@ -2,14 +2,6 @@
   <div class="q-pa-sm">
     <div class="text-left sectionTitle">
       СПИСОК Т/С
-      <span class="text-green cursor-pointer" v-if="type != 'ncic'"
-        @click="$store.commit('window/add', {
-          component: 'civilian/Vehicle',
-          params: { type: 'create' }, title: 'Создание Т/С',
-          dialog: true, dialogMinWidth: '60vw',
-        });">
-        <q-icon name="fas fa-plus"/>
-      </span>
     </div>
     <q-table
       dense

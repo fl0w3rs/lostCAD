@@ -1,6 +1,6 @@
 <template>
     <div class="row items-center q-py-xs">
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           <div class="clock" v-if="!selectedIdentifier" @click="openIdentifierWindow">
             ИДЕНТИФИКАТОР НЕ ВЫБРАН
           </div>
@@ -11,14 +11,14 @@
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           <div class="clock">
             <p>{{ rDate }}</p>
             <p>{{ rTime }}</p>
           </div>
         </div>
 
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
           <GameZone/>
         </div>
     </div>
