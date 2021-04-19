@@ -7,3 +7,7 @@ export function request() {
 export function requestVehicles() {
   $socket.emit('user/civilian/characters/vehicles/get', {});
 }
+
+export function requestWeapons() {
+  $socket.emit('user/civilian/characters/weapons/get', {});
+}

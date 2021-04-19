@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-sm text-uppercase">
+  <div class="text-uppercase">
     <div class="text-left sectionTitle">РЕГИСТРАЦИОННАЯ ИНФОРМАЦИЯ</div>
     <div class="section rounded-borders row justify-center">
       <div class="col-6 col-md-4">
@@ -153,7 +153,7 @@ export default {
     };
 
     watch(() => store.getters['characters/getSelectedCharacterId'], (val) => {
-      if (val != props.vehicle.character_id) closeWindow();
+      if (val != props.vehicle.characterId) closeWindow();
     });
 
     const markList = Object.keys(vehicleMarkList);
@@ -204,8 +204,8 @@ export default {
     const character = ref({});
 
     if (props.type == 'dmv') {
-      socketWrapper.emit('dmv/requestVehicleOwner', { id: props.vehicle.id });
-      socketWrapper.listen('dmv/responseVehicleOwner', (payload) => {
+      socketWrapper.emit('dmv/requestOwner', { id: props.vehicle.id });
+      socketWrapper.listen('dmv/responseOwner', (payload) => {
         character.value = payload.data;
       });
     }

@@ -1,6 +1,20 @@
 <template>
-    <div class="q-pa-sm text-uppercase">
-        <div class="text-left sectionTitle">ИНФОРМАЦИЯ О ПЕРСОНАЖЕ</div>
+    <div class="text-uppercase">
+      <div class="text-left sectionTitle">ИЗОБРАЖЕНИЕ ПЕРСОНАЖА</div>
+        <div class="section rounded-borders row justify-center">
+          <div class="col-12 text-center">
+            <q-img
+              :src="info.image"
+              spinner-color="white"
+              style="max-height: 200px; max-width: 200px;"
+            />
+            <q-input
+              :disable="disable" dense dark square outlined
+              v-model="info.image" label="Ссылка на изображение"
+            />
+          </div>
+        </div>
+        <div class="q-mt-md text-left sectionTitle">ИНФОРМАЦИЯ О ПЕРСОНАЖЕ</div>
         <div class="section rounded-borders row justify-center">
             <div class="col-6 col-md-3">
               <q-input
@@ -105,6 +119,47 @@
             </div>
         </div>
 
+        <div class="text-left sectionTitle q-mt-md">ИНФОРМАЦИЯ О ЛИЦЕНЗИЯХ</div>
+        <div class="section rounded-borders row justify-center">
+            <div class="col-6">
+                <q-select
+                  :disable="disable" dense options-dense dark square
+                  outlined v-model="info.gunLicense" label="Лицензия на оружие"
+                  :options="licenseOptionList"
+                />
+            </div>
+            <div class="col-6">
+                <q-select
+                  :disable="disable" dense options-dense dark square
+                  outlined v-model="info.hiddenGunLicense"
+                  label="Лицензия на скрытое ношение оружия"
+                  :options="licenseOptionList"
+                />
+            </div>
+            <div class="col-6 col-md-4">
+                <q-select
+                  :disable="disable" dense options-dense dark square
+                  outlined v-model="info.driverLicense" label="Лицензия на вождение"
+                  :options="licenseOptionList"
+                />
+            </div>
+            <div class="col-6 col-md-4">
+                <q-select
+                  :disable="disable" dense options-dense dark square
+                  outlined v-model="info.pilotLicense" label="Лицензия пилота"
+                  :options="licenseOptionList"
+                />
+            </div>
+            <div class="col-12 col-md-4">
+                <q-select
+                  :disable="disable" dense options-dense dark square
+                  outlined v-model="info.boatLicense" label="Лодочная лицензия"
+                  :options="licenseOptionList"
+                />
+            </div>
+
+        </div>
+
         <div class="text-left sectionTitle q-mt-md">МЕДИЦИНСКАЯ КАРТА</div>
         <div class="section rounded-borders row justify-center">
             <div class="col-6 col-md-4">
@@ -186,7 +241,7 @@
 import {
   sexList, raceList, eyeColorList, hairColorList, streetList,
   bloodTypeList, rhesusFactorList, invalidityList,
-  getRandomArrayItem,
+  getRandomArrayItem, licenseOptionList,
 } from 'src/utils.js';
 
 import { useQuasar } from 'quasar';
@@ -351,6 +406,7 @@ export default {
       remove,
 
       streetFilterFn,
+      licenseOptionList,
     };
   },
 };

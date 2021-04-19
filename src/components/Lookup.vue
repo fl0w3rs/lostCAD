@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-sm text-uppercase">
+    <div class="text-uppercase">
         <q-tabs
           v-model="tab"
           class="bg-teal-9 text-white shadow-2 rounded-borders"
@@ -83,17 +83,6 @@
               <q-separator class="q-my-sm" dark />
 
               <VehicleList type="dmv" :vehicles="dmvResults" />
-
-              <!-- <q-table
-                  dense
-                  :rows="dmvResults"
-                  :columns="dmvColumns"
-                  row-key="id"
-                  dark
-                  v-if="dmvResults.length != 0"
-                  class="shadow-0 bg-grey-10 accentBorder"
-                  @row-click="onDmvRowClick"
-              /> -->
             </q-tab-panel>
         </q-tab-panels>
 
@@ -167,7 +156,6 @@ export default {
 
     socketWrapper.listen('dmv/response', (data) => {
       dmvResults.value = data.results;
-      console.log(data.results);
     });
 
     onBeforeMount(socketWrapper.mount);
@@ -206,18 +194,6 @@ export default {
           field: 'dob',
           sortable: false,
           format: (val) => date.formatDate(val, 'DD.MM.YYYY'),
-        },
-      ],
-
-      dmvColumns: [
-        {
-          name: 'numberplate', align: 'center', label: 'Номера', field: (row) => row.veh.numberplate, sortable: false,
-        },
-        {
-          name: 'mark', align: 'center', label: 'Марка', field: (row) => row.veh.mark, sortable: false,
-        },
-        {
-          name: 'model', align: 'center', label: 'Модель', field: (row) => row.veh.model, sortable: false,
         },
       ],
     };

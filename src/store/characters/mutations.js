@@ -11,6 +11,10 @@ export function SOCKET_UPDATEVEHICLES(state, params) {
   state.vehicleList = params;
 }
 
+export function SOCKET_UPDATEWEAPONS(state, params) {
+  state.weaponList = params;
+}
+
 export function updateSelected(state, id) {
   state.selectedCharacter = id;
 }

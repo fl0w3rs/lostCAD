@@ -75,7 +75,12 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-close-popup @click="onItemClick">
+            <q-item clickable v-close-popup
+              @click="$store.commit('window/add', {
+                component: 'civilian/Weapon',
+                params: { type: 'create' }, title: 'Создание оружия',
+                dialog: true, dialogMinWidth: '60vw',
+              });">
               <q-item-section>
                 <q-item-label>Создать оружие</q-item-label>
               </q-item-section>
@@ -86,8 +91,9 @@
       </div>
       <q-separator class="q-mt-md" dark v-if="selectedCharacter !== null" />
       <div v-if="selectedCharacter !== null">
-        <Character type="view" :character="currentCharacter" />
-        <VehicleList/>
+        <Character class="q-pa-sm" type="view" :character="currentCharacter" />
+        <VehicleList class="q-pa-sm" />
+        <WeaponList class="q-pa-sm" />
       </div>
     </div>
 
@@ -98,23 +104,49 @@
 
 import Character from 'components/civilian/Character.vue';
 import VehicleList from 'components/civilian/VehicleList.vue';
+import WeaponList from 'components/civilian/WeaponList.vue';
 import GameZone from 'components/GameZone.vue';
 
-import { ref, onBeforeMount, onBeforeUnmount } from 'vue';
+import {
+  ref, onBeforeMount, onBeforeUnmount,
+  computed, watch,
+} from 'vue';
 import { date } from 'quasar';
+import { useStore } from 'vuex';
+
+import $socket from 'src/boot/socketio-instance';
 
 export default {
   name: 'CivilianPage',
 
-  components: { Character, VehicleList, GameZone },
+  components: {
+    Character, VehicleList, GameZone, WeaponList,
+  },
 
   setup() {
+    const store = useStore();
+
     const rDate = ref('YYYY-MM-DD ddd');
     const rTime = ref('HH:mm:ss');
+
+    const selectedCharacter = ref(null);
+
+    const socketWrapper = $socket.initWrapper();
+
+    socketWrapper.listen('user/civilian/characters/deleteSuccess', () => {
+      selectedCharacter.value = null;
+    });
+
+    onBeforeMount(socketWrapper.mount);
+    onBeforeUnmount(socketWrapper.unmount);
+
+    watch(selectedCharacter, (val) => store.commit('characters/updateSelected', val));
 
     let timeInterval;
 
     onBeforeMount(() => {
+      store.dispatch('characters/request');
+
       timeInterval = setInterval(() => {
         const now = Date.now();
         rDate.value = date.formatDate(now, 'YYYY-MM-DD ddd', {
@@ -128,40 +160,13 @@ export default {
       clearInterval(timeInterval);
     });
 
-    return { rDate, rTime };
-  },
-
-  computed: {
-    characterListOptions() {
-      return this.$store.getters['characters/getCharacterList'].map((val) => ({ id: val.id, name: `${val.name} ${val.surname}`, description: val.description }));
-    },
-
-    currentCharacter() {
-      return this.$store.getters['characters/getSelectedCharacter'];
-    },
-  },
-
-  data() {
     return {
-      selectedCharacter: null,
+      rDate,
+      rTime,
+      characterListOptions: computed(() => store.getters['characters/getCharacterList'].map((val) => ({ id: val.id, name: `${val.name} ${val.surname}`, description: val.description }))),
+      currentCharacter: computed(() => store.getters['characters/getSelectedCharacter']),
+      selectedCharacter,
     };
-  },
-
-  watch: {
-    selectedCharacter(val) {
-      this.$store.commit('characters/updateSelected', val);
-    },
-  },
-
-  sockets: {
-    'user/civilian/characters/deleteSuccess': function () {
-      this.selectedCharacter = null;
-    },
-  },
-
-  mounted() {
-    this.$store.dispatch('characters/request');
-    this.$store.dispatch('characters/requestVehicles');
   },
 };
 </script>

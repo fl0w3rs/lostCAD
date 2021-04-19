@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-sm">
+  <div>
     <div v-if="!selectedIdentifier">
       <div class="row q-col-gutter-sm">
         <div class="col-12">

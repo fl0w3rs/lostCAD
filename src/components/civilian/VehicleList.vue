@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-sm">
+  <div>
     <div class="text-left sectionTitle">
       СПИСОК Т/С
     </div>

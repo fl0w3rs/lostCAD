@@ -18,7 +18,7 @@
         </q-bar>
         <q-scroll-area :style="{height: (height - 32 - 4) + 'px'}">
           <component v-if="authInitialized" :is="getWindowComponent"
-            v-bind:window="window" v-bind="getWindow.params">
+            v-bind:window="window" v-bind="getWindow.params" class="q-pa-sm">
           </component>
         </q-scroll-area>
     </Vue3DraggableResizable>
@@ -47,7 +47,7 @@
 
             <q-card-section>
               <component v-if="authInitialized" :is="getWindowComponent"
-                v-bind:window="window" v-bind="getWindow.params">
+                v-bind:window="window" v-bind="getWindow.params" class="q-pa-sm">
               </component>
             </q-card-section>
         </q-card>

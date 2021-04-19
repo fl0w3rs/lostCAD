@@ -846,6 +846,61 @@ export const vehicleTypeList = [
   'Морской транспорт',
 ];
 
+export const weaponRegStatusList = [
+  'Действительная', 'Просроченная', 'Отозванная', 'В розыске',
+];
+
+export const licenseOptionList = [
+  'Действительна', 'Отозвана', 'Отсутствует',
+];
+
+export const randomString = (length, chars) => {
+  let mask = '';
+  if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
+  if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if (chars.indexOf('#') > -1) mask += '0123456789';
+  if (chars.indexOf('!') > -1) mask += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
+  let result = '';
+  for (let i = length; i > 0; i -= 1) result += mask[Math.floor(Math.random() * mask.length)];
+  return result;
+};
+
+export const weaponModelList = [
+  'Glock17 (Combat pistol)',
+  'CZ-97 (Heavy pistol)',
+  'Smith and Wesson R6 (Heavy revolver)',
+  'Beretta M9 (Pistol)',
+  'Desert Eagle (Pistol .50)',
+  'H&K P7 (SNS pistol)',
+  'OTs-33 (AP pistol)',
+  'Browning FN m.1910 (Vintage pistol)',
+  'S&W M&P .32 (Double action revolver)',
+  'CZ-75 Sp01 (Pistol MK2)',
+  'UTAS UTS-15 (assault shotgun)',
+  'Kel Teg KSG (bullpap shotgun)',
+  'Saiga 12 (Heavy shotgun)',
+  'Mossberg 590 (pumpshotgun)',
+  'Mossberg 500 (sawed off shotgun)',
+  'FN P90 (assault SMG)',
+  'M249 (combat MG)',
+  'MP5k mod. (Combat PDW)',
+  'TEC-9 (machine pistol)',
+  'Micro Uzi (micro SMG)',
+  'Scorpion vz.61 (mini SMG)',
+  'Tavor TAR-21 (Advanced rifle)',
+  'AK-74 (Assault rifle)',
+  'AK-12 (assault rifle mk2)',
+  'QBZ-95 (Bullpup rifle)',
+  'Famas F1 (Bullpup rifle mk2)',
+  'M4A1 (Carbine rifle)',
+  'H&K 416 (Carbine rifle mk2)',
+  'H&K G36 (Special carbine)',
+  'H&K SL8 (Special carbine mk2)',
+  'AKS (compact rifle)',
+  'MP5 (SMG)',
+  'MP5K (SMG mk2)',
+];
+
 export function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);

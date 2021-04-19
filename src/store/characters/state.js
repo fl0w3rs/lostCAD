@@ -3,5 +3,6 @@ export default function () {
     characterList: [],
     selectedCharacter: null,
     vehicleList: [],
+    weaponList: [],
   };
 }

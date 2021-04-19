@@ -22,3 +22,15 @@ export const getSelectedCharacterVehicleList = (state) => {
 
   return list;
 };
+
+export const getSelectedCharacterWeaponList = (state) => {
+  const list = [];
+
+  for (let i = 0; i < state.weaponList.length; i += 1) {
+    if (state.weaponList[i].characterId == state.selectedCharacter) {
+      list.push(state.weaponList[i]);
+    }
+  }
+
+  return list;
+};
