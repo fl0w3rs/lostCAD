@@ -44,7 +44,7 @@ export const bloodTypeList = [
 ];
 
 export const rhesusFactorList = [
-  'Позитивный', 'Негативный',
+  'Положительный', 'Отрицательный', 'Нулевой',
 ];
 
 export const invalidityList = [
