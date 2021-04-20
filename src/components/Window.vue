@@ -1,5 +1,6 @@
 <template>
     <Vue3DraggableResizable
+        :x="x" :y="y"
         :minW="300" :minH="150" :initW="width" :initH="height"
         :style="{position: 'absolute', zIndex: zIndex}"
         :parent="true" class="bg-grey-10 border-maroon-thick position-absolute shadow-3"
@@ -63,9 +64,13 @@
 </style>
 
 <script>
-import { ref, computed, defineAsyncComponent } from 'vue';
+import {
+  ref, computed, defineAsyncComponent, onBeforeMount,
+} from 'vue';
 import { useStore } from 'vuex';
-import { useQuasar } from 'quasar';
+import { useQuasar, scroll } from 'quasar';
+
+const { getVerticalScrollPosition } = scroll;
 
 export default {
   name: 'Window',
@@ -110,6 +115,16 @@ export default {
       height.value = h;
     };
 
+    const x = ref(0);
+    const y = ref(0);
+
+    onBeforeMount(() => {
+      x.value = (window.innerWidth / 2) - (width / 2);
+      y.value = getVerticalScrollPosition(window) - 50
+              + (window.innerHeight / 2)
+              - (height.value / 2);
+    });
+
     return {
       getWindow: computed(() => params.window),
       // eslint-disable-next-line prefer-template
@@ -124,6 +139,9 @@ export default {
       handleWindowClick,
 
       onResize,
+
+      x,
+      y,
     };
   },
 };
