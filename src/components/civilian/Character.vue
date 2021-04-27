@@ -241,8 +241,12 @@
 import {
   sexList, raceList, eyeColorList, hairColorList, streetList,
   bloodTypeList, rhesusFactorList, invalidityList,
-  getRandomArrayItem, licenseOptionList,
-} from 'src/utils.js';
+  licenseOptionList,
+} from 'src/utils/constants';
+
+import {
+  getRandomArrayItem,
+} from 'src/utils/functions';
 
 import { useQuasar } from 'quasar';
 
@@ -378,6 +382,7 @@ export default {
         message: 'Персонаж успешно удалён.',
         position: 'top',
       });
+      store.commit('characters/updateSelected', null);
       store.commit('window/close', props.window.id);
     });
 

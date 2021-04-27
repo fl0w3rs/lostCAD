@@ -2,7 +2,7 @@
   <div class="civilian-page full-width text-center">
 
     <div class="accent q-pa-md">
-      <div class="row q-col-gutter-xs">
+      <div class="row q-col-gutter-xs text-uppercase">
         <div class="col-12 col-sm-4 justify-start">
           <q-select
             dense options-dense dark outlined v-model="selectedCharacter"
@@ -35,7 +35,7 @@
         </div>
 
         <div class="col-12 col-sm-4 justify-end">
-          <GameZone/>
+          <InfoBar/>
         </div>
 
       </div>
@@ -87,6 +87,15 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
+        <q-btn
+          color="red" size="sm" icon="fas fa-phone" outline v-if="selectedCharacter != null"
+          label="911"
+          @click="$store.commit('window/add', {
+            component: 'civilian/Call',
+            title: 'Вызов 911',
+            dialog: true, dialogMinWidth: '40vw',
+          });"
+        />
 
       </div>
       <q-separator class="q-mt-md" dark v-if="selectedCharacter !== null" />
@@ -105,7 +114,7 @@
 import Character from 'components/civilian/Character.vue';
 import VehicleList from 'components/civilian/VehicleList.vue';
 import WeaponList from 'components/civilian/WeaponList.vue';
-import GameZone from 'components/GameZone.vue';
+import InfoBar from 'src/components/InfoBar.vue';
 
 import {
   ref, onBeforeMount, onBeforeUnmount,
@@ -120,7 +129,7 @@ export default {
   name: 'CivilianPage',
 
   components: {
-    Character, VehicleList, GameZone, WeaponList,
+    Character, VehicleList, InfoBar, WeaponList,
   },
 
   setup() {
@@ -129,7 +138,15 @@ export default {
     const rDate = ref('YYYY-MM-DD ddd');
     const rTime = ref('HH:mm:ss');
 
-    const selectedCharacter = ref(null);
+    const selectedCharacter = ref(store.getters['characters/getSelectedCharacterId']);
+
+    watch(selectedCharacter, (val) => {
+      store.commit('characters/updateSelected', val);
+    });
+
+    watch(() => store.getters['characters/getSelectedCharacterId'], (val) => {
+      if (selectedCharacter.value !== val) selectedCharacter.value = val;
+    });
 
     const socketWrapper = $socket.initWrapper();
 
@@ -139,8 +156,6 @@ export default {
 
     onBeforeMount(socketWrapper.mount);
     onBeforeUnmount(socketWrapper.unmount);
-
-    watch(selectedCharacter, (val) => store.commit('characters/updateSelected', val));
 
     let timeInterval;
 

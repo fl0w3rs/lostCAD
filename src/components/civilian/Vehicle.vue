@@ -41,16 +41,25 @@
       </div>
       <div class="col-6">
         <q-select
-          :disable="disabled" dense options-dense
-          dark square outlined v-model="info.mark" label="Марка"
-          :options="markList"
-        />
+          :disable="disabled" dense options-dense @filter="markFilterFn"
+          dark square outlined v-model="info.mark" label="Марка" :options="markList"
+          hide-selected use-input input-debounce="0" fill-input @input-value="onMarkUpdate"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+              Не найдено
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
       <div class="col-6">
         <q-select
-          :disable="disabled || modelList.length == 0" dense options-dense
+          :disable="disabled" dense options-dense
           dark square outlined v-model="info.model" label="Модель"
-          :options="modelList"
+          :options="modelList" @filter="modelFilterFn"
+          hide-selected use-input input-debounce="0" fill-input @input-value="onModelUpdate"
         />
       </div>
       <div class="col-6">
@@ -117,9 +126,13 @@
 /* eslint-disable no-useless-return */
 
 import {
-  vehicleMarkList, getRandomInt, getRandomByDict, vehicleRegStatusList,
-  vehicleColorList, vehicleTypeList, vehicleInsStatusList,
-} from 'src/utils.js';
+  vehicleMarkList, vehicleRegStatusList, vehicleInsStatusList,
+  vehicleColorList, vehicleTypeList,
+} from 'src/utils/constants';
+
+import {
+  getRandomInt, getRandomByDict,
+} from 'src/utils/functions';
 
 import {
   watch, ref, computed, onBeforeMount, onBeforeUnmount,
@@ -156,8 +169,16 @@ export default {
       if (val != props.vehicle.characterId) closeWindow();
     });
 
-    const markList = Object.keys(vehicleMarkList);
+    const markList = ref(Object.keys(vehicleMarkList));
     const modelList = ref([]);
+
+    const markFilterFn = (val, update) => {
+      update(() => {
+        const needle = val.toLowerCase();
+        // eslint-disable-next-line max-len
+        markList.value = Object.keys(vehicleMarkList).filter((v) => v.toLowerCase().indexOf(needle) > -1);
+      });
+    };
 
     const info = ref({ ...props.vehicle });
     if (!info.value.vin) info.value.vin = generateVin();
@@ -168,10 +189,27 @@ export default {
     });
 
     if (info.value.mark) modelList.value = vehicleMarkList[info.value.mark];
-    watch(() => info.value.mark, (val) => {
-      modelList.value = vehicleMarkList[val];
+
+    const onMarkUpdate = (val) => {
+      info.value.mark = val;
+
       info.value.model = '';
-    });
+      modelList.value = vehicleMarkList[val];
+    };
+
+    const onModelUpdate = (val) => {
+      info.value.model = val;
+    };
+
+    const modelFilterFn = (val, update) => {
+      const currentModelList = vehicleMarkList[info.value.mark];
+
+      update(() => {
+        const needle = val.toLowerCase();
+        // eslint-disable-next-line max-len
+        modelList.value = currentModelList.filter((v) => v.toLowerCase().indexOf(needle) > -1);
+      });
+    };
 
     const create = () => {
       if (props.type != 'create') return;
@@ -204,8 +242,8 @@ export default {
     const character = ref({});
 
     if (props.type == 'dmv') {
-      socketWrapper.emit('dmv/requestOwner', { id: props.vehicle.id });
-      socketWrapper.listen('dmv/responseOwner', (payload) => {
+      socketWrapper.emit('lookup/requestCharacter', { id: props.vehicle.characterId });
+      socketWrapper.listen('lookup/responseCharacter', (payload) => {
         character.value = payload.data;
       });
     }
@@ -258,6 +296,11 @@ export default {
       disabled: computed(() => props.type == 'dmv'),
 
       character,
+
+      markFilterFn,
+      onMarkUpdate,
+      modelFilterFn,
+      onModelUpdate,
     };
   },
 };

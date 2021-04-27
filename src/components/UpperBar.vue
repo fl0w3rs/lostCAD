@@ -1,5 +1,5 @@
 <template>
-    <div class="row items-center q-py-xs">
+    <div class="row items-center q-py-xs text-uppercase">
         <div class="col-12 col-sm-4">
           <div class="clock" v-if="!selectedIdentifier" @click="openIdentifierWindow">
             ИДЕНТИФИКАТОР НЕ ВЫБРАН
@@ -19,7 +19,7 @@
         </div>
 
         <div class="col-12 col-sm-4">
-          <GameZone/>
+          <InfoBar/>
         </div>
     </div>
 </template>
@@ -34,12 +34,12 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 
-import GameZone from 'components/GameZone';
+import InfoBar from 'components/InfoBar';
 
 export default {
   name: 'UpperBarComponent',
 
-  components: { GameZone },
+  components: { InfoBar },
 
   setup() {
     const store = useStore();

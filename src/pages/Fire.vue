@@ -9,8 +9,8 @@
       <q-btn label="LOOKUP" outline color="gray"
         @click="$store.commit('window/add', {
           component: 'Lookup',
-          params: { types: { dmv: false } },
-          windowHeight: 300, title: 'Поиск'
+          params: { types: { dmv: false, fld: false } },
+          windowHeight: 325, title: 'Поиск'
         })"
       />
     </div>

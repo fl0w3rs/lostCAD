@@ -93,7 +93,8 @@ import {
   watch, ref, computed, onBeforeMount, onBeforeUnmount,
 } from 'vue';
 
-import { weaponModelList, weaponRegStatusList, randomString } from 'src/utils.js';
+import { weaponModelList, weaponRegStatusList } from 'src/utils/constants';
+import { randomString } from 'src/utils/functions';
 
 import { useQuasar } from 'quasar';
 
@@ -183,8 +184,8 @@ export default {
     const character = ref({});
 
     if (props.type == 'fld') {
-      socketWrapper.emit('fld/requestOwner', { id: props.vehicle.id });
-      socketWrapper.listen('fld/responseOwner', (payload) => {
+      socketWrapper.emit('lookup/requestCharacter', { id: props.weapon.characterId });
+      socketWrapper.listen('lookup/responseCharacter', (payload) => {
         character.value = payload.data;
       });
     }

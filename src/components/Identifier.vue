@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-uppercase">
     <div v-if="!selectedIdentifier">
       <div class="row q-col-gutter-sm">
         <div class="col-12">
@@ -25,13 +25,31 @@
     <div v-else>
       <div class="row q-col-gutter-sm">
         <div class="col-6">
-          <q-input dense dark filled v-model="currentIdentifier.name" label="Имя" />
+          <q-input dense dark v-model="currentIdentifier.name" label="Имя и Фамилия" />
         </div>
         <div class="col-6">
-          <q-input dense dark filled v-model="currentIdentifier.callsign" label="Позывной" />
+          <q-input dense dark v-model="currentIdentifier.callsign" label="Позывной" />
+        </div>
+        <div class="col-6">
+          <q-select
+            dense options-dense
+            dark v-model="currentIdentifier.department" label="Департамент"
+            :options="departments"
+          />
+        </div>
+        <div class="col-6">
+          <q-select
+            dense options-dense
+            dark v-model="currentIdentifier.division" label="Дивизия"
+            :options="divisions"
+          />
         </div>
         <div class="col-12">
-          <q-input dense dark filled v-model="currentIdentifier.rank" label="Звание" />
+          <q-select
+            dense options-dense
+            dark v-model="currentIdentifier.rank" label="Звание"
+            :options="identifierRankList"
+          />
         </div>
 
         <div class="col-6">
@@ -67,6 +85,8 @@ import {
 } from 'vue';
 import $socket from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
+import { identifierRankList } from 'src/utils/constants';
+import { getAvailableDepartments } from 'src/utils/api';
 
 let store;
 let $q;
@@ -119,9 +139,31 @@ export default {
       $socket.emit('user/identifiers/edit', currentIdentifier.value);
     };
 
-    onMounted(() => {
+    const departments = ref([]);
+    const divisions = ref([]);
+
+    const allDivisions = {};
+
+    watch(() => currentIdentifier.value.department, (val) => {
+      divisions.value = allDivisions[val];
+    });
+
+    onMounted(async () => {
       store.dispatch('identifier/request');
       currentIdentifier.value = { ...store.getters['identifier/getSelectedIdentifierObject'] };
+
+      const response = await getAvailableDepartments();
+
+      const responseValues = Object.values(response);
+
+      departments.value = responseValues.map((val) => val.name);
+      for (let i = 0; i < responseValues.length; i += 1) {
+        allDivisions[responseValues[i].name] = responseValues[i].divisions.split('|||');
+      }
+
+      if (currentIdentifier.value.department) {
+        divisions.value = allDivisions[currentIdentifier.value.department];
+      }
     });
 
     return {
@@ -135,6 +177,11 @@ export default {
 
       deleteIdentifier,
       saveIdentifier,
+
+      identifierRankList,
+
+      departments,
+      divisions,
 
       columns: [
         {

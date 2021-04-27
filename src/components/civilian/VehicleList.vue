@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-uppercase">
     <div class="text-left sectionTitle">
       СПИСОК Т/С
     </div>

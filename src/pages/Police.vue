@@ -5,13 +5,16 @@
         <UpperBarComponent/>
     </div>
 
-    <div class="accent q-mt-sm q-py-md row justify-center">
-      <q-btn label="LOOKUP" outline color="gray"
-        @click="$store.commit('window/add', {
-          component: 'Lookup',
-          windowHeight: 300, title: 'Поиск'
-        })"
-      />
+    <div class="accent q-mt-sm q-py-md">
+      <UnitStatus />
+      <div class="row justify-center q-mt-sm">
+        <q-btn label="LOOKUP" outline color="gray"
+          @click="$store.commit('window/add', {
+            component: 'Lookup',
+            windowHeight: 325, title: 'Поиск'
+          })"
+        />
+      </div>
     </div>
 
   </div>
@@ -19,10 +22,11 @@
 
 <script>
 import UpperBarComponent from 'components/UpperBar.vue';
+import UnitStatus from 'components/UnitStatus.vue';
 
 export default {
   name: 'PolicePage',
 
-  components: { UpperBarComponent },
+  components: { UpperBarComponent, UnitStatus },
 };
 </script>

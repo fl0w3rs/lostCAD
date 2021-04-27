@@ -9,7 +9,7 @@
       <q-btn label="LOOKUP" outline color="gray"
         @click="$store.commit('window/add', {
           component: 'Lookup',
-          windowHeight: 300, title: 'Поиск'
+          windowHeight: 325, title: 'Поиск'
         })"
       />
     </div>
