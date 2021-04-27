@@ -64,6 +64,8 @@
 </style>
 
 <script>
+/* eslint-disable prefer-template */
+
 import {
   ref, computed, defineAsyncComponent, onBeforeMount,
 } from 'vue';
@@ -127,8 +129,10 @@ export default {
 
     return {
       getWindow: computed(() => params.window),
-      // eslint-disable-next-line prefer-template
-      getWindowComponent: defineAsyncComponent(() => import('components/' + params.window.component + '.vue')),
+      getWindowComponent: defineAsyncComponent(() => import(
+        /* webpackMode: "lazy-once" */
+        'components/' + params.window.component + '.vue'
+      )),
       authInitialized: computed(() => store.getters['auth/isAuthInitialized']),
 
       height,
