@@ -3,5 +3,6 @@ export default function () {
     departments: {},
     name: null,
     isAdmin: false,
+    currentDepartment: null,
   };
 }

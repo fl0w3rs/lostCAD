@@ -1,7 +1,7 @@
 <template>
   <div class="admin-page column full-width q-pt-md q-px-lg text-center">
     <div class="accent rounded-borders">
-        <DepartmentList />
+      <DepartmentList />
     </div>
   </div>
 </template>

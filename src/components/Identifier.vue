@@ -15,8 +15,13 @@
         </div>
 
         <div class="col-12">
-          <q-btn label="Создать новый" outline class="full-width"
-          color="green" @click="createIdentifier"></q-btn>
+          <q-btn
+            label="Создать новый"
+            outline
+            class="full-width"
+            color="green"
+            @click="createIdentifier"
+          ></q-btn>
         </div>
       </div>
 
@@ -25,48 +30,82 @@
     <div v-else>
       <div class="row q-col-gutter-sm">
         <div class="col-6">
-          <q-input dense dark v-model="currentIdentifier.name" label="Имя и Фамилия" />
+          <q-input
+            dense
+            dark
+            v-model="currentIdentifier.name"
+            label="Имя и Фамилия"
+          />
         </div>
         <div class="col-6">
-          <q-input dense dark v-model="currentIdentifier.callsign" label="Позывной" />
+          <q-input
+            dense
+            dark
+            v-model="currentIdentifier.callsign"
+            label="Позывной"
+          />
         </div>
         <div class="col-6">
           <q-select
-            dense options-dense
-            dark v-model="currentIdentifier.department" label="Департамент"
+            dense
+            options-dense
+            dark
+            v-model="currentIdentifier.department"
+            label="Департамент"
             :options="departments"
           />
         </div>
         <div class="col-6">
           <q-select
-            dense options-dense
-            dark v-model="currentIdentifier.division" label="Дивизия"
+            dense
+            options-dense
+            dark
+            v-model="currentIdentifier.division"
+            label="Дивизия"
             :options="divisions"
           />
         </div>
         <div class="col-12">
           <q-select
-            dense options-dense
-            dark v-model="currentIdentifier.rank" label="Звание"
+            dense
+            options-dense
+            dark
+            v-model="currentIdentifier.rank"
+            label="Звание"
             :options="identifierRankList"
           />
         </div>
 
         <div class="col-6">
-          <q-btn label="Сохранить" outline class="full-width"
-            color="green" @click="saveIdentifier"></q-btn>
+          <q-btn
+            label="Сохранить"
+            outline
+            class="full-width"
+            color="green"
+            @click="saveIdentifier"
+          ></q-btn>
 
         </div>
 
         <div class="col-6">
-          <q-btn label="Удалить" outline class="full-width"
-            color="red" @click="deleteIdentifier"></q-btn>
+          <q-btn
+            label="Удалить"
+            outline
+            class="full-width"
+            color="red"
+            @click="deleteIdentifier"
+          ></q-btn>
 
         </div>
 
         <div class="col-12">
-          <q-btn label="Сменить идентификатор" outline class="full-width"
-            color="orange" @click="changeIdentifier"></q-btn>
+          <q-btn
+            label="Сменить идентификатор"
+            outline
+            class="full-width"
+            color="orange"
+            @click="changeIdentifier"
+          ></q-btn>
 
         </div>
 

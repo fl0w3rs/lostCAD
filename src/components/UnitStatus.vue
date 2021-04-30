@@ -1,13 +1,22 @@
 <template>
   <div class="row justify-center q-gutter-xs">
     <q-btn
-      :color="status == '7' ? 'orange' : 'grey'" @click="switchStatus('7')" outline label="КОД 7"
+      :color="status == '7' ? 'orange' : 'grey'"
+      @click="switchStatus('7')"
+      outline
+      label="КОД 7"
     />
     <q-btn
-      :color="status == '8' ? 'red' : 'grey'" @click="switchStatus('8')" outline label="КОД 8"
+      :color="status == '8' ? 'red' : 'grey'"
+      @click="switchStatus('8')"
+      outline
+      label="КОД 8"
     />
     <q-btn
-      :color="status == '9' ? 'cyan' : 'grey'" @click="switchStatus('9')" outline label="КОД 9"
+      :color="status == '9' ? 'cyan' : 'grey'"
+      @click="switchStatus('9')"
+      outline
+      label="КОД 9"
     />
   </div>
 </template>
@@ -28,11 +37,12 @@ export default {
       status.value = val;
     };
 
-    return { status, switchStatus };
+    return {
+      status,
+      switchStatus,
+    };
   },
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

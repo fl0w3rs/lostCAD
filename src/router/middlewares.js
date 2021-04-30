@@ -19,38 +19,29 @@ export function admin({ next, store }) {
   return next();
 }
 
-export function police({ next, store }) {
-  if (!store.getters['user/getDepartments'].police) {
-    store.dispatch('error/show', 'У Вас нет доступа к этому департаменту.');
-    return next(false);
-  }
+const depts = {
+  police: {},
+  dispatch: {},
+  fire: {},
+  civilian: {},
+};
 
-  return next();
+const keys = Object.keys(depts);
+for (let i = 0; i < keys.length; i += 1) {
+  const name = keys[i];
+
+  depts[name] = ({ next, store }) => {
+    if (!store.getters['user/getDepartments'][name]) {
+      store.dispatch('error/show', 'У Вас нет доступа к этому департаменту.');
+      return next(false);
+    }
+
+    store.dispatch('user/setCurrentDepartment', name);
+
+    return next();
+  };
 }
 
-export function dispatch({ next, store }) {
-  if (!store.getters['user/getDepartments'].dispatch) {
-    store.dispatch('error/show', 'У Вас нет доступа к этому департаменту.');
-    return next(false);
-  }
-
-  return next();
-}
-
-export function civilian({ next, store }) {
-  if (!store.getters['user/getDepartments'].civilian) {
-    store.dispatch('error/show', 'У Вас нет доступа к этому департаменту.');
-    return next(false);
-  }
-
-  return next();
-}
-
-export function fire({ next, store }) {
-  if (!store.getters['user/getDepartments'].fire) {
-    store.dispatch('error/show', 'У Вас нет доступа к этому департаменту.');
-    return next(false);
-  }
-
-  return next();
-}
+export const {
+  police, fire, dispatch, civilian,
+} = depts;

@@ -1,12 +1,12 @@
 <template>
   <div>
     <q-table
-        title="Департаменты"
-        :rows="departments"
-        :columns="columns"
-        row-key="id"
-        dark
-        color="amber"
+      title="Департаменты"
+      :rows="departments"
+      :columns="columns"
+      row-key="id"
+      dark
+      color="amber"
     />
   </div>
 </template>

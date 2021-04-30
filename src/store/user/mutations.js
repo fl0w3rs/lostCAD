@@ -12,3 +12,11 @@ export function updateInfo(state, payload) {
   state.isAdmin = payload.isAdmin;
   state.departments = payload.departments;
 }
+
+export function setCurrentDepartment(state, payload) {
+  if (state.currentDepartment !== payload) {
+    // kill unit
+  }
+
+  state.currentDepartment = payload;
+}

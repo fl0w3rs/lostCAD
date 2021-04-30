@@ -27,31 +27,57 @@
     <div class="section rounded-borders row justify-center">
       <div class="col-6">
         <q-select
-          :disable="disabled" dense options-dense
-          dark square outlined v-model="info.regStatus" label="Статус регистрации"
+          :disable="disabled"
+          dense
+          options-dense
+          dark
+          square
+          outlined
+          v-model="info.regStatus"
+          label="Статус регистрации"
           :options="weaponRegStatusList"
         />
       </div>
       <div class="col-6">
         <q-input
-          :disable="true" dense options-dense
-          dark square outlined v-model="info.serial" label="Серийный номер"
+          :disable="true"
+          dense
+          options-dense
+          dark
+          square
+          outlined
+          v-model="info.serial"
+          label="Серийный номер"
         />
       </div>
       <div class="col-12">
         <q-select
-          :disable="disabled" dense options-dense
-          dark square outlined v-model="info.model" label="Модель"
+          :disable="disabled"
+          dense
+          options-dense
+          dark
+          square
+          outlined
+          v-model="info.model"
+          label="Модель"
           :options="weaponModelList"
         />
       </div>
     </div>
 
-    <div class="q-mt-md text-left sectionTitle" v-if="type == 'fld'">ВЛАДЕЛЕЦ ОРУЖИЯ</div>
-    <div class="rounded-borders row justify-center" v-if="type == 'fld'">
+    <div
+      class="q-mt-md text-left sectionTitle"
+      v-if="type == 'fld'"
+    >ВЛАДЕЛЕЦ ОРУЖИЯ</div>
+    <div
+      class="rounded-borders row justify-center"
+      v-if="type == 'fld'"
+    >
       <div class="col-12">
         <q-btn
-          color="white" outline class="full-width"
+          color="white"
+          outline
+          class="full-width"
           :label="`${character.name} ${character.surname}`"
           @click="$store.commit('window/add', {
             component: 'civilian/Character',
@@ -63,21 +89,38 @@
     </div>
 
     <div
-      class="full-width q-mt-md row justify-center" v-if="type == 'create' || type == 'edit'"
+      class="full-width q-mt-md row justify-center"
+      v-if="type == 'create' || type == 'edit'"
     >
       <q-btn
-        v-if="type == 'create'" color="green" outline class="shadow-2"
-        @click="create" icon="fas fa-plus" label="Создать"
+        v-if="type == 'create'"
+        color="green"
+        outline
+        class="shadow-2"
+        @click="create"
+        icon="fas fa-plus"
+        label="Создать"
       />
 
-      <div class="row q-gutter-sm justify-center" v-if="type == 'edit'">
+      <div
+        class="row q-gutter-sm justify-center"
+        v-if="type == 'edit'"
+      >
         <q-btn
-          color="green" outline class="shadow-2"
-          @click="save" icon="fas fa-save" label="Сохранить"
+          color="green"
+          outline
+          class="shadow-2"
+          @click="save"
+          icon="fas fa-save"
+          label="Сохранить"
         />
         <q-btn
-          color="red" outline class="shadow-2"
-          @click="remove" icon="fas fa-trash-alt" label="Удалить"
+          color="red"
+          outline
+          class="shadow-2"
+          @click="remove"
+          icon="fas fa-trash-alt"
+          label="Удалить"
         />
 
       </div>

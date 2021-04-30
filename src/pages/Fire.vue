@@ -2,11 +2,14 @@
   <div class="fire-page full-width text-center">
 
     <div class="accentDark q-py-xs q-px-lg">
-        <UpperBarComponent/>
+      <UpperBarComponent />
     </div>
 
     <div class="accent q-mt-sm q-py-md row justify-center">
-      <q-btn label="LOOKUP" outline color="gray"
+      <q-btn
+        label="LOOKUP"
+        outline
+        color="gray"
         @click="$store.commit('window/add', {
           component: 'Lookup',
           params: { types: { dmv: false, fld: false } },

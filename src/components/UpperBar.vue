@@ -1,27 +1,35 @@
 <template>
-    <div class="row items-center q-py-xs text-uppercase">
-        <div class="col-12 col-sm-4">
-          <div class="clock" v-if="!selectedIdentifier" @click="openIdentifierWindow">
-            ИДЕНТИФИКАТОР НЕ ВЫБРАН
-          </div>
+  <div class="row items-center q-py-xs text-uppercase">
+    <div class="col-12 col-sm-4">
+      <div
+        class="clock"
+        v-if="!selectedIdentifier"
+        @click="openIdentifierWindow"
+      >
+        ИДЕНТИФИКАТОР НЕ ВЫБРАН
+      </div>
 
-          <div class="clock" v-else @click="openIdentifierWindow">
-            <p>{{ selectedIdentifier['name'] }}</p>
-            <p>{{ selectedIdentifier['rank'] }} | {{ selectedIdentifier['callsign'] }}</p>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm-4">
-          <div class="clock">
-            <p>{{ rDate }}</p>
-            <p>{{ rTime }}</p>
-          </div>
-        </div>
-
-        <div class="col-12 col-sm-4">
-          <InfoBar/>
-        </div>
+      <div
+        class="clock"
+        v-else
+        @click="openIdentifierWindow"
+      >
+        <p>{{ selectedIdentifier['name'] }}</p>
+        <p>{{ selectedIdentifier['rank'] }} | {{ selectedIdentifier['callsign'] }}</p>
+      </div>
     </div>
+
+    <div class="col-12 col-sm-4">
+      <div class="clock">
+        <p>{{ rDate }}</p>
+        <p>{{ rTime }}</p>
+      </div>
+    </div>
+
+    <div class="col-12 col-sm-4">
+      <InfoBar />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -63,7 +71,7 @@ export default {
       timeInterval = setInterval(() => {
         const now = Date.now();
         rDate.value = date.formatDate(now, 'YYYY-MM-DD ddd', {
-          daysShort: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+          daysShort: ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'],
         });
         rTime.value = date.formatDate(now, 'HH:mm:ss');
       }, 1000);
