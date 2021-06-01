@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import UpperBarComponent from 'components/UpperBar.vue';
+import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
 
 export default {
   name: 'FirePage',

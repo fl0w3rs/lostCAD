@@ -29,7 +29,7 @@ export default {
 
     const onClickRow = (evt, row) => {
       store.commit('window/add', {
-        component: 'civilian/Weapon', params: { type: props.type === 'fld' ? 'fld' : 'edit', weapon: row }, windowHeight: 210, title: 'Просмотр оружия',
+        component: 'weapon/Template', params: { type: props.type === 'fld' ? 'fld' : 'edit', weapon: row }, windowHeight: 210, title: 'Просмотр оружия',
       });
     };
 

@@ -893,3 +893,7 @@ export const weaponModelList = [
   'MP5 (SMG)',
   'MP5K (SMG mk2)',
 ];
+
+export const departmentTypeList = [
+  'civilian', 'police', 'fire', 'dispatch',
+];

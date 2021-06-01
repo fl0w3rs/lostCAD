@@ -1,39 +1,8 @@
 import $socket from 'src/boot/socketio-instance';
 
-const cache = {
-  list: {
-    // example: {
-    //   existsUntil: Date.now(),
-    //   value: 'lol',
-    // },
-  },
+import { createCacheInstance } from 'src/utils/cache.js';
 
-  get: (name) => {
-    const that = cache;
-
-    if (typeof that.list[name] !== 'object') return undefined;
-
-    if (Date.now() > that.list[name].existsUntil) {
-      delete that.list[name];
-      return undefined;
-    }
-
-    return that.list[name];
-  },
-
-  set: (name, value, time) => {
-    const that = cache;
-
-    if (that.get(name) !== undefined) return false;
-
-    that.list[name] = {
-      existsUntil: Date.now() + time,
-      value,
-    };
-
-    return true;
-  },
-};
+const cache = createCacheInstance();
 
 export const getAvailableDepartments = () => new Promise((resolve) => {
   const cached = cache.get('availableDepartments');
@@ -49,6 +18,25 @@ export const getAvailableDepartments = () => new Promise((resolve) => {
     socketWrapper.mount();
 
     socketWrapper.emit('user/getAvailableDepartments');
+  } else {
+    resolve(cached);
+  }
+});
+
+export const getAllGroupNames = () => new Promise((resolve) => {
+  const cached = cache.get('allGroupNames');
+
+  if (!cached) {
+    const socketWrapper = $socket.initWrapper();
+    socketWrapper.listen('admin/getAllGroupNamesResponse', (data) => {
+      socketWrapper.unmount();
+      cache.set('allGroupNames', data.list, 60);
+      resolve(data.list);
+    });
+
+    socketWrapper.mount();
+
+    socketWrapper.emit('admin/getAllGroupNames');
   } else {
     resolve(cached);
   }

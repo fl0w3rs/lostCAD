@@ -11,9 +11,9 @@ instance.initWrapper = () => {
   wrapper.listeners = [];
 
   wrapper.emit = (evt, data) => instance.emit(evt, { ...data, rId: wrapper.rId });
-  wrapper.listen = (evt, handler) => {
+  wrapper.listen = (evt, handler, options = {}) => {
     const callback = (data) => {
-      if (data.rId !== wrapper.rId) return;
+      if (!options.ignoreRID && data.rId !== wrapper.rId) return;
       handler(data);
     };
 

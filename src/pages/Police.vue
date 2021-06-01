@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import UpperBarComponent from 'components/UpperBar.vue';
+import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
 import UnitStatus from 'components/UnitStatus.vue';
 
 export default {

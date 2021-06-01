@@ -102,7 +102,7 @@
               v-close-popup
               @click="
                 $store.commit('window/add', {
-                  component: 'civilian/Vehicle',
+                  component: 'vehicle/Template',
                   params: { type: 'create' },
                   title: 'Создание Т/С',
                   dialog: true,
@@ -120,7 +120,7 @@
               v-close-popup
               @click="
                 $store.commit('window/add', {
-                  component: 'civilian/Weapon',
+                  component: 'weapon/Template',
                   params: { type: 'create' },
                   title: 'Создание оружия',
                   dialog: true,
@@ -179,9 +179,9 @@
 
 <script>
 import Character from 'components/civilian/Character.vue';
-import VehicleList from 'components/civilian/VehicleList.vue';
-import WeaponList from 'components/civilian/WeaponList.vue';
-import InfoBar from 'src/components/InfoBar.vue';
+import VehicleList from 'src/components/vehicle/List.vue';
+import WeaponList from 'src/components/weapon/List.vue';
+import InfoBar from 'src/components/nonCivTopBar/Info.vue';
 
 import {
   ref, onBeforeMount, onBeforeUnmount, computed, watch,

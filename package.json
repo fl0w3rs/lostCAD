@@ -10,9 +10,9 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.10.4",
+    "@quasar/extras": "^1.10.6",
     "core-js": "^3.6.5",
-    "quasar": "^2.0.0-beta.13",
+    "quasar": "^2.0.0-beta.19",
     "socket.io-client": "^4.0.0",
     "uuid": "^8.3.2",
     "vin-generator": "^1.0.1",
@@ -20,11 +20,10 @@
     "vue3-draggable-resizable": "^1.5.4"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0-beta.17",
+    "@quasar/app": "^3.0.0-beta.28",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",

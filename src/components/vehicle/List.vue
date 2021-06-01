@@ -31,7 +31,7 @@ export default {
 
     const onClickVehicleRow = (evt, row) => {
       store.commit('window/add', {
-        component: 'civilian/Vehicle', params: { type: props.type === 'dmv' ? 'dmv' : 'edit', vehicle: row }, windowHeight: 350, title: 'Просмотр Т/С',
+        component: 'vehicle/Template', params: { type: props.type === 'dmv' ? 'dmv' : 'edit', vehicle: row }, windowHeight: 350, title: 'Просмотр Т/С',
       });
     };
 

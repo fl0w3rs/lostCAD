@@ -191,8 +191,8 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 import $socket from 'src/boot/socketio-instance';
-import VehicleList from 'components/civilian/VehicleList';
-import WeaponList from 'components/civilian/WeaponList';
+import VehicleList from 'components/vehicle/List';
+import WeaponList from 'components/weapon/List';
 
 import { date } from 'quasar';
 

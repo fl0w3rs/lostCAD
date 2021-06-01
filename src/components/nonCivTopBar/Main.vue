@@ -14,8 +14,8 @@
         v-else
         @click="openIdentifierWindow"
       >
-        <p>{{ selectedIdentifier['name'] }}</p>
-        <p>{{ selectedIdentifier['rank'] }} | {{ selectedIdentifier['callsign'] }}</p>
+        <p>{{ selectedIdentifier['name'] }}, {{ selectedIdentifier['callsign'] }}</p>
+        <p>{{ selectedIdentifier['department'] }} {{ selectedIdentifier['rank'] }}</p>
       </div>
     </div>
 
@@ -42,7 +42,7 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 
-import InfoBar from 'components/InfoBar';
+import InfoBar from 'components/nonCivTopBar/Info';
 
 export default {
   name: 'UpperBarComponent',
