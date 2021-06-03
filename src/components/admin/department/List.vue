@@ -1,14 +1,35 @@
 <template>
   <div>
     <q-table
-      title="Департаменты"
       :rows="departments"
       :columns="columns"
       row-key="id"
       dark
       color="amber"
       @row-click="editDepartment"
-    />
+    >
+      <template v-slot:top>
+        <div class="q-table__title">Департаменты</div>
+        <q-space />
+        <q-btn
+          color='green'
+          outline
+          icon='fas fa-plus'
+          size='sm'
+          round
+          @click="
+            $store.commit('window/add', {
+              component: 'admin/department/Template',
+              params: { type: 'create', dept: val },
+              title: 'Создание департамента',
+              dialog: true,
+              dialogMinWidth: '40vw',
+            })
+          "
+        >
+        </q-btn>
+      </template>
+    </q-table>
   </div>
 </template>
 

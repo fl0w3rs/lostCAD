@@ -14,14 +14,14 @@ export const createCacheInstance = () => ({
       return undefined;
     }
 
-    return this.list[name];
+    return this.list[name].value;
   },
 
   set(name, value, time) {
     if (this.get(name) !== undefined) return false;
 
     this.list[name] = {
-      existsUntil: Date.now() + time,
+      existsUntil: Date.now() + (time * 1000),
       value,
     };
 

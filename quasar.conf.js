@@ -88,6 +88,7 @@ module.exports = function (/* ctx */) {
     devServer: {
       https: false,
       port: 4000,
+      public: 'https://4000-cs-712998890491-default.cs-europe-west4-szqw.cloudshell.dev',
       open: true, // opens browser window automatically
     },
 

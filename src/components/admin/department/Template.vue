@@ -49,28 +49,68 @@
       />
     </div>
   </div>
+
+  <div
+    class="full-width q-mt-sm row justify-center"
+    v-if="type == 'create' || type == 'edit'"
+  >
+    <q-btn
+      v-if="type == 'create'"
+      color="green"
+      outline
+      class="shadow-2"
+      @click="create"
+      icon="fas fa-plus"
+      label="Создать"
+    />
+
+    <div
+      class="row q-gutter-sm justify-center"
+      v-if="type == 'edit'"
+    >
+      <q-btn
+        color="green"
+        outline
+        class="shadow-2"
+        @click="save"
+        icon="fas fa-save"
+        label="Сохранить"
+      />
+      <q-btn
+        color="red"
+        outline
+        class="shadow-2"
+        @click="remove"
+        icon="fas fa-trash-alt"
+        label="Удалить"
+      />
+
+    </div>
+  </div>
 </template>
 
 <script>
-import { ref, watch, onBeforeMount } from 'vue';
+import {
+  ref, watch, onBeforeMount, onBeforeUnmount,
+} from 'vue';
 import { departmentTypeList } from 'src/utils/constants';
 import { getAllGroupNames } from 'src/utils/api';
+import $socket from 'src/boot/socketio-instance';
 
 export default {
   props: {
     type: String,
     dept: Object,
+    window: Object,
   },
 
   setup(props) {
+    const socketWrapper = $socket.initWrapper();
+    onBeforeMount(socketWrapper.mount);
+    onBeforeUnmount(socketWrapper.unmount);
+
     const info = ref({ ...props.dept });
     watch(() => props.dept, (val) => { info.value = val; });
-
-    // const generateFinalVar = () => {
-    //   const data = info.value;
-    //   data.groups = data.groups.join(',');
-    //   return data;
-    // };
 
     const groupList = ref([]);
 
@@ -80,10 +120,54 @@ export default {
         groupList.value.push({ label: resp[i].name, value: resp[i].id });
       }
 
-      info.value.groups = info.value.groups.split(',').map((i) => Number(i));
+      if (props.type !== 'create') {
+        info.value.groups = info.value.groups.split(',').map((i) => Number(i));
+      }
     });
 
-    return { info, departmentTypeList, groupList };
+    const generateFinalVar = () => {
+      const data = { ...info.value };
+      data.groups = data?.groups?.join(',') || '';
+      if (!data.divisions) data.divisions = '';
+      return data;
+    };
+
+    const create = () => {
+      const data = generateFinalVar();
+      socketWrapper.emit('admin/departments/create', data);
+    };
+
+    const save = () => {
+      const data = generateFinalVar();
+      socketWrapper.emit('admin/departments/edit', data);
+    };
+
+    const remove = () => {
+      socketWrapper.emit('admin/departments/delete', { id: info.value.id });
+    };
+
+    const closeAndRefetch = () => {
+      socketWrapper.emit('admin/departments/getAll');
+      props.window.closeFn();
+    };
+
+    socketWrapper.listen('admin/departments/delete', () => {
+      closeAndRefetch();
+    });
+
+    socketWrapper.listen('admin/departments/edit', () => {
+      closeAndRefetch();
+    });
+
+    socketWrapper.listen('admin/departments/create', () => {
+      closeAndRefetch();
+    });
+
+    // props.window.closeFn();
+
+    return {
+      info, departmentTypeList, groupList, create, save, remove,
+    };
   },
 };
 </script>
