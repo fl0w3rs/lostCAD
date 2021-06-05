@@ -6,14 +6,26 @@ const instance = io('https://lostws.fl0w3rs.dev', { path: '/' });
 instance.initWrapper = () => {
   const wrapper = {};
 
-  wrapper.rId = uuidv4();
+  wrapper.wrapperId = uuidv4();
 
   wrapper.listeners = [];
 
-  wrapper.emit = (evt, data) => instance.emit(evt, { ...data, rId: wrapper.rId });
+  wrapper.emit = (evt, payload, options = {}) => {
+    const requestId = uuidv4();
+
+    instance.emit(evt, { payload, wrapperId: wrapper.wrapperId, requestId });
+
+    if (typeof options?.onReturn === 'function') {
+      instance.once(`return_${requestId}`, (pl) => {
+        options.onReturn(pl.data);
+      });
+    }
+  };
+
   wrapper.listen = (evt, handler, options = {}) => {
-    const callback = (data) => {
-      if (!options.ignoreRID && data.rId !== wrapper.rId) return;
+    const callback = (payload) => {
+      if (!options.ignoreWrapperID && payload.wrapperId !== wrapper.wrapperId) return;
+      const data = payload.wrapperId ? payload.data : payload;
       handler(data);
     };
 

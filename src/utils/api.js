@@ -25,7 +25,6 @@ export const getAvailableDepartments = () => new Promise((resolve) => {
 
 export const getAllGroupNames = () => new Promise((resolve) => {
   const cached = cache.get('allGroupNames');
-  console.log(cached);
 
   if (!cached) {
     const socketWrapper = $socket.initWrapper();

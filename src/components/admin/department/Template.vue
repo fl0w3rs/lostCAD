@@ -1,90 +1,92 @@
 <template>
-  <div class="row">
-    <div class="col-12 col-md-6">
-      <q-input
-        dense
-        dark
-        square
-        outlined
-        v-model="info.name"
-        label="Название"
-      />
+  <div>
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <q-input
+          dense
+          dark
+          square
+          outlined
+          v-model="info.name"
+          label="Название"
+        />
+      </div>
+      <div class="col-12 col-md-6">
+        <q-select
+          dense
+          options-dense
+          dark
+          square
+          outlined
+          v-model="info.type"
+          label="Тип департамента"
+          :options="departmentTypeList"
+        />
+      </div>
+      <div class="col-12">
+        <q-input
+          dense
+          dark
+          square
+          outlined
+          v-model="info.divisions"
+          label="Список дивизий (разделять через |||)"
+          autogrow
+        />
+      </div>
+      <div class="col-12">
+        <q-select
+          dense
+          options-dense
+          dark
+          square
+          outlined
+          v-model="info.groups"
+          emit-value
+          map-options
+          multiple
+          label="Группы с доступом"
+          :options="groupList"
+        />
+      </div>
     </div>
-    <div class="col-12 col-md-6">
-      <q-select
-        dense
-        options-dense
-        dark
-        square
-        outlined
-        v-model="info.type"
-        label="Тип департамента"
-        :options="departmentTypeList"
-      />
-    </div>
-    <div class="col-12">
-      <q-input
-        dense
-        dark
-        square
-        outlined
-        v-model="info.divisions"
-        label="Список дивизий (разделять через |||)"
-        autogrow
-      />
-    </div>
-    <div class="col-12">
-      <q-select
-        dense
-        options-dense
-        dark
-        square
-        outlined
-        v-model="info.groups"
-        emit-value
-        map-options
-        multiple
-        label="Группы с доступом"
-        :options="groupList"
-      />
-    </div>
-  </div>
-
-  <div
-    class="full-width q-mt-sm row justify-center"
-    v-if="type == 'create' || type == 'edit'"
-  >
-    <q-btn
-      v-if="type == 'create'"
-      color="green"
-      outline
-      class="shadow-2"
-      @click="create"
-      icon="fas fa-plus"
-      label="Создать"
-    />
 
     <div
-      class="row q-gutter-sm justify-center"
-      v-if="type == 'edit'"
+      class="full-width q-mt-sm row justify-center"
+      v-if="type == 'create' || type == 'edit'"
     >
       <q-btn
+        v-if="type == 'create'"
         color="green"
         outline
         class="shadow-2"
-        @click="save"
-        icon="fas fa-save"
-        label="Сохранить"
-      />
-      <q-btn
-        color="red"
-        outline
-        class="shadow-2"
-        @click="remove"
-        icon="fas fa-trash-alt"
-        label="Удалить"
+        @click="create"
+        icon="fas fa-plus"
+        label="Создать"
       />
 
+      <div
+        class="row q-gutter-sm justify-center"
+        v-if="type == 'edit'"
+      >
+        <q-btn
+          color="green"
+          outline
+          class="shadow-2"
+          @click="save"
+          icon="fas fa-save"
+          label="Сохранить"
+        />
+        <q-btn
+          color="red"
+          outline
+          class="shadow-2"
+          @click="remove"
+          icon="fas fa-trash-alt"
+          label="Удалить"
+        />
+
+      </div>
     </div>
   </div>
 </template>
@@ -132,36 +134,36 @@ export default {
       return data;
     };
 
-    const create = () => {
-      const data = generateFinalVar();
-      socketWrapper.emit('admin/departments/create', data);
-    };
-
-    const save = () => {
-      const data = generateFinalVar();
-      socketWrapper.emit('admin/departments/edit', data);
-    };
-
-    const remove = () => {
-      socketWrapper.emit('admin/departments/delete', { id: info.value.id });
-    };
-
     const closeAndRefetch = () => {
       socketWrapper.emit('admin/departments/getAll');
       props.window.closeFn();
     };
 
-    socketWrapper.listen('admin/departments/delete', () => {
-      closeAndRefetch();
-    });
+    const create = () => {
+      const data = generateFinalVar();
+      socketWrapper.emit('admin/departments/create', data, {
+        onReturn: (payload) => {
+          if (payload === 'success') closeAndRefetch();
+        },
+      });
+    };
 
-    socketWrapper.listen('admin/departments/edit', () => {
-      closeAndRefetch();
-    });
+    const save = () => {
+      const data = generateFinalVar();
+      socketWrapper.emit('admin/departments/edit', data, {
+        onReturn: (payload) => {
+          if (payload === 'success') closeAndRefetch();
+        },
+      });
+    };
 
-    socketWrapper.listen('admin/departments/create', () => {
-      closeAndRefetch();
-    });
+    const remove = () => {
+      socketWrapper.emit('admin/departments/delete', info.value.id, {
+        onReturn: (payload) => {
+          if (payload === 'success') closeAndRefetch();
+        },
+      });
+    };
 
     // props.window.closeFn();
 

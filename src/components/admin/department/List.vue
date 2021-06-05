@@ -54,8 +54,8 @@ export default {
     });
 
     socketWrapper.listen('admin/departments/getAll', (val) => {
-      departments.value = val.departments;
-    }, { ignoreRID: true });
+      departments.value = val;
+    }, { ignoreWrapperID: true });
 
     const editDepartment = (evt, val) => store.commit('window/add', {
       component: 'admin/department/Template',

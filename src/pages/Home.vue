@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -86,6 +86,10 @@ export default {
 
   setup() {
     const store = useStore();
+
+    onBeforeMount(() => {
+      store.dispatch('user/requestDepartments');
+    });
 
     return {
       isAdmin: computed(() => store.getters['user/isAdmin']),
