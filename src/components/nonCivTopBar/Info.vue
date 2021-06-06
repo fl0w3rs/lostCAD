@@ -27,12 +27,17 @@
       size="sm"
     />
   </div>
-  <!-- <q-input outlined color="white" dark dense label="Игровая зона"></q-input> -->
 </template>
 
 <script>
-export default {
+import $socket from 'src/boot/socketio-instance';
 
+export default {
+  setup() {
+    const socketWrapper = $socket.initWrapper();
+
+    socketWrapper.emit('gameZone/get');
+  },
 };
 </script>
 

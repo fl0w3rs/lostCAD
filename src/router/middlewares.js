@@ -36,7 +36,7 @@ for (let i = 0; i < keys.length; i += 1) {
       return next(false);
     }
 
-    store.dispatch('user/setCurrentDepartment', name);
+    store.commit('user/setCurrentDepartment', name);
 
     return next();
   };
