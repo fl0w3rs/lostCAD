@@ -1,5 +1,5 @@
 <template>
-  <div class="row items-center q-py-xs text-uppercase">
+  <div class="row items-center q-py-xs text-uppercase non-selectable">
     <div class="col-12 col-sm-4">
       <div
         class="clock"

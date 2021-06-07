@@ -1,6 +1,6 @@
 <template>
   <div class="civilian-page full-width text-center">
-    <div class="accent q-pa-md">
+    <div class="accent q-pa-md non-selectable">
       <div class="row q-col-gutter-xs text-uppercase">
         <div class="col-12 col-sm-4 justify-start">
           <q-select

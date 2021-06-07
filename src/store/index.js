@@ -6,6 +6,7 @@ import window from './window';
 import error from './error';
 import characters from './characters';
 import identifier from './identifier';
+import other from './other';
 
 /*
  * If not building with SSR mode, you can
@@ -25,6 +26,7 @@ export default function (/* { ssrContext } */) {
       error,
       characters,
       identifier,
+      other,
     },
 
     // enable strict mode (adds overhead!)
