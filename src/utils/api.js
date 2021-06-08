@@ -41,3 +41,13 @@ export const getAllGroupNames = () => new Promise((resolve) => {
     resolve(cached);
   }
 });
+
+export const getTenCodes = () => new Promise((resolve) => {
+  const socketWrapper = $socket.initWrapper();
+
+  socketWrapper.emit('user/tenCodes/get', null, {
+    onReturn(data) {
+      resolve(JSON.parse(data));
+    },
+  });
+});
