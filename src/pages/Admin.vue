@@ -13,10 +13,10 @@
               label="Редактировать 10-коды"
               @click="
                 $store.commit('window/add', {
-                  component: 'admin/TenCodes',
+                  component: 'TenCodes',
                   title: 'Редактирование 10-кодов',
                   params: { admin: true },
-                  dialogMinWidth: '25vw',
+                  dialogMinWidth: '30vw',
                   dialog: true,
                 })
               "
@@ -27,10 +27,10 @@
               label="Редактировать Penal Code"
               @click="
                 $store.commit('window/add', {
-                  component: 'admin/PenalCode',
+                  component: 'PenalCode',
                   title: 'Редактирование Penal Code',
                   params: { admin: true },
-                  dialogMinWidth: '25vw',
+                  dialogMinWidth: '60vw',
                   dialog: true,
                 })
               "

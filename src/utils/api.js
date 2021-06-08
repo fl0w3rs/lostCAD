@@ -51,3 +51,13 @@ export const getTenCodes = () => new Promise((resolve) => {
     },
   });
 });
+
+export const getPenalCode = () => new Promise((resolve) => {
+  const socketWrapper = $socket.initWrapper();
+
+  socketWrapper.emit('user/penalCode/get', null, {
+    onReturn(data) {
+      resolve(JSON.parse(data));
+    },
+  });
+});
