@@ -7,6 +7,7 @@ import error from './error';
 import characters from './characters';
 import identifier from './identifier';
 import other from './other';
+import unit from './unit';
 
 /*
  * If not building with SSR mode, you can
@@ -27,6 +28,7 @@ export default function (/* { ssrContext } */) {
       characters,
       identifier,
       other,
+      unit,
     },
 
     // enable strict mode (adds overhead!)
