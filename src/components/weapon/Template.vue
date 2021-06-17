@@ -168,7 +168,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Оружие успешно удалено',
-        position: 'top',
       });
       closeWindow();
     });
@@ -177,7 +176,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Оружие успешно отредактировано',
-        position: 'top',
       });
     });
 
@@ -185,7 +183,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Оружие успешно создано',
-        position: 'top',
       });
       closeWindow();
     });

@@ -24,106 +24,110 @@
 
       <draggable
         v-model="codes"
-        tag="tbody"
         item-key="code"
+        tag="transition-group"
       >
         <template #item="{element, index}">
-          <tr>
-            <td>
-              <span>
-                {{ element.code }}
-                <q-popup-edit
-                  v-if="admin"
-                  class="bg-dark"
-                  v-model="element.code"
-                  v-slot="scope"
-                  buttons
-                >
-                  <q-input
-                    dark
-                    color="white"
-                    v-model="scope.value"
-                    dense
-                    autofocus
-                    counter
+          <tbody>
+            <tr class="tc-table-border-bottom">
+              <td>
+                <span>
+                  {{ element.code }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.code"
+                    v-slot="scope"
+                    buttons
                   >
-                    <template v-slot:append>
-                      <q-icon name="edit" />
-                    </template>
-                  </q-input>
-                </q-popup-edit>
-              </span>
-            </td>
-            <td class="text-center">
-              <span>
-                {{ element.desc }}
-                <q-popup-edit
-                  v-if="admin"
-                  class="bg-dark"
-                  v-model="element.desc"
-                  v-slot="scope"
-                  buttons
-                >
-                  <q-input
-                    dark
-                    color="white"
-                    v-model="scope.value"
-                    dense
-                    autofocus
+                    <q-input
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      autofocus
+                      counter
+                    >
+                      <template v-slot:append>
+                        <q-icon name="edit" />
+                      </template>
+                    </q-input>
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td class="text-center">
+                <span>
+                  {{ element.desc }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.desc"
+                    v-slot="scope"
+                    buttons
                   >
-                    <template v-slot:append>
-                      <q-icon name="edit" />
-                    </template>
-                  </q-input>
-                </q-popup-edit>
-              </span>
-            </td>
-            <td v-if="admin">
-              <q-btn
-                color="red"
-                size="sm"
-                label="Удалить"
-                outline
-                @click="remove(index)"
-              />
-            </td>
-          </tr>
+                    <q-input
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      autofocus
+                    >
+                      <template v-slot:append>
+                        <q-icon name="edit" />
+                      </template>
+                    </q-input>
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td v-if="admin">
+                <q-btn
+                  color="red"
+                  size="sm"
+                  label="Удалить"
+                  outline
+                  @click="remove(index)"
+                />
+              </td>
+            </tr>
+          </tbody>
         </template>
         <template
           v-if="admin"
           #footer
         >
-          <tr>
-            <td>
-              <q-input
-                dark
-                color="white"
-                v-model="newCode.code"
-                dense
-                outlined
-                label="Код"
-              />
-            </td>
-            <td>
-              <q-input
-                dark
-                color="white"
-                v-model="newCode.desc"
-                dense
-                outlined
-                label="Описание"
-              />
-            </td>
-            <td>
-              <q-btn
-                color="blue"
-                outline
-                label="Создать"
-                size="sm"
-                @click="create"
-              />
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>
+                <q-input
+                  dark
+                  color="white"
+                  v-model="newCode.code"
+                  dense
+                  outlined
+                  label="Код"
+                />
+              </td>
+              <td>
+                <q-input
+                  dark
+                  color="white"
+                  v-model="newCode.desc"
+                  dense
+                  outlined
+                  label="Описание"
+                />
+              </td>
+              <td>
+                <q-btn
+                  color="blue"
+                  outline
+                  label="Создать"
+                  size="sm"
+                  @click="create"
+                />
+              </td>
+            </tr>
+          </tbody>
         </template>
       </draggable>
     </q-markup-table>
@@ -145,6 +149,16 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+td {
+  border: 0 !important;
+}
+
+.tc-table-border-bottom > td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
+}
+</style>
 
 <script>
 import {
@@ -185,7 +199,6 @@ export default {
             $q.notify({
               type: 'positive',
               message: '10-коды успешно отредактированы',
-              position: 'top',
             });
             props.window.closeFn();
           }

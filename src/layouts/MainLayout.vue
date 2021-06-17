@@ -6,14 +6,14 @@
     style="min-height: 100vh"
   >
 
-    <q-footer
+    <q-header
       elevated
       style="background-color: #0b0b0b;"
     >
       <q-toolbar>
-        <div class="col-6 text-left q-pl-md">
+        <div class="col-3 text-left q-pl-md">
 
-          <q-avatar square>
+          <!-- <q-avatar square>
             <router-link to="/home">
               <img
                 class="cursor-pointer"
@@ -21,33 +21,40 @@
                 v-if="isAuthenticated"
               >
             </router-link>
-          </q-avatar>
-          <!-- <q-btn
+          </!-->
+          <q-btn
             flat
             round
             dense
             icon="home"
             v-if="isAuthenticated"
             to="/home"
-          /> -->
+          />
         </div>
 
-        <!-- <div class="col-6">
+        <div class="col-6">
           <q-toolbar-title class="text-center">LOST CAD</q-toolbar-title>
-        </div> -->
+        </div>
 
         <div
-          class="col-6 text-right q-pr-md"
+          class="col-3 text-right q-pr-md"
           v-if="username !== null"
         >
           {{ username }}
         </div>
       </q-toolbar>
-    </q-footer>
+    </q-header>
 
     <q-page-container>
       <q-page class="row">
-        <router-view></router-view>
+        <router-view v-slot="{ Component }">
+          <transition
+            name="scale"
+            mode="out-in"
+          >
+            <component :is="Component" />
+          </transition>
+        </router-view>
         <WindowComponent
           v-for="window in windowList"
           v-bind:key="window.id"
@@ -58,6 +65,19 @@
 
   </q-layout>
 </template>
+
+<style>
+.scale-enter-active,
+.scale-leave-active {
+  transition: all 0.5s ease;
+}
+
+.scale-enter-from,
+.scale-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+</style>
 
 <script>
 import { computed } from 'vue';

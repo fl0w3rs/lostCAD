@@ -522,7 +522,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Персонаж успешно создан.',
-        position: 'top',
       });
       store.commit('window/close', props.window.id);
     });
@@ -533,7 +532,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Персонаж успешно отредактирован.',
-        position: 'top',
       });
       store.commit('window/close', props.window.id);
     });
@@ -544,7 +542,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Персонаж успешно удалён.',
-        position: 'top',
       });
       store.commit('characters/updateSelected', null);
       store.commit('window/close', props.window.id);

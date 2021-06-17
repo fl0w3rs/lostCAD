@@ -347,7 +347,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Т/С успешно удалено',
-        position: 'top',
       });
       closeWindow();
     });
@@ -356,7 +355,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Т/С успешно отредактировано',
-        position: 'top',
       });
     });
 
@@ -364,7 +362,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Т/С успешно создано',
-        position: 'top',
       });
       closeWindow();
     });

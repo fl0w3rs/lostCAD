@@ -24,13 +24,13 @@
           color="gray"
           size="sm"
           @click="
-          $store.commit('window/add', {
-            component: 'TenCodes',
-            title: 'Просмотр 10-кодов',
-            dialogMinWidth: '30vw',
-            dialog: true,
-          })
-        "
+            $store.commit('window/add', {
+              component: 'TenCodes',
+              title: 'Просмотр 10-кодов',
+              dialogMinWidth: '30vw',
+              dialog: true,
+            })
+          "
         />
         <q-btn
           label="PENAL CODE"
@@ -38,13 +38,19 @@
           color="gray"
           size="sm"
           @click="
-          $store.commit('window/add', {
-            component: 'PenalCode',
-            title: 'Просмотр Penal Code',
-            dialogMinWidth: '60vw',
-            dialog: true,
-          })
-        "
+            $store.commit('window/add', {
+              component: 'PenalCode',
+              title: 'Просмотр Penal Code',
+              dialogMinWidth: '60vw',
+              dialog: true,
+            })
+          "
+        />
+        <q-btn
+          label="BOLO"
+          outline
+          color="gray"
+          size="sm"
         />
       </div>
     </div>

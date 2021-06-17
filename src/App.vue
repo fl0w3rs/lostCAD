@@ -25,14 +25,12 @@ export default {
       this.$q.notify({
         type: 'negative',
         message,
-        position: 'top',
       });
     },
     errorNotifyUnescaped(message) {
       this.$q.notify({
         type: 'negative',
         message,
-        position: 'top',
         html: true,
       });
     },
@@ -40,14 +38,12 @@ export default {
       this.$q.notify({
         type: 'positive',
         message,
-        position: 'top',
       });
     },
     successNotifyUnescaped(message) {
       this.$q.notify({
         type: 'positive',
         message,
-        position: 'top',
         html: true,
       });
     },

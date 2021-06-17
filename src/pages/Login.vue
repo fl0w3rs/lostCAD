@@ -43,7 +43,6 @@ export default {
         this.$q.notify({
           type: 'positive',
           message: 'Успешная авторизация!',
-          position: 'top',
         });
       } else {
         this.$store.dispatch('error/show', 'У Вас нет доступа');

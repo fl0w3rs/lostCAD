@@ -140,7 +140,6 @@ export default {
       $q.notify({
         type: 'positive',
         message: 'Идентификатор успешно отредактирован',
-        position: 'top',
       });
     },
   },

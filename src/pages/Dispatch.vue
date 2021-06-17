@@ -44,6 +44,12 @@
           })
         "
       />
+      <q-btn
+        label="BOLO"
+        outline
+        color="gray"
+        size="sm"
+      />
     </div>
 
   </div>

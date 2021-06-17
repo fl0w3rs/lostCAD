@@ -23,149 +23,200 @@
           <th class="text-center">Тип наказания</th>
           <th class="text-center">Сумма штрафа</th>
           <th class="text-center">Время заключения</th>
-          <th v-if="admin"></th>
+          <th></th>
         </tr>
       </thead>
 
       <draggable
         v-model="penalCode"
-        tag="tbody"
         item-key="article"
+        tag="transition-group"
       >
         <template #item="{element, index}">
-          <tr>
-            <td>
-              <span>
-                {{ element.article }}
-                <q-popup-edit
-                  v-if="admin"
-                  class="bg-dark"
-                  v-model="element.article"
-                  v-slot="scope"
-                  buttons
-                >
-                  <q-input
-                    dark
-                    color="white"
-                    v-model="scope.value"
-                    dense
-                    autofocus
-                    counter
+          <tbody>
+            <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
+              <td>
+                <span>
+                  {{ element.article }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.article"
+                    v-slot="scope"
+                    buttons
                   >
-                    <template v-slot:append>
-                      <q-icon name="edit" />
-                    </template>
-                  </q-input>
-                </q-popup-edit>
-              </span>
-            </td>
-            <td class="text-center">
-              <span>
-                {{ element.title }}
-                <q-popup-edit
-                  v-if="admin"
-                  class="bg-dark"
-                  v-model="element.title"
-                  v-slot="scope"
-                  buttons
-                >
-                  <q-input
-                    dark
-                    color="white"
-                    v-model="scope.value"
-                    dense
-                    autofocus
+                    <q-input
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      autofocus
+                      counter
+                    >
+                      <template v-slot:append>
+                        <q-icon name="edit" />
+                      </template>
+                    </q-input>
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td class="text-center">
+                <span>
+                  {{ element.title }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.title"
+                    v-slot="scope"
+                    buttons
                   >
-                    <template v-slot:append>
-                      <q-icon name="edit" />
-                    </template>
-                  </q-input>
-                </q-popup-edit>
-              </span>
-            </td>
-            <td class="text-center">
-              <span>
-                {{ element.chargeType }}
-                <q-popup-edit
-                  v-if="admin"
-                  class="bg-dark"
-                  v-model="element.chargeType"
-                  v-slot="scope"
-                  buttons
-                >
-                  <q-select
-                    dark
-                    color="white"
-                    v-model="scope.value"
-                    dense
-                    autofocus
-                    :options="chargeTypeList"
-                  />
-                </q-popup-edit>
-              </span>
-            </td>
-            <td class="text-center">
-              <span>
-                {{ element.punishmentType }}
-                <q-popup-edit
-                  v-if="admin"
-                  class="bg-dark"
-                  v-model="element.punishmentType"
-                  v-slot="scope"
-                  buttons
-                >
-                  <q-select
-                    dark
-                    color="white"
-                    v-model="scope.value"
-                    dense
-                    :options="punishmentTypeList"
-                    autofocus
-                  />
-                </q-popup-edit>
-              </span>
-            </td>
-            <td class="text-center">
-              <span>
-                {{
-                  element.ticketAmount
-                    ? `$${element.ticketAmount}`
-                    : 'Не установлено'
-                }}
-                <q-popup-edit
-                  v-if="admin"
-                  class="bg-dark"
-                  v-model="element.ticketAmount"
-                  v-slot="scope"
-                  buttons
-                >
-                  <q-input
-                    dark
-                    color="white"
-                    v-model="scope.value"
-                    dense
-                    autofocus
-                    type="number"
-                    prefix="$"
+                    <q-input
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      autofocus
+                    >
+                      <template v-slot:append>
+                        <q-icon name="edit" />
+                      </template>
+                    </q-input>
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td class="text-center">
+                <span>
+                  {{ element.chargeType }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.chargeType"
+                    v-slot="scope"
+                    buttons
                   >
-                    <template v-slot:append>
-                      <q-icon name="edit" />
-                    </template>
-                  </q-input>
-                </q-popup-edit>
-              </span>
-            </td>
-            <td class="text-center">
-              <span>
-                {{
+                    <q-select
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      autofocus
+                      :options="chargeTypeList"
+                    />
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td class="text-center">
+                <span>
+                  {{ element.punishmentType }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.punishmentType"
+                    v-slot="scope"
+                    buttons
+                  >
+                    <q-select
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      :options="punishmentTypeList"
+                      autofocus
+                    />
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td class="text-center">
+                <span>
+                  {{
+                    element.ticketAmount
+                      ? `$${element.ticketAmount}`
+                      : 'Не установлено'
+                  }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.ticketAmount"
+                    v-slot="scope"
+                    buttons
+                  >
+                    <q-input
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      autofocus
+                      type="number"
+                      prefix="$"
+                    >
+                      <template v-slot:append>
+                        <q-icon name="edit" />
+                      </template>
+                    </q-input>
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td class="text-center">
+                <span>
+                  {{
                   element.imprisonmentTime
                     ? element.imprisonmentTime
                     : 'Не установлено'
                 }}
+                  <q-popup-edit
+                    v-if="admin"
+                    class="bg-dark"
+                    v-model="element.imprisonmentTime"
+                    v-slot="scope"
+                    buttons
+                  >
+                    <q-input
+                      dark
+                      color="white"
+                      v-model="scope.value"
+                      dense
+                      autofocus
+                    >
+                      <template v-slot:append>
+                        <q-icon name="edit" />
+                      </template>
+                    </q-input>
+                  </q-popup-edit>
+                </span>
+              </td>
+              <td class="q-gutter-xs text-right">
+                <q-btn
+                  dense
+                  round
+                  flat
+                  :icon="expands[index] ? 'arrow_drop_up' : 'arrow_drop_down'"
+                  @click="expands[index] = !expands[index]"
+                />
+                <q-btn
+                  v-if="admin"
+                  padding="xs"
+                  color="red"
+                  size="sm"
+                  icon="fa fa-trash"
+                  outline
+                  @click="remove(index)"
+                />
+              </td>
+            </tr>
+            <tr
+              v-if="expands[index]"
+              :class="expands[index] ? 'pc-table-border-bottom' : ''"
+            >
+              <td
+                colspan="7"
+                style="padding-top: 0!important;"
+              >
+                <p class="text-bold text-h6">Описание</p>
+                <p>{{ element.desc || 'Не установлено' }}</p>
                 <q-popup-edit
                   v-if="admin"
                   class="bg-dark"
-                  v-model="element.imprisonmentTime"
+                  v-model="element.desc"
                   v-slot="scope"
                   buttons
                 >
@@ -175,104 +226,122 @@
                     v-model="scope.value"
                     dense
                     autofocus
+                    autogrow
                   >
                     <template v-slot:append>
                       <q-icon name="edit" />
                     </template>
                   </q-input>
                 </q-popup-edit>
-              </span>
-            </td>
-            <td v-if="admin">
-              <q-btn
-                color="red"
-                size="sm"
-                label="Удалить"
-                outline
-                @click="remove(index)"
-              />
-            </td>
-          </tr>
+              </td>
+            </tr>
+          </tbody>
         </template>
         <template
           v-if="admin"
           #footer
         >
-          <tr>
-            <td>
-              <q-input
-                dark
-                color="white"
-                v-model="newArticle.article"
-                dense
-                outlined
-                label="Статья"
-              />
-            </td>
-            <td>
-              <q-input
-                dark
-                color="white"
-                v-model="newArticle.title"
-                dense
-                outlined
-                label="Заголовок"
-              />
-            </td>
-            <td>
-              <q-select
-                dark
-                color="white"
-                v-model="newArticle.chargeType"
-                dense
-                outlined
-                :options="chargeTypeList"
-                label="Тип обвинения"
-              />
-            </td>
-            <td>
-              <q-select
-                dark
-                color="white"
-                v-model="newArticle.punishmentType"
-                dense
-                outlined
-                :options="punishmentTypeList"
-                label="Тип наказания"
-              />
-            </td>
-            <td>
-              <q-input
-                dark
-                color="white"
-                v-model="newArticle.ticketAmount"
-                dense
-                outlined
-                label="Сумма штрафа"
-                type="number"
-                prefix="$"
-              />
-            </td>
-            <td>
-              <q-input
-                dark
-                color="white"
-                v-model="newArticle.imprisonmentTime"
-                dense
-                outlined
-                label="Время заключения"
-              />
-            </td>
-            <td>
-              <q-btn
-                color="blue"
-                outline
-                label="Создать"
-                size="sm"
-                @click="create"
-              />
-            </td>
-          </tr>
+          <tbody>
+            <tr>
+              <td>
+                <q-input
+                  dark
+                  color="white"
+                  v-model="newArticle.article"
+                  dense
+                  outlined
+                  label="Статья"
+                />
+              </td>
+              <td>
+                <q-input
+                  dark
+                  color="white"
+                  v-model="newArticle.title"
+                  dense
+                  outlined
+                  label="Заголовок"
+                />
+              </td>
+              <td>
+                <q-select
+                  dark
+                  color="white"
+                  v-model="newArticle.chargeType"
+                  dense
+                  outlined
+                  :options="chargeTypeList"
+                  label="Тип обвинения"
+                />
+              </td>
+              <td>
+                <q-select
+                  dark
+                  color="white"
+                  v-model="newArticle.punishmentType"
+                  dense
+                  outlined
+                  :options="punishmentTypeList"
+                  label="Тип наказания"
+                />
+              </td>
+              <td>
+                <q-input
+                  dark
+                  color="white"
+                  v-model="newArticle.ticketAmount"
+                  dense
+                  outlined
+                  label="Сумма штрафа"
+                  type="number"
+                  prefix="$"
+                />
+              </td>
+              <td>
+                <q-input
+                  dark
+                  color="white"
+                  v-model="newArticle.imprisonmentTime"
+                  dense
+                  outlined
+                  label="Время заключения"
+                />
+              </td>
+              <td
+                class="q-gutter-xs text-right"
+                rowspan="2"
+              >
+                <q-btn
+                  color="blue"
+                  padding="xs"
+                  outline
+                  icon="fas fa-plus"
+                  size="sm"
+                  @click="create"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="6">
+                <div class="row">
+                  <div class="col-12">
+                    <q-input
+                      class="full-width"
+                      dark
+                      color="white"
+                      v-model="newArticle.desc"
+                      dense
+                      outlined
+                      label="Описание"
+                      autogrow
+                    />
+
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
         </template>
       </draggable>
     </q-markup-table>
@@ -294,6 +363,16 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+td {
+  border: 0 !important;
+}
+
+.pc-table-border-bottom > td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
+}
+</style>
 
 <script>
 import {
@@ -326,6 +405,7 @@ export default {
       punishmentType: '',
       ticketAmount: '',
       imprisonmentTime: '',
+      desc: '',
     };
     const newArticle = reactive({ ...initialArticle });
 
@@ -340,7 +420,6 @@ export default {
             $q.notify({
               type: 'positive',
               message: 'Penal Code успешно отредактирован',
-              position: 'top',
             });
             props.window.closeFn();
           }
@@ -374,6 +453,8 @@ export default {
       create,
       punishmentTypeList,
       chargeTypeList,
+
+      expands: ref({}),
     };
   },
 };

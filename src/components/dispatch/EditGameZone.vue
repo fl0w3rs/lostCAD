@@ -49,7 +49,6 @@ export default {
           $q.notify({
             type: 'positive',
             message: 'Игровая зона успешно изменена',
-            position: 'top',
           });
 
           props.window.closeFn();

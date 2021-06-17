@@ -5,7 +5,6 @@ export function authError({ commit }, message) {
   Notify.create({
     type: 'negative',
     message,
-    position: 'top',
   });
 
   commit('authError');

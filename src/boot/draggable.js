@@ -2,6 +2,8 @@ import Vue3DraggableResizable from 'vue3-draggable-resizable';
 
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
 
-export default async ({ app }) => {
+import { boot } from 'quasar/wrappers';
+
+export default boot(async ({ app }) => {
   app.use(Vue3DraggableResizable);
-};
+});
