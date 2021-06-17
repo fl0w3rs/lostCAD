@@ -1,7 +1,7 @@
 <template>
   <div class="home-page column items-center justify-center full-width">
     <q-img
-      :src="require('../assets/logo.png')"
+      :src="require('src/assets/logo.png')"
       style="max-height: 200px; max-width: 500px;"
     />
     <div class="q-mx-md q-mt-md full-width row justify-center">

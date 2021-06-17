@@ -87,8 +87,8 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
-      port: 4000,
-      public: 'https://4000-cs-712998890491-default.cs-europe-west4-szqw.cloudshell.dev',
+      port: 9110,
+      // public: 'https://4000-cs-712998890491-default.cs-europe-west4-szqw.cloudshell.dev',
       open: true, // opens browser window automatically
     },
 
