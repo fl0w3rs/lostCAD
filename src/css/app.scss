@@ -52,3 +52,6 @@ p {
   color: #fff;
   text-shadow: 0 0 20px #0aafe6, 0 0 20px rgb(10 175 230 / 0%);
 }
+.tableNoHoverEffect > table > tbody > tr > td:before{
+    background: rgba(0,0,0,0) !important;
+}

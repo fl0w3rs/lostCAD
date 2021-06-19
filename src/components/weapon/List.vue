@@ -8,7 +8,6 @@
       :rows="weaponList"
       :columns="columns"
       row-key="id"
-      dark
       class="shadow-0 bg-grey-10 accentBorder section"
       @row-click="onClickRow"
     />

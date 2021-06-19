@@ -41,7 +41,6 @@
           <div class="col-4">
             <q-input
               dense
-              dark
               outlined
               v-model="ncic.first"
               label="Имя"
@@ -51,7 +50,6 @@
           <div class="col-4">
             <q-input
               dense
-              dark
               outlined
               v-model="ncic.last"
               label="Фамилия"
@@ -61,7 +59,6 @@
           <div class="col-4">
             <q-input
               dense
-              dark
               outlined
               v-model="ncic.dob"
               label="Дата рождения"
@@ -84,7 +81,6 @@
 
         <q-separator
           class="q-my-sm"
-          dark
         />
 
         <div class="text-left sectionTitle">СПИСОК ПЕРСОНАЖЕЙ</div>
@@ -94,7 +90,6 @@
             :rows="ncicResults"
             :columns="ncicColumns"
             row-key="id"
-            dark
             class="shadow-0 bg-grey-10 accentBorder full-width"
             @row-click="onNcicRowClick"
           />
@@ -106,7 +101,6 @@
           <div class="col-6">
             <q-input
               dense
-              dark
               outlined
               v-model="dmv.numberplate"
               label="Номера"
@@ -116,7 +110,6 @@
           <div class="col-6">
             <q-input
               dense
-              dark
               outlined
               v-model="dmv.vin"
               label="VIN"
@@ -137,7 +130,6 @@
 
         <q-separator
           class="q-my-sm"
-          dark
         />
 
         <VehicleList
@@ -151,7 +143,6 @@
           <div class="col-12">
             <q-input
               dense
-              dark
               outlined
               v-model="fld.serial"
               label="Серийный номер"
@@ -172,7 +163,6 @@
 
         <q-separator
           class="q-my-sm"
-          dark
         />
 
         <WeaponList

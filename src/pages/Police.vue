@@ -60,7 +60,7 @@
 
 <script>
 import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
-import UnitStatus from 'components/UnitStatus.vue';
+import UnitStatus from 'src/components/unit/Status.vue';
 
 export default {
   name: 'PolicePage',

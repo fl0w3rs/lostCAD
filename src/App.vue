@@ -9,8 +9,17 @@ body {
 </style>
 
 <script>
+import { useQuasar } from 'quasar';
+
 export default {
   name: 'App',
+
+  setup() {
+    const $q = useQuasar();
+    $q.dark.set(true);
+
+    return {};
+  },
 
   sockets: {
     connect() {

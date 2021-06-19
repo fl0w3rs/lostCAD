@@ -6,7 +6,6 @@
           <q-select
             dense
             options-dense
-            dark
             outlined
             v-model="selectedCharacter"
             :options="characterListOptions"
@@ -92,7 +91,6 @@
         >
           <q-list
             dense
-            dark
             bordered
             separator
             class="bg-grey-10"
@@ -161,7 +159,6 @@
       </div>
       <q-separator
         class="q-mt-md"
-        dark
         v-if="selectedCharacter !== null"
       />
       <div v-if="selectedCharacter !== null">

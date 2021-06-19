@@ -4,7 +4,6 @@
       <div class="col-12 col-md-6">
         <q-input
           dense
-          dark
           square
           outlined
           v-model="info.name"
@@ -15,7 +14,6 @@
         <q-select
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.type"
@@ -26,7 +24,6 @@
       <div class="col-12">
         <q-input
           dense
-          dark
           square
           outlined
           v-model="info.divisions"
@@ -38,7 +35,6 @@
         <q-select
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.groups"

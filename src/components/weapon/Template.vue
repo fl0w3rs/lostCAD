@@ -1,28 +1,5 @@
 <template>
   <div class="text-uppercase">
-    <!-- <div class="text-left sectionTitle">РЕГИСТРАЦИОННАЯ ИНФОРМАЦИЯ</div>
-    <div class="section rounded-borders row justify-center">
-      <div class="col-6 col-md-4">
-        <q-select
-          :disable="disabled" dense options-dense
-          dark square outlined v-model="info.regStatus" label="Статус регистрации"
-          :options="vehicleRegStatusList"
-        />
-      </div>
-      <div class="col-6 col-md-4">
-        <q-input
-          :disable="disabled" dense dark square type="date" stack-label
-          outlined v-model="info.dor" label="Дата регистрации"
-        />
-      </div>
-      <div class="col-12 col-md-4">
-        <q-select
-          :disable="disabled" dense options-dense
-          dark square outlined v-model="info.insStatus" label="Статус страховки"
-          :options="vehicleInsStatusList"
-        />
-      </div>
-    </div> -->
     <div class="text-left sectionTitle">ИНФОРМАЦИЯ ОБ ОРУЖИИ</div>
     <div class="section rounded-borders row justify-center">
       <div class="col-6">
@@ -30,7 +7,6 @@
           :disable="disabled"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.regStatus"
@@ -43,7 +19,6 @@
           :disable="true"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.serial"
@@ -55,7 +30,6 @@
           :disable="disabled"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.model"

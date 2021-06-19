@@ -5,7 +5,6 @@
         <q-select
           dense
           options-dense
-          dark
           outlined
           v-model="callData.caller"
           label="Звонивший"
@@ -21,7 +20,6 @@
         <q-select
           dense
           options-dense
-          dark
           outlined
           v-model="callData.location"
           label="Местоположение"
@@ -41,7 +39,6 @@
         <q-input
           dense
           type="number"
-          dark
           outlined
           v-model="callData.block"
           label="Блок"
@@ -50,7 +47,6 @@
       <div class="col-12 q-mt-xs">
         <q-input
           dense
-          dark
           outlined
           v-model="callData.description"
           label="Описание"

@@ -8,7 +8,6 @@
     </div>
     <q-separator
       vertical
-      dark
     ></q-separator>
     <q-icon
       name="o_volume_up"

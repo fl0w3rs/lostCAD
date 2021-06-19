@@ -6,13 +6,13 @@
     >
       <small>
         Элементы можно перемещать зажатием.<br />
-        Для редактирования значения нажмите на необходимую ячейку.
+        Для редактирования значения нажмите на необходимую ячейку.<br />
+        Не используйте одинаковые коды.
       </small>
     </div>
 
     <q-markup-table
-      class="col-12 shadow-0"
-      dark
+      class="col-12 shadow-0 tableNoHoverEffect"
     >
       <thead>
         <tr>
@@ -41,7 +41,6 @@
                     buttons
                   >
                     <q-input
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -66,7 +65,6 @@
                     buttons
                   >
                     <q-input
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -99,7 +97,6 @@
             <tr>
               <td>
                 <q-input
-                  dark
                   color="white"
                   v-model="newCode.code"
                   dense
@@ -109,7 +106,6 @@
               </td>
               <td>
                 <q-input
-                  dark
                   color="white"
                   v-model="newCode.desc"
                   dense
@@ -133,7 +129,6 @@
     </q-markup-table>
     <q-separator
       v-if="admin"
-      dark
       class="q-my-sm"
     />
     <div

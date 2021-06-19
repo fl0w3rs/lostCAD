@@ -7,7 +7,6 @@
           :disable="disabled"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.regStatus"
@@ -19,7 +18,6 @@
         <q-input
           :disable="disabled"
           dense
-          dark
           square
           type="date"
           stack-label
@@ -33,7 +31,6 @@
           :disable="disabled"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.insStatus"
@@ -49,7 +46,6 @@
           :disable="disabled"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.type"
@@ -62,7 +58,6 @@
           :disable="disabled"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.color"
@@ -76,7 +71,6 @@
           dense
           options-dense
           @filter="markFilterFn"
-          dark
           square
           outlined
           v-model="info.mark"
@@ -102,7 +96,6 @@
           :disable="disabled"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.model"
@@ -120,7 +113,6 @@
         <q-input
           :disable="disabled"
           dense
-          dark
           square
           outlined
           v-model="info.numberplate"
@@ -142,7 +134,6 @@
         <q-input
           :disable="true"
           dense
-          dark
           square
           outlined
           v-model="info.vin"

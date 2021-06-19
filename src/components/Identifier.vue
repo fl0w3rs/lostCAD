@@ -8,7 +8,6 @@
             :rows="allIdentifiers"
             :columns="columns"
             row-key="id"
-            dark
             class="shadow-0 bg-grey-10 accentBorder"
             @row-click="onSelectIdentifier"
           />
@@ -32,7 +31,6 @@
         <div class="col-6">
           <q-input
             dense
-            dark
             v-model="currentIdentifier.name"
             label="Имя и Фамилия"
           />
@@ -40,7 +38,6 @@
         <div class="col-6">
           <q-input
             dense
-            dark
             v-model="currentIdentifier.callsign"
             label="Позывной"
           />
@@ -49,7 +46,6 @@
           <q-select
             dense
             options-dense
-            dark
             v-model="currentIdentifier.department"
             label="Департамент"
             :options="departments"
@@ -59,7 +55,6 @@
           <q-select
             dense
             options-dense
-            dark
             v-model="currentIdentifier.division"
             label="Дивизия"
             :options="divisions"
@@ -69,7 +64,6 @@
           <q-select
             dense
             options-dense
-            dark
             v-model="currentIdentifier.rank"
             label="Звание"
             :options="identifierRankList"

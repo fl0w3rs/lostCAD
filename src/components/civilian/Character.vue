@@ -11,7 +11,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.image"
@@ -25,7 +24,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.name"
@@ -36,7 +34,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.surname"
@@ -49,7 +46,6 @@
           type="date"
           stack-label
           dense
-          dark
           square
           outlined
           v-model="info.dob"
@@ -60,7 +56,6 @@
         <q-input
           :disable="true"
           dense
-          dark
           square
           outlined
           v-model="age"
@@ -72,7 +67,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.sex"
@@ -85,7 +79,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.height"
@@ -96,7 +89,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.weight"
@@ -108,7 +100,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.race"
@@ -121,7 +112,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.eyeColor"
@@ -134,7 +124,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.hairColor"
@@ -147,7 +136,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.placeOfWork"
@@ -159,7 +147,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.residenceAddress"
@@ -181,7 +168,6 @@
           :disable="disable"
           type="number"
           dense
-          dark
           square
           outlined
           v-model.number="info.blockNumber"
@@ -192,7 +178,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.description"
@@ -208,7 +193,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.gunLicense"
@@ -221,7 +205,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.hiddenGunLicense"
@@ -234,7 +217,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.driverLicense"
@@ -247,7 +229,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.pilotLicense"
@@ -260,7 +241,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.boatLicense"
@@ -277,7 +257,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.bloodType"
@@ -291,7 +270,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.rhesusFactor"
@@ -305,7 +283,6 @@
           :disable="disable"
           dense
           options-dense
-          dark
           square
           outlined
           v-model="info.invalidity"
@@ -318,7 +295,6 @@
         <q-input
           :disable="disable"
           dense
-          dark
           square
           outlined
           v-model="info.chronicDiseases"

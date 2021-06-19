@@ -7,13 +7,13 @@
       <small>
         Элементы можно перемещать зажатием.<br />
         Для редактирования значения нажмите на необходимую ячейку.<br />
-        Если штраф и/или время заключения не предусмотрено — оставьте ячейку пустой.
+        Если штраф и/или время заключения не предусмотрено — оставьте ячейку пустой.<br />
+        Не используйте одинаковые названия статей.
       </small>
     </div>
 
     <q-markup-table
-      class="col-12 shadow-0"
-      dark
+      class="col-12 shadow-0 tableNoHoverEffect"
     >
       <thead>
         <tr>
@@ -46,7 +46,6 @@
                     buttons
                   >
                     <q-input
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -71,7 +70,6 @@
                     buttons
                   >
                     <q-input
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -95,7 +93,6 @@
                     buttons
                   >
                     <q-select
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -116,7 +113,6 @@
                     buttons
                   >
                     <q-select
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -141,7 +137,6 @@
                     buttons
                   >
                     <q-input
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -171,7 +166,6 @@
                     buttons
                   >
                     <q-input
-                      dark
                       color="white"
                       v-model="scope.value"
                       dense
@@ -221,7 +215,6 @@
                   buttons
                 >
                   <q-input
-                    dark
                     color="white"
                     v-model="scope.value"
                     dense
@@ -245,7 +238,6 @@
             <tr>
               <td>
                 <q-input
-                  dark
                   color="white"
                   v-model="newArticle.article"
                   dense
@@ -255,7 +247,6 @@
               </td>
               <td>
                 <q-input
-                  dark
                   color="white"
                   v-model="newArticle.title"
                   dense
@@ -265,7 +256,6 @@
               </td>
               <td>
                 <q-select
-                  dark
                   color="white"
                   v-model="newArticle.chargeType"
                   dense
@@ -276,7 +266,6 @@
               </td>
               <td>
                 <q-select
-                  dark
                   color="white"
                   v-model="newArticle.punishmentType"
                   dense
@@ -287,7 +276,6 @@
               </td>
               <td>
                 <q-input
-                  dark
                   color="white"
                   v-model="newArticle.ticketAmount"
                   dense
@@ -299,7 +287,6 @@
               </td>
               <td>
                 <q-input
-                  dark
                   color="white"
                   v-model="newArticle.imprisonmentTime"
                   dense
@@ -328,7 +315,6 @@
                   <div class="col-12">
                     <q-input
                       class="full-width"
-                      dark
                       color="white"
                       v-model="newArticle.desc"
                       dense
@@ -347,7 +333,6 @@
     </q-markup-table>
     <q-separator
       v-if="admin"
-      dark
       class="q-my-sm"
     />
     <div

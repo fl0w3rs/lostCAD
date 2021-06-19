@@ -4,7 +4,6 @@
       :rows="departments"
       :columns="columns"
       row-key="id"
-      dark
       color="amber"
       @row-click="editDepartment"
     >

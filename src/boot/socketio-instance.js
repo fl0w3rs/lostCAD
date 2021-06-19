@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 
-const instance = io('https://lostws.fl0w3rs.dev', { path: '/' });
+const instance = io('https://lostapi.fl0w3rs.dev', { path: '/socket' });
 
 instance.initWrapper = () => {
   const wrapper = {};

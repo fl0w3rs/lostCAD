@@ -3,7 +3,6 @@
     <div class="col-12">
       <q-input
         dense
-        dark
         square
         outlined
         v-model="gameZone"
