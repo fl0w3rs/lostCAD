@@ -1,5 +1,8 @@
 <template>
-  <div class="login-page column items-center justify-center full-width">
+  <div
+    class="login-page column items-center justify-center full-width"
+    style="min-height: inherit;"
+  >
     <q-img
       :src="require('../assets/logo.png')"
       style="max-height: 200px; max-width: 500px;"

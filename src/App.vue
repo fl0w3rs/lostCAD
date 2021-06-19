@@ -3,9 +3,9 @@
 </template>
 
 <style lang="scss">
-body {
-  background-color: #121212;
-}
+// body {
+//   background-color: #121212;
+// }
 </style>
 
 <script>

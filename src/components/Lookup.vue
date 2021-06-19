@@ -2,7 +2,7 @@
   <div class="text-uppercase">
     <q-tabs
       v-model="tab"
-      class="bg-teal-9 text-white shadow-2 rounded-borders"
+      class="bg-teal-9 shadow-2 rounded-borders"
       dense
       no-caps
       inline-label

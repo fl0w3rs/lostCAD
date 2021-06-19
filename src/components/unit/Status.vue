@@ -2,8 +2,8 @@
   <div class="row justify-center">
     <div class="relative-position">
       <div
-        class="absolute-center z-top full-width full-height row justify-center"
-        style="backdrop-filter: blur(2px)"
+        class="absolute-center full-width full-height row justify-center"
+        style="backdrop-filter: blur(2px); z-index: 1;"
       >
         <div class="text-bold column justify-center">
           <div class="column">

@@ -1,7 +1,6 @@
 <template>
   <q-layout
     iew="lHh Lpr lFf"
-    class="text-white"
     container
     style="min-height: 100vh"
   >
@@ -46,7 +45,10 @@
     </q-header>
 
     <q-page-container>
-      <q-page class="row">
+      <q-page>
+        <div class="full-width text-center q-py-sm text-bold bg-red-10" v-if="!$socket.connected">
+          Отсутствует подключение к серверу, весь функционал отключен.
+        </div>
         <router-view v-slot="{ Component }">
           <transition
             name="scale"

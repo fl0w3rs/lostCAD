@@ -48,7 +48,7 @@
     v-else
   >
     <q-card
-      class="bg-dark text-white border-maroon-thick"
+      class="border-maroon-thick"
       :style="{minWidth: getWindow.dialogMinWidth}"
     >
       <q-bar class="accentMaroon">

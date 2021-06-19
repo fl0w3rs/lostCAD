@@ -9,11 +9,9 @@ export function authSuccess(state) {
 
 export function authError(state) {
   state.status = false;
-  state.error = true;
   state.initialized = true;
 }
 
 export function socketDisconnected(state) {
   state.status = false;
-  state.socketConnected = false;
 }

@@ -35,7 +35,6 @@
                   {{ element.code }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.code"
                     v-slot="scope"
                     buttons
@@ -59,7 +58,6 @@
                   {{ element.desc }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.desc"
                     v-slot="scope"
                     buttons

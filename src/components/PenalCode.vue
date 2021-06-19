@@ -40,7 +40,6 @@
                   {{ element.article }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.article"
                     v-slot="scope"
                     buttons
@@ -64,7 +63,6 @@
                   {{ element.title }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.title"
                     v-slot="scope"
                     buttons
@@ -87,7 +85,6 @@
                   {{ element.chargeType }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.chargeType"
                     v-slot="scope"
                     buttons
@@ -107,7 +104,6 @@
                   {{ element.punishmentType }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.punishmentType"
                     v-slot="scope"
                     buttons
@@ -131,7 +127,6 @@
                   }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.ticketAmount"
                     v-slot="scope"
                     buttons
@@ -160,7 +155,6 @@
                 }}
                   <q-popup-edit
                     v-if="admin"
-                    class="bg-dark"
                     v-model="element.imprisonmentTime"
                     v-slot="scope"
                     buttons
@@ -209,7 +203,6 @@
                 <p>{{ element.desc || 'Не установлено' }}</p>
                 <q-popup-edit
                   v-if="admin"
-                  class="bg-dark"
                   v-model="element.desc"
                   v-slot="scope"
                   buttons

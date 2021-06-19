@@ -1,5 +1,8 @@
 <template>
-  <div class="home-page column items-center justify-center full-width">
+  <div
+    class="home-page column items-center justify-center full-width"
+    style="min-height: inherit;"
+  >
     <q-img
       :src="require('src/assets/logo.png')"
       style="max-height: 200px; max-width: 500px;"
