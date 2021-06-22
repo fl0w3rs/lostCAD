@@ -52,15 +52,31 @@
       />
     </div>
 
+    <div class="q-mt-sm row q-col-gutter-xs text-left">
+      <div class="col-6">
+        <div class="accent q-pa-sm">
+          <DispatchLog />
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="accent q-pa-sm">
+          <p class="text-h6 q-mb-sm">Список юнитов</p>
+          <UnitList />
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
 import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
+import DispatchLog from 'src/components/dispatch/Log.vue';
+import UnitList from 'src/components/unit/List.vue';
 
 export default {
   name: 'DispatchPage',
 
-  components: { UpperBarComponent },
+  components: { UpperBarComponent, DispatchLog, UnitList },
 };
 </script>

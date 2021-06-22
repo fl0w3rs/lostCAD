@@ -4,7 +4,7 @@ export function someAction (context) {
 */
 import $socket from 'src/boot/socketio-instance';
 
-export function requestCurrentUnit() {
+export function requestAllUnits() {
   $socket.emit('unit/getAll', null);
 }
 

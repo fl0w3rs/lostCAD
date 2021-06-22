@@ -36,10 +36,7 @@
         </div>
 
         <div class="col-12 col-sm-4 justify-center">
-          <div class="clock">
-            <p>{{ rDate }}</p>
-            <p>{{ rTime }}</p>
-          </div>
+          <Time />
         </div>
 
         <div class="col-12 col-sm-4 justify-end">
@@ -179,6 +176,7 @@ import Character from 'components/civilian/Character.vue';
 import VehicleList from 'src/components/vehicle/List.vue';
 import WeaponList from 'src/components/weapon/List.vue';
 import InfoBar from 'src/components/nonCivTopBar/Info.vue';
+import Time from 'src/components/nonCivTopBar/Time.vue';
 
 import {
   ref, onBeforeMount, onBeforeUnmount, computed, watch,
@@ -196,6 +194,7 @@ export default {
     VehicleList,
     InfoBar,
     WeaponList,
+    Time,
   },
 
   setup() {

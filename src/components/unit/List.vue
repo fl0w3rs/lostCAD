@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { computed } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useQuasar } from 'quasar';
 import $socket from 'src/boot/socketio-instance';
@@ -23,6 +23,7 @@ export default {
   setup(props) {
     const $q = useQuasar();
     const store = useStore();
+
     const statuses = {
       unavail: {
         text: 'UNAVAILABLE',
@@ -60,6 +61,8 @@ export default {
         });
       }
     };
+
+    onBeforeMount(() => { store.dispatch('unit/requestAllUnits'); });
 
     return {
       columns: [

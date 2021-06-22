@@ -4,7 +4,7 @@
       <div
         class="absolute-center full-width full-height row justify-center"
         style="backdrop-filter: blur(2px); z-index: 1;"
-        v-if="!currentUnit"
+        v-if="!currentUnit && selectedIdentifier"
       >
         <div class="text-bold column justify-center">
           <div class="column">
@@ -33,6 +33,24 @@
         </div>
       </div>
 
+      <div
+        class="absolute-center full-width full-height row justify-center"
+        style="backdrop-filter: blur(2px); z-index: 1;"
+        v-if="!selectedIdentifier"
+      >
+        <div class="text-bold column justify-center">
+          <div class="column">
+            <p>ФУНКЦИОНАЛ ЮНИТА НЕДОСТУПЕН, ВЫБЕРИТЕ ИДЕНТИФИКАТОР</p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="absolute-center full-width full-height row justify-center blink-bg"
+        v-if="currentUnit.panic"
+      >
+      </div>
+
       <div class="q-gutter-xs q-pa-xs">
         <q-btn
           color="white"
@@ -40,8 +58,21 @@
           :label='currentUnit?.callsign || "CALLSIGN"'
           icon="fas fa-balance-scale"
         >
+          <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+            <b>Участники:</b>
+            <p v-for="identifier in currentUnit.members" :key="identifier.id">
+              [{{identifier.callsign}}] {{identifier.name}}
+            </p>
+          </q-tooltip>
           <q-menu fit>
             <q-list dense>
+              <q-item clickable @click="$store.commit('window/add', {
+                  component: 'unit/Log',
+                  title: `Лог юнита`,
+                  windowHeight: 300
+                });">
+                <q-item-section>Открыть лог юнита</q-item-section>
+              </q-item>
               <q-item clickable @click="changeCallsign">
                 <q-item-section>Изменить маркировку</q-item-section>
               </q-item>
@@ -89,10 +120,30 @@
           label="На сцене"
         />
 
+        <q-btn
+          :color="currentUnit?.panic ? 'red' : 'grey'"
+          @click="switchPanic"
+          outline
+          class="q-ml-md"
+          label="Паника"
+        />
+
       </div>
     </div>
   </div>
 </template>
+
+<style>
+.blink-bg{
+  border-radius: 5px;
+  animation: blinkingBackground 2s infinite;
+}
+@keyframes blinkingBackground{
+  0%  { background-color: rgba(143, 8, 8, 1);}
+  50% { background-color: rgba(255, 99, 71, 0);}
+  100%  { background-color: rgba(143, 8, 8, 1);}
+}
+</style>
 
 <script>
 import { onBeforeMount, computed } from 'vue';
@@ -107,6 +158,10 @@ export default {
 
     const switchStatus = (val) => {
       $socket.emit('unit/setStatus', val);
+    };
+
+    const switchPanic = () => {
+      $socket.emit('unit/switchPanic', null);
     };
 
     const changeCallsign = () => {
@@ -146,14 +201,16 @@ export default {
       });
     };
 
-    onBeforeMount(() => { store.dispatch('unit/requestCurrentUnit'); });
+    onBeforeMount(() => { store.dispatch('unit/requestAllUnits'); });
 
     return {
       switchStatus,
       changeCallsign,
       leave,
       disband,
+      switchPanic,
       currentUnit: computed(() => store.getters['unit/getCurrentUnit']),
+      selectedIdentifier: computed(() => store.getters['identifier/getSelectedIdentifierObject']),
     };
   },
 };

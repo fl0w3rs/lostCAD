@@ -9,4 +9,10 @@ export default boot(async (/* { app, router, ... } */) => {
     timeout: 2500,
     textColor: 'white',
   });
+
+  Notify.registerType('unit-info', {
+    icon: 'fas fa-balance-scale',
+    color: 'blue',
+    textColor: 'white',
+  });
 });

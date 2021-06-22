@@ -20,10 +20,7 @@
     </div>
 
     <div class="col-12 col-sm-4">
-      <div class="clock">
-        <p>{{ rDate }}</p>
-        <p>{{ rTime }}</p>
-      </div>
+      <Time />
     </div>
 
     <div class="col-12 col-sm-4">
@@ -33,29 +30,22 @@
 </template>
 
 <script>
-import { date } from 'quasar';
 import {
-  ref,
-  onBeforeUnmount,
   computed,
   onBeforeMount,
 } from 'vue';
 import { useStore } from 'vuex';
 
 import InfoBar from 'components/nonCivTopBar/Info';
+import Time from 'components/nonCivTopBar/Time';
 
 export default {
   name: 'UpperBarComponent',
 
-  components: { InfoBar },
+  components: { InfoBar, Time },
 
   setup() {
     const store = useStore();
-
-    const rDate = ref('YYYY-MM-DD ddd');
-    const rTime = ref('HH:mm:ss');
-
-    let timeInterval;
 
     const openIdentifierWindow = () => {
       store.commit('window/add', {
@@ -67,23 +57,9 @@ export default {
 
     onBeforeMount(() => {
       store.dispatch('identifier/request');
-
-      timeInterval = setInterval(() => {
-        const now = Date.now();
-        rDate.value = date.formatDate(now, 'YYYY-MM-DD ddd', {
-          daysShort: ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'],
-        });
-        rTime.value = date.formatDate(now, 'HH:mm:ss');
-      }, 1000);
-    });
-
-    onBeforeUnmount(() => {
-      clearInterval(timeInterval);
     });
 
     return {
-      rDate,
-      rTime,
       openIdentifierWindow,
       selectedIdentifier: computed(() => store.getters['identifier/getSelectedIdentifierObject']),
     };

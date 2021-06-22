@@ -56,6 +56,12 @@ export default {
         html: true,
       });
     },
+    unitLogMessage(message) {
+      this.$q.notify({
+        type: 'unit-info',
+        message,
+      });
+    },
   },
 };
 </script>
