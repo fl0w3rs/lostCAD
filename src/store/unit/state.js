@@ -1,5 +1,6 @@
 export default function () {
   return {
-    currentUnit: null,
+    currentUnit: false,
+    allUnits: [],
   };
 }

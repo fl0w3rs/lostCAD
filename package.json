@@ -12,7 +12,7 @@
   "dependencies": {
     "@quasar/extras": "^1.10.7",
     "core-js": "^3.6.5",
-    "quasar": "^2.0.0-rc.3",
+    "quasar": "^2.0.0",
     "socket.io-client": "^4.0.0",
     "uuid": "^8.3.2",
     "vin-generator": "^1.0.1",
@@ -22,7 +22,7 @@
     "vuex": "4"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0-rc.3",
+    "@quasar/app": "^3.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.1",
