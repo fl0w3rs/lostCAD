@@ -177,6 +177,7 @@
                   dense
                   round
                   flat
+                  size="sm"
                   :icon="expands[index] ? 'arrow_drop_up' : 'arrow_drop_down'"
                   @click="expands[index] = !expands[index]"
                 />
