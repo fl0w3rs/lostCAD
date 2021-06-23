@@ -11,7 +11,7 @@
       </small>
     </div>
 
-    <q-markup-table
+    <q-markup-table dense
       class="col-12 shadow-0 tableNoHoverEffect"
     >
       <thead>

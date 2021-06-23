@@ -12,7 +12,7 @@
       </small>
     </div>
 
-    <q-markup-table
+    <q-markup-table dense
       class="col-12 shadow-0 tableNoHoverEffect"
     >
       <thead>
@@ -392,6 +392,10 @@ export default {
     });
 
     const save = () => {
+      for (let i = 0; i < penalCode.value.length; i += 1) {
+        if (!penalCode.value[i].desc) penalCode.value[i].desc = '';
+      }
+
       socketWrapper.emit('admin/penalCode/edit', penalCode.value, {
         onReturn(data) {
           if (data === 'success') {
@@ -414,9 +418,6 @@ export default {
       if (newArticle.title.length < 1 || newArticle.title.length > 24) return;
       if (newArticle.chargeType.length < 1 || newArticle.chargeType.length > 24) return;
       if (newArticle.punishmentType.length < 1 || newArticle.punishmentType.length > 24) return;
-      // if (newArticle.ticketAmount.length < 1 || newArticle.ticketAmount.length > 16) return;
-      // eslint-disable-next-line max-len
-      // if (newArticle.imprisonmentTime.length < 1 || newArticle.imprisonmentTime.length > 16) return;
 
       penalCode.value.push({ ...newArticle });
 

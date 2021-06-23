@@ -2,7 +2,7 @@
   <div>
     <p class="text-h6">Лог диспетчера</p>
     <q-input
-      class="q-mt-sm"
+      class="q-mt-sm text-uppercase"
       v-model="dispatchLog"
       filled
       readonly

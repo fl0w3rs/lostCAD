@@ -44,6 +44,7 @@
               outlined
               v-model="ncic.first"
               label="Имя"
+              @keyup.enter="requestNcic"
             />
           </div>
 
@@ -53,6 +54,7 @@
               outlined
               v-model="ncic.last"
               label="Фамилия"
+              @keyup.enter="requestNcic"
             />
           </div>
 
@@ -64,6 +66,7 @@
               label="Дата рождения"
               type="date"
               stack-label
+              @keyup.enter="requestNcic"
             />
           </div>
 
@@ -104,6 +107,7 @@
               outlined
               v-model="dmv.numberplate"
               label="Номера"
+              @keyup.enter="requestDmv"
             />
           </div>
 
@@ -113,6 +117,7 @@
               outlined
               v-model="dmv.vin"
               label="VIN"
+              @keyup.enter="requestDmv"
             />
           </div>
 
@@ -146,6 +151,7 @@
               outlined
               v-model="fld.serial"
               label="Серийный номер"
+              @keyup.enter="requestFld"
             />
           </div>
 

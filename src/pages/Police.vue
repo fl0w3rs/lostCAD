@@ -1,6 +1,8 @@
 <template>
   <div class="police-page full-width text-center">
 
+    <Signal100Bar/>
+
     <div class="accentDark q-py-xs q-px-lg">
       <UpperBarComponent />
     </div>
@@ -61,10 +63,11 @@
 <script>
 import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
 import UnitStatus from 'src/components/unit/Status.vue';
+import Signal100Bar from 'src/components/nonCivTopBar/Signal100.vue';
 
 export default {
   name: 'PolicePage',
 
-  components: { UpperBarComponent, UnitStatus },
+  components: { UpperBarComponent, UnitStatus, Signal100Bar },
 };
 </script>

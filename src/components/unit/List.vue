@@ -82,7 +82,7 @@ export default {
           field: (row) => {
             const names = [];
             for (let i = 0; i < row.members.length; i += 1) {
-              names.push(row.members[i].callsign);
+              names.push(row?.members[i]?.callsign || 'ошибка получения');
             }
             return names.join(', ');
           },

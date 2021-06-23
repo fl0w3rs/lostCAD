@@ -58,7 +58,9 @@
           :label='currentUnit?.callsign || "CALLSIGN"'
           icon="fas fa-balance-scale"
         >
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+          <q-tooltip
+            class="text-uppercase" anchor="top middle" self="bottom middle" :offset="[10, 10]"
+          >
             <b>Участники:</b>
             <p v-for="identifier in currentUnit.members" :key="identifier.id">
               [{{identifier.callsign}}] {{identifier.name}}
@@ -201,7 +203,10 @@ export default {
       });
     };
 
-    onBeforeMount(() => { store.dispatch('unit/requestAllUnits'); });
+    onBeforeMount(() => {
+      store.dispatch('unit/requestAllUnits');
+      store.dispatch('other/requestSignal100');
+    });
 
     return {
       switchStatus,
