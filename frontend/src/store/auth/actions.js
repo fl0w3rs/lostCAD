@@ -28,7 +28,7 @@ export function authRequest({ commit, dispatch }) {
       resolve(false);
     };
 
-    fetch('https://lostapi.fl0w3rs.dev/getAuthKey').then(async (resp) => {
+    fetch('/api/getAuthKey').then(async (resp) => {
       const data = await resp.json();
 
       if (data.status === 'success') {

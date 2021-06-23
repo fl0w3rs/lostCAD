@@ -1,0 +1,88 @@
+module.exports = {
+    rules: {
+        character: {
+            name: 'required|string|max:24|min:3',
+            surname: 'required|string|max:24|min:3',
+            sex: 'required|string|max:8',
+            dob: 'required|date|max:16',
+            placeOfWork: 'required|string|max:64',
+            residenceAddress: 'required|string|max:64',
+            blockNumber: 'required|numeric',
+            height: 'required|string|max:16',
+            weight: 'required|string|max:16',
+            race: 'required|string|max:16',
+            eyeColor: 'required|string|max:16',
+            hairColor: 'required|string|max:16',
+            bloodType: 'required|string|max:8',
+            rhesusFactor: 'required|string|max:16',
+            invalidity: 'required|string|max:16',
+            chronicDiseases: 'required|string|min:3|max:64',
+            description: 'present|string|max:24',
+
+            image: 'string|max:128',
+            gunLicense: 'required|string|max:16',
+            hiddenGunLicense: 'required|string|max:16',
+            driverLicense: 'required|string|max:16',
+            pilotLicense: 'required|string|max:16',
+            boatLicense: 'required|string|max:16',
+        },
+        vehicle: {
+            mark: 'required|string|max:48',
+            model: 'required|string|max:48',
+            numberplate: 'required|string|max:16',
+            vin: 'required|string|max:18',
+            dor: 'required|date|max:16',
+            regStatus: 'required|max:16',
+            insStatus: 'required|max:16',
+            color: 'required|max:24',
+            type: 'required|max:24',
+        },
+        weapon: {
+            regStatus: 'required',
+            model: 'required',
+            serial: 'required',
+        },
+        department: {
+            name: 'required|max:64',
+            type: 'required|max:16',
+            groups: 'required|max:256',
+            divisions: 'present|max:1024',
+        }
+
+    },
+
+    names: {
+        weapon: {
+            'regStatus': 'Статус регистрации',
+            'model': 'Модель',
+            'serial': 'Серийный номер',
+        },
+
+        vehicle: {
+            'mark': 'Марка',
+            'model': 'Модель',
+            'vin': 'VIN',
+            'numberplate': 'Номера',
+            'regStatus': 'Статус регистрации',
+            'insStatus': 'Статус страховки',
+            'dor': 'Дата регистрации',
+            'type': 'Тип',
+            'color': 'Цвет',
+        },
+
+        character: {
+            name: 'Имя', surname: 'Фамилия', sex: 'Пол', dob: 'Дата рождения',
+            placeOfWork: 'Место работы', residenceAddress: 'Адрес проживания', 
+            blockNumber: 'Номер блока', height: 'Рост', weight: 'Вес',
+            race: 'Раса', eyeColor: 'Цвет глаза', hairColor: 'Цвет волос',
+            bloodType: 'Группа крови', rhesusFactor: 'Резус-фактор', invalidity: 'Инвалидность',
+            chronicDiseases: 'Хронические болезни', description: 'Краткое описание',
+            image: 'Изображение',
+            gunLicense: 'Лицензия на оружие',
+            hiddenGunLicense: 'Лицензия на скрытое ношение оружия',
+            driverLicense: 'Лицензия на вождение',
+            pilotLicense: 'Лицензия пилота',
+            boatLicense: 'Лодочная лицензия',
+        }
+    }
+}
