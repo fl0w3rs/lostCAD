@@ -119,7 +119,7 @@ import {
 import $socket from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import { identifierRankList } from 'src/utils/constants';
-import { getAvailableDepartments } from 'src/utils/api';
+import { getAvailableDepartments, toTitleCase } from 'src/utils/api';
 
 let store;
 let $q;
@@ -168,6 +168,7 @@ export default {
     };
 
     const saveIdentifier = () => {
+      currentIdentifier.value.name = toTitleCase(currentIdentifier.value.name);
       $socket.emit('user/identifiers/edit', currentIdentifier.value);
     };
 

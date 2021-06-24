@@ -12,6 +12,8 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "@bugsnag/js": "^7.10.1",
+    "@bugsnag/plugin-vue": "^7.10.0",
     "@quasar/extras": "^1.10.7",
     "core-js": "^3.6.5",
     "quasar": "^2.0.0",

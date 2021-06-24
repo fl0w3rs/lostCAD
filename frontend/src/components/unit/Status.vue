@@ -206,6 +206,7 @@ export default {
     onBeforeMount(() => {
       store.dispatch('unit/requestAllUnits');
       store.dispatch('other/requestSignal100');
+      store.dispatch('other/requestPriority');
     });
 
     return {

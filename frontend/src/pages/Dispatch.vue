@@ -15,6 +15,12 @@
           :color="signal100status == 1 ? 'red' : 'gray'"
           @click="switchSignal100"
         />
+        <q-btn
+          label="ПРИОРИТЕТ"
+          outline
+          :color="priorityStatus == 1 ? 'light-blue' : 'gray'"
+          @click="switchPriority"
+        />
       </div>
       <div class="row q-mt-xs q-gutter-xs">
         <q-btn
@@ -105,9 +111,15 @@ export default {
       $socket.emit('dispatch/switchSignal100');
     };
 
+    const switchPriority = () => {
+      $socket.emit('dispatch/switchPriority');
+    };
+
     return {
       switchSignal100,
       signal100status: computed(() => store.getters['other/getSignal100']),
+      switchPriority,
+      priorityStatus: computed(() => store.getters['other/getPriority']),
     };
   },
 };

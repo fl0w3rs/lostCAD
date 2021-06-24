@@ -415,10 +415,20 @@ export default {
     };
 
     const create = () => {
-      if (newArticle.article.length < 1 || newArticle.article.length > 10) return;
-      if (newArticle.title.length < 1 || newArticle.title.length > 24) return;
-      if (newArticle.chargeType.length < 1 || newArticle.chargeType.length > 24) return;
-      if (newArticle.punishmentType.length < 1 || newArticle.punishmentType.length > 24) return;
+      const errorMessages = [];
+      if (newArticle.article.length < 1 || newArticle.article.length > 10) errorMessages.push('Длинна статьи должна быть от 1 до 10 символов.');
+      if (newArticle.title.length < 1 || newArticle.title.length > 128) errorMessages.push('Длинна заголовка должна быть от 1 до 128 символов.');
+      if (newArticle.chargeType.length < 1 || newArticle.chargeType.length > 24) errorMessages.push('Длинна типа обвинения должна быть от 1 до 24 символов.');
+      if (newArticle.punishmentType.length < 1 || newArticle.punishmentType.length > 24) errorMessages.push('Длинна типа наказания должна быть от 1 до 24 символов.');
+
+      if (errorMessages.length !== 0) {
+        $q.notify({
+          type: 'negative',
+          message: errorMessages.join('<br/>'),
+          html: true,
+        });
+        return;
+      }
 
       penalCode.value.push({ ...newArticle });
 

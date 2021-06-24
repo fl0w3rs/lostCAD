@@ -8,7 +8,7 @@ module.exports = {
 
         let validation = new Validator(tmp, {
             'data.*.article': 'required|string|min:1|max:10',
-            'data.*.title': 'required|string|min:1|max:24',
+            'data.*.title': 'required|string|min:1|max:128',
             'data.*.chargeType': 'required|string|min:1|max:24',
             'data.*.punishmentType': 'required|string|min:1|max:24',
             'data.*.ticketAmount': 'present|numeric',

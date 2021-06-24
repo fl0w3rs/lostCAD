@@ -27,6 +27,7 @@ const esbuildOptions = {
   outfile: path.join(buildDirectory, 'index.js'),
   external: ['pg-hstore'],
   minify: true,
+  sourcemap: true,
   plugins: [
     ImportGlobPlugin(),
   ]
@@ -85,7 +86,7 @@ const doDev = async () => {
     fs.mkdirSync(buildDirectory);
   }
 
-  const backendProcess = initProcess(path.join(buildDirectory, 'index.js'));
+  // const backendProcess = initProcess(path.join(buildDirectory, 'index.js'));
   const frontendProcess = initProcess('quasar dev', { node: false, workingDir: path.join(buildDirectory, '../frontend') });
 
   require('esbuild').build({
@@ -94,14 +95,14 @@ const doDev = async () => {
       async onRebuild(error, result) {
         if (error) console.error('watch build failed:', error)
         else {
-          await backendProcess.stop();
-          backendProcess.run();
+          // await backendProcess.stop();
+          // backendProcess.run();
           console.log('watch build succeeded:', result)
         }
       },
     }
   }).then(() => { 
-    backendProcess.run();
+    // backendProcess.run();
   }).catch(() => process.exit(1))
 
   frontendProcess.run();
