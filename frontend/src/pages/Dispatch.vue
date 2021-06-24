@@ -12,7 +12,7 @@
         <q-btn
           label="СИГНАЛ 100"
           outline
-          :color="signal100status ? 'red' : 'gray'"
+          :color="signal100status == 1 ? 'red' : 'gray'"
           @click="switchSignal100"
         />
       </div>

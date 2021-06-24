@@ -382,7 +382,7 @@ import {
   licenseOptionList,
 } from 'src/utils/constants';
 
-import { getRandomArrayItem } from 'src/utils/functions';
+import { getRandomArrayItem, toTitleCase } from 'src/utils/functions';
 
 import { useQuasar } from 'quasar';
 
@@ -427,7 +427,7 @@ export default {
       return diffYears || 0;
     });
 
-    const fillUnfilled = () => {
+    const normalizeInfo = () => {
       if (props.type != 'create' && props.type != 'edit') return;
 
       if (!info.value.placeOfWork) info.value.placeOfWork = 'Безработный';
@@ -442,12 +442,15 @@ export default {
       if (!info.value.chronicDiseases) info.value.chronicDiseases = 'Отсутствуют';
 
       if (!info.value.description) info.value.description = '';
+
+      info.value.name = toTitleCase(info.value.name);
+      info.value.surname = toTitleCase(info.value.surname);
     };
 
     const create = () => {
       if (props.type != 'create') return;
 
-      fillUnfilled();
+      normalizeInfo();
 
       socketWrapper.emit('user/civilian/characters/create', info.value);
     };
@@ -455,7 +458,7 @@ export default {
     const edit = () => {
       if (props.type != 'edit') return;
 
-      fillUnfilled();
+      normalizeInfo();
 
       socketWrapper.emit('user/civilian/characters/edit', info.value);
     };

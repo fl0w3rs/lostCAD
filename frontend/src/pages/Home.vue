@@ -4,7 +4,7 @@
     style="min-height: inherit;"
   >
     <q-img
-      :src="require('src/assets/logo.png')"
+      :src="require('src/assets/images/logo.png')"
       style="max-height: 200px; max-width: 500px;"
     />
     <div class="q-mx-md q-mt-md full-width row justify-center">

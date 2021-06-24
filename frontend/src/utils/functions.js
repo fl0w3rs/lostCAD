@@ -40,3 +40,10 @@ export function getRandomByDict(length, chars) {
   for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
   return result;
 }
+
+export function toTitleCase(str) {
+  return str.replace(
+    /[\wа-яА-ЯЁё]\S*/g,
+    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
+  );
+}

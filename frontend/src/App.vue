@@ -11,6 +11,9 @@
 <script>
 import { useQuasar } from 'quasar';
 
+// eslint-disable-next-line global-require
+const unitNotifyAudio = new Audio(require('src/assets/sounds/unitNotify.mp3'));
+
 export default {
   name: 'App',
 
@@ -61,6 +64,7 @@ export default {
         type: 'unit-info',
         message,
       });
+      unitNotifyAudio.play();
     },
   },
 };
