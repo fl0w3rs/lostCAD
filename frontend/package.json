@@ -14,9 +14,9 @@
   "dependencies": {
     "@bugsnag/js": "^7.10.1",
     "@bugsnag/plugin-vue": "^7.10.0",
-    "@quasar/extras": "^1.10.7",
+    "@quasar/extras": "^1.10.8",
     "core-js": "^3.6.5",
-    "quasar": "^2.0.0",
+    "quasar": "^2.0.2",
     "socket.io-client": "^4.0.0",
     "uuid": "^8.3.2",
     "vin-generator": "^1.0.1",
@@ -26,7 +26,7 @@
     "vuex": "4"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.0",
+    "@quasar/app": "^3.0.2",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.1",

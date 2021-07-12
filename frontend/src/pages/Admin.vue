@@ -24,13 +24,13 @@
             <q-btn
               color="orange"
               outline
-              label="Редактировать Penal Code"
+              label="Редактировать уголовный кодекс"
               @click="
                 $store.commit('window/add', {
                   component: 'PenalCode',
-                  title: 'Редактирование Penal Code',
+                  title: 'Редактирование уголовного кодекса',
                   params: { admin: true },
-                  dialogMinWidth: '60vw',
+                  dialogMinWidth: '70vw',
                   dialog: true,
                 })
               "

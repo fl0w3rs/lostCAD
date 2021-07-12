@@ -8,7 +8,7 @@
         Элементы можно перемещать зажатием.<br />
         Для редактирования значения нажмите на необходимую ячейку.<br />
         Если штраф и/или время заключения не предусмотрено — оставьте ячейку пустой.<br />
-        Не используйте одинаковые названия статей.
+        <span class="text-red text-h6 text-bold">Не используйте одинаковые названия статей.</span>
       </small>
     </div>
 
@@ -31,6 +31,8 @@
         v-model="penalCode"
         item-key="article"
         tag="transition-group"
+        :move="() => admin"
+        @end="onEnd"
       >
         <template #item="{element, index}">
           <tbody>
@@ -348,6 +350,14 @@ td {
   border: 0 !important;
 }
 
+.q-table td, .q-table th {
+  white-space: normal !important;
+}
+
+table > thead > tr > th:nth-child(7) {
+  width: 82px;
+}
+
 .pc-table-border-bottom > td {
   border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
 }
@@ -402,7 +412,7 @@ export default {
           if (data === 'success') {
             $q.notify({
               type: 'positive',
-              message: 'Penal Code успешно отредактирован',
+              message: 'Уголовный кодекс успешно отредактирован',
             });
             props.window.closeFn();
           }
@@ -410,8 +420,11 @@ export default {
       });
     };
 
+    const expands = ref({});
+
     const remove = (key) => {
       penalCode.value.splice(key);
+      delete expands.value[key];
     };
 
     const create = () => {
@@ -435,6 +448,14 @@ export default {
       Object.assign(newArticle, initialArticle);
     };
 
+    const onEnd = (evt) => {
+      console.log(expands.value);
+      const tmp = expands.value[evt.oldIndex - 1];
+      expands.value[evt.oldIndex - 1] = expands.value[evt.newIndex - 1];
+      expands.value[evt.newIndex - 1] = tmp;
+      console.log(expands.value);
+    };
+
     return {
       penalCode,
       newArticle,
@@ -444,7 +465,8 @@ export default {
       punishmentTypeList,
       chargeTypeList,
 
-      expands: ref({}),
+      onEnd,
+      expands,
     };
   },
 };

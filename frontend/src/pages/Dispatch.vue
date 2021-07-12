@@ -24,13 +24,13 @@
       </div>
       <div class="row q-mt-xs q-gutter-xs">
         <q-btn
-          label="LOOKUP"
+          label="БАЗА ДАННЫХ"
           outline
           color="gray"
           size="sm"
           @click="$store.commit('window/add', {
             component: 'Lookup',
-            windowHeight: 325, title: 'Поиск'
+            windowHeight: 400, title: 'Поиск'
           })"
         />
         <q-btn
@@ -48,21 +48,21 @@
           "
         />
         <q-btn
-          label="PENAL CODE"
+          label="Уголовный кодекс"
           outline
           color="gray"
           size="sm"
           @click="
             $store.commit('window/add', {
               component: 'PenalCode',
-              title: 'Просмотр Penal Code',
-              dialogMinWidth: '60vw',
+              title: 'Просмотр Уголовного кодекса',
+              dialogMinWidth: '70vw',
               dialog: true,
             })
           "
         />
         <q-btn
-          label="BOLO"
+          label="РОЗЫСК"
           outline
           color="gray"
           size="sm"

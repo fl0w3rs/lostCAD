@@ -7,7 +7,7 @@
       <small>
         Элементы можно перемещать зажатием.<br />
         Для редактирования значения нажмите на необходимую ячейку.<br />
-        Не используйте одинаковые коды.
+        <span class="text-red text-h6 text-bold">Не используйте одинаковые названия коды.</span>
       </small>
     </div>
 
@@ -26,6 +26,7 @@
         v-model="codes"
         item-key="code"
         tag="transition-group"
+        :move="() => admin"
       >
         <template #item="{element, index}">
           <tbody>
@@ -146,6 +147,19 @@
 <style scoped>
 td {
   border: 0 !important;
+}
+
+table > thead > tr > th:nth-child(1) {
+  text-align: center;
+  width: 65px;
+}
+
+table > tbody > tr > td:nth-child(1) {
+  text-align: center;
+}
+
+.q-table td, .q-table th {
+  white-space: normal !important;
 }
 
 .tc-table-border-bottom > td {

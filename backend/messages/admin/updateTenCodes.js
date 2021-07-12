@@ -8,7 +8,7 @@ module.exports = {
 
         let validation = new Validator(tmp, {
             'data.*.code': 'required|string|min:1|max:10',
-            'data.*.desc': 'required|string|min:1|max:32',
+            'data.*.desc': 'required|string|min:1|max:128',
         });
           
         if(validation.fails()) {

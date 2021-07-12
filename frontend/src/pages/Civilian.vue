@@ -18,17 +18,11 @@
             label="Выбранный персонаж"
           >
             <template v-slot:option="scope">
-              <q-item
-                v-bind="scope.itemProps"
-                v-on="scope.itemEvents"
-              >
+              <q-item v-bind="scope.itemProps">
                 <q-item-section class="text-uppercase">
-                  <q-item-label v-html="scope.opt.name"></q-item-label>
-                  <q-item-label
-                    class="text-grey"
-                    caption
-                  >
-                    <small>{{ scope.opt.description }}</small>
+                  <q-item-label v-html="scope.opt.name" />
+                  <q-item-label caption>
+                    <small class="text-grey">{{ scope.opt.description }}</small>
                   </q-item-label>
                 </q-item-section>
               </q-item>

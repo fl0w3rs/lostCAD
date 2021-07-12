@@ -90,13 +90,58 @@
         <div class="section rounded-borders row justify-center">
           <q-table
             dense
-            :rows="ncicResults"
+            :rows="ncicResults.characters"
             :columns="ncicColumns"
             row-key="id"
             class="shadow-0 bg-grey-10 accentBorder full-width"
             @row-click="onNcicRowClick"
           />
         </div>
+
+        <div
+          class="text-left sectionTitle q-mt-md"
+          v-if="ncicResults?.weapons?.length > 0 || ncicResults?.vehicles?.length > 0"
+        >ЗАПИСИ</div>
+        <q-card
+          class="section rounded-borders"
+          v-if="ncicResults?.weapons?.length > 0 || ncicResults?.vehicles?.length > 0"
+        >
+          <q-tabs
+            v-model="ncicTab"
+            dense
+            class="text-grey"
+            active-color="primary"
+            indicator-color="primary"
+            align="justify"
+            narrow-indicator
+          >
+            <q-tab
+              name="vehicles" :label="`ТРАНСПОРТНОЕ СРЕДСТВО (${ncicResults?.vehicles?.length})`"
+              v-if="ncicResults?.vehicles?.length > 0"
+            />
+            <q-tab
+              name="weapons" :label="`ОРУЖИЕ (${ncicResults?.weapons?.length})`"
+              v-if="ncicResults?.weapons?.length > 0"
+            />
+          </q-tabs>
+
+          <q-separator />
+
+          <q-tab-panels v-model="ncicTab" animated>
+            <q-tab-panel name="vehicles">
+              <VehicleList
+                type="dmv"
+                showOwners="true"
+                :vehicles="ncicResults.vehicles"
+              />
+            </q-tab-panel>
+
+            <q-tab-panel name="weapons">
+              <div class="text-h6">Alarms</div>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </q-tab-panel>
+          </q-tab-panels>
+        </q-card>
       </q-tab-panel>
 
       <q-tab-panel name="dmv">
@@ -218,7 +263,7 @@ export default {
       dob: '',
     });
 
-    const ncicResults = ref([]);
+    const ncicResults = ref({});
 
     const requestNcic = () => {
       socketWrapper.emit('ncic/request', { data: ncic });
@@ -234,7 +279,7 @@ export default {
     };
 
     socketWrapper.listen('ncic/response', (data) => {
-      ncicResults.value = data.results;
+      ncicResults.value = data;
     });
 
     //
@@ -291,6 +336,7 @@ export default {
       fldResults,
 
       tab: ref('ncic'),
+      ncicTab: ref(null),
 
       ncicColumns: [
         {

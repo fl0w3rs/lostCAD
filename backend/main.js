@@ -14,7 +14,7 @@ var cookieParser = require('cookie-parser')
 
 const app = express();
 const http = require('http').Server(app);
-app.use(cookieParser())
+app.use(cookieParser());
 
 if(process.env.NODE_ENV == 'dev') {
     // app.use(createProxyMiddleware('/', { target: 'http://127.0.0.1:9110/', changeOrigin: true }));

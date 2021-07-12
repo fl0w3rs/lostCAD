@@ -119,7 +119,8 @@ import {
 import $socket from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import { identifierRankList } from 'src/utils/constants';
-import { getAvailableDepartments, toTitleCase } from 'src/utils/api';
+import { getAvailableDepartments } from 'src/utils/api';
+import { toTitleCase } from 'src/utils/functions';
 
 let store;
 let $q;

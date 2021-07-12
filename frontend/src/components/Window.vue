@@ -137,7 +137,10 @@ export default {
         : $q.platform.is.mobile ? 300 : 450,
     );
 
-    const width = $q.platform.is.mobile ? 300 : 600;
+    // eslint-disable-next-line no-nested-ternary
+    const width = Number.isInteger(params.window.windowWidth)
+      ? params.window.windowWidth
+      : $q.platform.is.mobile ? 300 : 600;
 
     const onResize = ({ h }) => {
       height.value = h;

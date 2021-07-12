@@ -87,7 +87,7 @@ const doDev = async () => {
   }
 
   // const backendProcess = initProcess(path.join(buildDirectory, 'index.js'));
-  const frontendProcess = initProcess('quasar dev', { node: false, workingDir: path.join(buildDirectory, '../frontend') });
+  // const frontendProcess = initProcess('quasar dev', { node: false, workingDir: path.join(buildDirectory, '../frontend') });
 
   require('esbuild').build({
     ...esbuildOptions,
@@ -105,7 +105,7 @@ const doDev = async () => {
     // backendProcess.run();
   }).catch(() => process.exit(1))
 
-  frontendProcess.run();
+  // frontendProcess.run();
 }
 
 const buildBackend = async () => {

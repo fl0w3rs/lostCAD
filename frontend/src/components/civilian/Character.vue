@@ -6,7 +6,7 @@
         <q-img
           :src="info.image"
           spinner-color="white"
-          style="max-height: 200px; max-width: 200px"
+          style="max-height: 300px; max-width: 300px"
         />
         <q-input
           :disable="disable"

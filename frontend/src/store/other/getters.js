@@ -14,3 +14,7 @@ export function getDispatchLog(state) {
 export function getSignal100(state) {
   return state.signal100;
 }
+
+export function getPriority(state) {
+  return state.priority;
+}

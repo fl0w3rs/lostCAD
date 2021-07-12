@@ -3,5 +3,6 @@ export default function () {
     gameZone: 'Игровая зона',
     dispatchLog: '',
     signal100: false,
+    priority: false,
   };
 }

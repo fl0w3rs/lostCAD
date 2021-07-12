@@ -36,12 +36,28 @@ module.exports = {
         if(last) conditions.push({ surname: { [Op.like]: `%${last}%` } })
         if(dob) conditions.push({ dob })
 
-        let results = await db.cad.Character.findAll({
+        let characters = await db.cad.Character.findAll({
             where: {
                 [Op.and]: conditions,
             }, limit: 10
         }) || []
 
-        emitMessage('ncic/response', { results })
+        const vehicles = [];
+        const weapons = [];
+
+        for(let i = 0; i < characters.length; i += 1) {
+            const lVehicles = await characters[i].getVehicles();
+            const lWeapons = await characters[i].getWeapons();
+
+            for(let j = 0; j < lVehicles.length; j += 1) {
+                vehicles.push({ ...lVehicles[j].dataValues, charName: characters[i].dataValues.name, charSurname: characters[i].dataValues.surname })
+            }
+
+            for(let j = 0; j < lWeapons.length; j += 1) {
+                weapons.push({ ...lWeapons[j].dataValues, charName: characters[i].dataValues.name, charSurname: characters[i].dataValues.surname })
+            }
+        }
+
+        emitMessage('ncic/response', { characters, vehicles, weapons })
     }
 }
