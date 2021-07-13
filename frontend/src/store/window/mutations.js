@@ -23,6 +23,7 @@ export function add(state, payload) {
     dialog: payload.dialog || false,
     dialogMinWidth: payload.dialogMinWidth || 'none',
     windowHeight: payload.windowHeight || null,
+    windowWidth: payload.windowWidth || null,
     closeFn: () => { this.commit('window/close', tmpId); },
   });
 

@@ -137,8 +137,11 @@
             </q-tab-panel>
 
             <q-tab-panel name="weapons">
-              <div class="text-h6">Alarms</div>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              <WeaponList
+                type="fld"
+                showOwners="true"
+                :weapons="ncicResults.weapons"
+              />
             </q-tab-panel>
           </q-tab-panels>
         </q-card>

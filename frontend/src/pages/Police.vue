@@ -18,7 +18,7 @@
           @click="$store.commit('window/add', {
             component: 'Lookup',
             windowHeight: 400,
-            windowWidth: 600,
+            windowWidth: 800,
             title: 'Поиск'
           })"
         />

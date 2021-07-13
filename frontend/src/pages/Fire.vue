@@ -16,7 +16,8 @@
         @click="$store.commit('window/add', {
           component: 'Lookup',
           params: { types: { dmv: false, fld: false } },
-          windowHeight: 400, title: 'Поиск'
+          windowHeight: 400, title: 'Поиск',
+          windowWidth: 800,
         })"
       />
       <q-btn

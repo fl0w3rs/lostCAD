@@ -30,7 +30,8 @@
           size="sm"
           @click="$store.commit('window/add', {
             component: 'Lookup',
-            windowHeight: 400, title: 'Поиск'
+            windowHeight: 400, title: 'Поиск',
+          windowWidth: 800,
           })"
         />
         <q-btn

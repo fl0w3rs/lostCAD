@@ -20,7 +20,7 @@ import { useStore } from 'vuex';
 import { computed } from 'vue';
 
 export default {
-  props: ['weapons', 'type'],
+  props: ['weapons', 'type', 'showOwners'],
   setup(props) {
     const store = useStore();
 
@@ -34,17 +34,32 @@ export default {
 
     const weaponList = props.weapons ? computed(() => props.weapons) : computed(() => store.getters['characters/getSelectedCharacterWeaponList']);
 
+    const columns = [
+      {
+        name: 'model', align: 'center', label: 'Модель', field: 'model', sortable: false,
+      },
+      {
+        name: 'serial', align: 'center', label: 'Серийный номер', field: 'serial', sortable: false,
+      },
+    ];
+
+    if (props.showOwners) {
+      columns.unshift(
+        {
+          name: 'charName', align: 'center', label: 'Имя', field: 'charName', sortable: false,
+        },
+        {
+          name: 'charSurname', align: 'center', label: 'Фамилия', field: 'charSurname', sortable: false,
+        },
+      );
+    }
+
+    console.log(props.weapons);
+
     return {
       weaponList,
 
-      columns: [
-        {
-          name: 'model', align: 'center', label: 'Модель', field: 'model', sortable: false,
-        },
-        {
-          name: 'serial', align: 'center', label: 'Серийный номер', field: 'serial', sortable: false,
-        },
-      ],
+      columns,
 
       onClickRow,
     };
