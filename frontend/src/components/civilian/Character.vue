@@ -305,31 +305,6 @@
 
     <div
       class="full-width q-mt-md row justify-center"
-      v-if="type == 'ncic'"
-    >
-      <div class="row q-gutter-sm justify-center">
-        <q-btn
-          color="white"
-          outline
-          class="shadow-2"
-          size="sm"
-          label="Проверить Т/С"
-          icon="fas fa-car"
-        />
-
-        <q-btn
-          color="white"
-          outline
-          class="shadow-2"
-          size="sm"
-          label="Проверить оружие"
-          icon="local_fire_department"
-        />
-      </div>
-    </div>
-
-    <div
-      class="full-width q-mt-md row justify-center"
       v-if="type == 'create' || type == 'edit'"
     >
       <q-btn
