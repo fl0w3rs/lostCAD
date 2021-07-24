@@ -2,7 +2,6 @@ export default function () {
   return {
     gameZone: 'Игровая зона',
     dispatchLog: '',
-    signal100: false,
-    priority: false,
+    signal: 0,
   };
 }

@@ -13,7 +13,7 @@ const execShellCommand = (cmd, cwd = process.cwd()) => {
       if (error) {
         console.warn(error);
       }
-      resolve(stdout? stdout : stderr);
+      resolve(stdout ? stdout : stderr);
     });
   });
 }
@@ -35,9 +35,9 @@ const esbuildOptions = {
 
 const doBuild = async () => {
   if (fs.existsSync(buildDirectory)) {
-    fs.rmSync(buildDirectory, { recursive: true }, () => {});
+    fs.rmSync(buildDirectory, { recursive: true }, () => { });
   }
-  
+
   fs.mkdirSync(buildDirectory);
 
   require('esbuild').build({
@@ -49,11 +49,11 @@ const doBuild = async () => {
     if (!resp.includes('Build succeeded')) {
       return console.error('Frontend build error.')
     }
-  
+
     console.log('Frontend build success.');
-  
-    fs.rename('./frontend/dist/spa', path.join(buildDirectory, 'front'), () => {})
-    
+
+    fs.rename('./frontend/dist/spa', path.join(buildDirectory, 'front'), () => { })
+
   });
 
 }
@@ -64,17 +64,17 @@ const initProcess = (command, { workingDir = process.cwd(), node = true, environ
     process: null,
     command,
     environment,
-    run: async function() {
-      if(this.process) return;
-      if(node) {
+    run: async function () {
+      if (this.process) return;
+      if (node) {
         this.process = await childProcess.fork(command, [], { cwd: this.workingDir, env: { ...process.env, NODE_ENV: this.environment } })
       } else {
         const args = command.split(' ')
         this.process = await childProcess.spawn(args[0], args.slice(1), { cwd: this.workingDir, env: { ...process.env, NODE_ENV: this.environment } })
       }
     },
-    stop: function() {
-      if(!this.process) return;
+    stop: function () {
+      if (!this.process) return;
       this.process.kill('SIGKILL');
       this.process = null;
     }
@@ -101,7 +101,7 @@ const doDev = async () => {
         }
       },
     }
-  }).then(() => { 
+  }).then(() => {
     // backendProcess.run();
   }).catch(() => process.exit(1))
 
@@ -118,6 +118,6 @@ const buildBackend = async () => {
   }).catch(() => process.exit(1))
 }
 
-if(type === 'build') doBuild();
-else if(type === 'dev') doDev();
-else if(type === 'buildBackEnd') buildBackend();
+if (type === 'build') doBuild();
+else if (type === 'dev') doDev();
+else if (type === 'buildBackend') buildBackend();

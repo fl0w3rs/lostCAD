@@ -1,4 +1,4 @@
-Date.now = function() { return new Date().getTime() / 1000 | 0; }
+Date.now = function () { return new Date().getTime() / 1000 | 0; }
 
 module.exports = () => ({
     list: {

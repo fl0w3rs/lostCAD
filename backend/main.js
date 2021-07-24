@@ -1,4 +1,4 @@
-const adminGroups = [ 4 ]
+const adminGroups = [4]
 
 const vtemplates = require('./vtemplates.js');
 const db = require('./db.js');
@@ -16,7 +16,7 @@ const app = express();
 const http = require('http').Server(app);
 app.use(cookieParser());
 
-if(process.env.NODE_ENV == 'dev') {
+if (process.env.NODE_ENV == 'dev') {
     // app.use(createProxyMiddleware('/', { target: 'http://127.0.0.1:9110/', changeOrigin: true }));
     app.all(
         '/', createProxyMiddleware('/', { target: 'http://127.0.0.1:9110/', changeOrigin: true })
@@ -43,10 +43,10 @@ app.get('/api/getAuthKey', (req, res) => {
 })
 
 // -+
-Date.now = function() { return new Date().getTime() / 1000 | 0; }
+Date.now = function () { return new Date().getTime() / 1000 | 0; }
 
-Array.prototype.intersects = function(arr) {
-    if(!Array.isArray(arr)) return false;
+Array.prototype.intersects = function (arr) {
+    if (!Array.isArray(arr)) return false;
     return this.filter(x => arr.includes(x));
 }
 // -+
@@ -60,24 +60,24 @@ const utils = {
             globalCache.set('allDepartments', depts, 60);
             return depts;
         }
-    
+
         return cached;
     },
-    getTenCodes: async function() {
+    getTenCodes: async function () {
         const data = await this.settings.get('tenCodes');
         return data;
     },
-    getPenalCode: async function() {
+    getPenalCode: async function () {
         const data = await this.settings.get('penalCode');
         return data;
     },
-    getAllUnits: async function() {
+    getAllUnits: async function () {
         const units = await db.cad.Unit.findAll();
-        for(let i = 0; i < units.length; i += 1) {
+        for (let i = 0; i < units.length; i += 1) {
             const members = await units[i].getUsers();
             units[i] = units[i].dataValues;
             units[i].members = members;
-            for(let j = 0; j < units[i].members.length; j += 1) {
+            for (let j = 0; j < units[i].members.length; j += 1) {
                 units[i].members[j] = (await db.cad.Identifier.findOne({ where: { id: units[i].members[j].dataValues.currentIdentifier } }))?.dataValues || undefined;
             }
         }
@@ -112,7 +112,7 @@ const utils = {
 
 import * as messages from './messages/**/*';
 let messageModules = [];
-for(let i = 0; i < messages.default.length; i += 1) {
+for (let i = 0; i < messages.default.length; i += 1) {
     messageModules.push(messages.default[i].default);
 }
 
@@ -136,21 +136,21 @@ io.sendDispatchLogMessage = async (message) => {
 
 io.sendLogMessageToUnit = async (id, message, { sendToDispatch = true } = {}) => {
     const unit = await db.cad.Unit.findOne({ where: { id } })
-    if(!unit) return;
+    if (!unit) return;
 
     const time = new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' });
 
     unit.log = `[${time}] ${message}\n${unit.dataValues.log}`;
     await unit.save();
 
-    if(sendToDispatch) {
+    if (sendToDispatch) {
         io.sendDispatchLogMessage(`UNIT ${unit.dataValues.callsign}: ${message}`)
     }
 
     io.updateAllUnits();
-    
+
     (await io.fetchSockets()).forEach((sock) => {
-        if(sock.unitId == id) {
+        if (sock.unitId == id) {
             sock.emit('unitLogMessage', message)
         }
     });
@@ -160,7 +160,7 @@ io.on('connection', (socket) => {
     socket.isAuthenticated = false
 
     setTimeout(() => {
-        if(socket.isAuthenticated == false) socket.disconnect()
+        if (socket.isAuthenticated == false) socket.disconnect()
     }, 5000);
 
     socket.cache = createCacheInstance();
@@ -169,11 +169,11 @@ io.on('connection', (socket) => {
         const cached = socket.cache.get('forumUser')
 
         if (!cached) {
-            const data = await db.forum.core_members.findOne({where: {member_id: socket.userId}});
+            const data = await db.forum.core_members.findOne({ where: { member_id: socket.userId } });
             socket.cache.set('forumUser', data, 20);
             return data;
         }
-    
+
         return cached;
     }
 
@@ -181,11 +181,11 @@ io.on('connection', (socket) => {
         const cached = socket.cache.get('cadUser')
 
         if (!cached) {
-            const data = await db.cad.User.findOne({where: {fid: socket.userId}}) || await db.cad.User.create({fid: socket.userId});
+            const data = await db.cad.User.findOne({ where: { fid: socket.userId } }) || await db.cad.User.create({ fid: socket.userId });
             socket.cache.set('cadUser', data, 20);
             return data;
         }
-    
+
         return cached;
     }
 
@@ -195,18 +195,18 @@ io.on('connection', (socket) => {
         if (!cached) {
             const user = await socket.getForumUser()
 
-            let groups = [ user.dataValues.member_group_id ]
+            let groups = [user.dataValues.member_group_id]
             groups = groups.concat(user.dataValues.mgroup_others.split(','))
 
-            for(let i = 0; i < groups.length; i += 1) {
-                if(groups[i] == '') groups.splice(i, 1)
+            for (let i = 0; i < groups.length; i += 1) {
+                if (groups[i] == '') groups.splice(i, 1)
                 groups[i] = parseInt(groups[i])
             }
 
             socket.cache.set('groups', groups, 20);
             return groups;
         }
-    
+
         return cached;
     }
 
@@ -219,7 +219,7 @@ io.on('connection', (socket) => {
             socket.cache.set('cadUser', data, 20);
             return data;
         }
-    
+
         return cached;
 
     }
@@ -236,14 +236,14 @@ io.on('connection', (socket) => {
             let isAdmin = await socket.isAdmin()
 
             for (let i = 0; i < allDepartments.length; i += 1) {
-                if(isAdmin) {
+                if (isAdmin) {
                     availabeDepartments.push(allDepartments[i].dataValues);
                     continue;
                 }
 
                 let groups = allDepartments[i].dataValues.groups.split(',').map(Number)
 
-                if(userGroups.intersects(groups).length > 0) availabeDepartments.push(allDepartments[i].dataValues)
+                if (userGroups.intersects(groups).length > 0) availabeDepartments.push(allDepartments[i].dataValues)
 
             }
 
@@ -257,7 +257,7 @@ io.on('connection', (socket) => {
     socket.isDepartmentTypeAvailable = async (type) => {
         let availableDepartments = await socket.getAvailableDepartments();
         for (let i = 0; i < availableDepartments.length; i += 1) {
-            if(availableDepartments[i].type == type) return true;
+            if (availableDepartments[i].type == type) return true;
         }
 
         return false;
@@ -277,7 +277,7 @@ io.on('connection', (socket) => {
     }
 
     socket.sendAllCharacters = async (cached = true) => {
-        if(!cached) socket.cache.clear('characters')
+        if (!cached) socket.cache.clear('characters')
 
         let chars = await socket.getAllCharacters()
         socket.emit('updateCharacters', chars)
@@ -290,7 +290,7 @@ io.on('connection', (socket) => {
             }, limit: 10
         }) || []
 
-        socket.emit('updateIdentifiers', {list: identifiers})
+        socket.emit('updateIdentifiers', { list: identifiers })
     }
 
     socket.updateVehicles = async () => {
@@ -323,7 +323,7 @@ io.on('connection', (socket) => {
         socket.emit('updateAllUnits', units);
     }
 
-    for(let i = 0; i < messageModules.length; i += 1) {
+    for (let i = 0; i < messageModules.length; i += 1) {
         socket.on(messageModules[i].message, (data) => {
             const ctx = {
                 db,

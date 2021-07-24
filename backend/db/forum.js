@@ -7,7 +7,7 @@ const sequelize = new Sequelize('db_name', 'db_user', 'db_password', {
     }
 });
 
-const core_members_known_devices = sequelize.define('core_members_known_devices', 
+const core_members_known_devices = sequelize.define('core_members_known_devices',
     {
         device_key: {
             type: DataTypes.STRING(32),
@@ -26,7 +26,7 @@ const core_members_known_devices = sequelize.define('core_members_known_devices'
     }
 );
 
-const core_members = sequelize.define('core_members', 
+const core_members = sequelize.define('core_members',
     {
         member_id: {
             type: DataTypes.BIGINT,

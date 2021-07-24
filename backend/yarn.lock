@@ -197,6 +197,11 @@ engine.io@~5.1.0:
     engine.io-parser "~4.0.0"
     ws "~7.4.2"
 
+esbuild-plugin-sequelize-mysql@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/esbuild-plugin-sequelize-mysql/-/esbuild-plugin-sequelize-mysql-1.0.1.tgz#120508b02ae0b029dd2283997f576d91ec2859b2"
+  integrity sha512-LxRwq/a8jFIJ5gyRoAo8l5WZ/9xOo/Ni1fJKd7cyJmM9YLI6E1dAoD6p/7u0UV0avQKcc4TCW7vuuKNbhfNMtQ==
+
 escape-html@~1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"

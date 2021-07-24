@@ -11,10 +11,6 @@ export function getDispatchLog(state) {
   return state.dispatchLog;
 }
 
-export function getSignal100(state) {
-  return state.signal100;
-}
-
-export function getPriority(state) {
-  return state.priority;
+export function getSignal(state) {
+  return state.signal;
 }

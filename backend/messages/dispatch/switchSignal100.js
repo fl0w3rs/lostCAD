@@ -1,14 +1,13 @@
 module.exports = {
-    message: 'dispatch/switchSignal100',
-    callback: async ({ utils, socket, io }) => {
-        if(!socket.isAuthenticated) return
-        if(!await socket.isDepartmentTypeAvailable('dispatch')) return
+    message: 'dispatch/setSignal',
+    callback: async ({ utils, socket, io, data }) => {
+        if (!socket.isAuthenticated) return
+        if (!await socket.isDepartmentTypeAvailable('dispatch')) return
 
-        const state = await utils.settings.get('signal100');
-        
-        const newstate = state == 0 ? 1 : 0;
-        await utils.settings.set('signal100', newstate)
+        if (!data) return;
 
-        io.emit('updateSignal100', newstate)
+        await utils.settings.set('signal', data)
+
+        io.emit('updateSignal', data == 'clear' ? '0' : data)
     }
 }

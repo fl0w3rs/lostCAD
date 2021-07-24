@@ -5,6 +5,16 @@
       :rows='list'
       :columns='columns'
       @row-click="onClick">
+
+      <template v-slot:body-cell="props">
+        <q-td
+          :props="props"
+          :class="props.row.panic == true ? 'bg-orange-14' : ''"
+        >
+          {{props.value}}
+        </q-td>
+      </template>
+
     </q-table>
   </div>
 </template>
@@ -26,23 +36,23 @@ export default {
 
     const statuses = {
       unavail: {
-        text: 'UNAVAILABLE',
+        text: 'НЕ ДОСТУПЕН',
         class: 'text-red',
       },
       avail: {
-        text: 'AVAILABLE',
+        text: 'ДОСТУПЕН',
         class: 'text-cyan',
       },
       busy: {
-        text: 'BUSY',
+        text: 'ЗАНЯТ',
         class: 'text-orange',
       },
       enroute: {
-        text: 'ENROUTE',
+        text: 'В ПУТИ',
         class: 'text-blue',
       },
       onscene: {
-        text: 'ON SCENE',
+        text: 'НА СЦЕНЕ',
         class: 'text-green',
       },
     };
@@ -93,7 +103,7 @@ export default {
           required: true,
           label: 'Статус',
           align: 'center',
-          classes: (row) => statuses[row.status].class,
+          classes: (row) => `${row.panic ? '' : statuses[row.status].class} text-bold`,
           field: (row) => statuses[row.status].text,
           sortable: true,
         },

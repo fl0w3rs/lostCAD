@@ -7,7 +7,7 @@ const sequelize = new Sequelize('db_name', 'db_user', 'db_password', {
     }
 });
 
-const User = sequelize.define('user', 
+const User = sequelize.define('user',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -28,7 +28,7 @@ const User = sequelize.define('user',
     }
 );
 
-const Department = sequelize.define('department', 
+const Department = sequelize.define('department',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -45,7 +45,7 @@ const Department = sequelize.define('department',
     }
 );
 
-const Character = sequelize.define('character', 
+const Character = sequelize.define('character',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -60,7 +60,7 @@ const Character = sequelize.define('character',
         placeOfWork: DataTypes.STRING(64),
         residenceAddress: DataTypes.STRING(64),
         blockNumber: DataTypes.INTEGER,
-        height:  DataTypes.STRING(16),
+        height: DataTypes.STRING(16),
         weight: DataTypes.STRING(16),
         race: DataTypes.STRING(16),
         eyeColor: DataTypes.STRING(16),
@@ -83,7 +83,7 @@ const Character = sequelize.define('character',
     }
 );
 
-const Identifier = sequelize.define('identifier', 
+const Identifier = sequelize.define('identifier',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -101,7 +101,7 @@ const Identifier = sequelize.define('identifier',
     }
 );
 
-const Vehicle = sequelize.define('vehicle', 
+const Vehicle = sequelize.define('vehicle',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -129,7 +129,7 @@ const Vehicle = sequelize.define('vehicle',
     }
 );
 
-const Weapon = sequelize.define('weapon', 
+const Weapon = sequelize.define('weapon',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -148,7 +148,7 @@ const Weapon = sequelize.define('weapon',
     }
 );
 
-const Unit = sequelize.define('unit', 
+const Unit = sequelize.define('unit',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -165,7 +165,7 @@ const Unit = sequelize.define('unit',
     }
 );
 
-const Setting = sequelize.define('setting', 
+const Setting = sequelize.define('setting',
     {
         id: {
             type: DataTypes.INTEGER,
@@ -230,10 +230,10 @@ exports.Setting = Setting
 
 const createTables = async () => {
     const keys = Object.keys(exports);
-    for(let i = 0; i < keys.length; i += 1) {
+    for (let i = 0; i < keys.length; i += 1) {
         const obj = exports[keys[i]];
 
-        if(typeof obj !== 'function') continue;
+        if (typeof obj !== 'function') continue;
 
         await obj.sync();
     }

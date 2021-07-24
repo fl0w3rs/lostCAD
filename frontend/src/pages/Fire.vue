@@ -1,7 +1,7 @@
 <template>
   <div class="fire-page full-width text-center">
 
-    <Signal100Bar/>
+    <SignalBar/>
 
     <div class="accentDark q-py-xs q-px-lg">
       <UpperBarComponent />
@@ -55,11 +55,11 @@
 
 <script>
 import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
-import Signal100Bar from 'src/components/nonCivTopBar/Signal100.vue';
+import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
 
 export default {
   name: 'FirePage',
 
-  components: { UpperBarComponent, Signal100Bar },
+  components: { UpperBarComponent, SignalBar },
 };
 </script>

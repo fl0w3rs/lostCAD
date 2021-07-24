@@ -1,7 +1,7 @@
 <template>
   <div class="dispatch-page full-width text-center">
 
-    <Signal100Bar />
+    <signal-bar />
 
     <div class="accentDark q-py-xs q-px-lg">
       <UpperBarComponent />
@@ -10,17 +10,12 @@
     <div class="accent column items-center q-mt-sm q-py-md row justify-center">
       <div class="row q-gutter-xs">
         <q-btn
-          label="СИГНАЛ 100"
+          label="СИГНАЛ"
           outline
-          :color="signal100status == 1 ? 'red' : 'gray'"
-          @click="switchSignal100"
+          :color="'gray'"
+          @click="switchSignal"
         />
-        <q-btn
-          label="ПРИОРИТЕТ"
-          outline
-          :color="priorityStatus == 1 ? 'light-blue' : 'gray'"
-          @click="switchPriority"
-        />
+        <priority-button />
       </div>
       <div class="row q-mt-xs q-gutter-xs">
         <q-btn
@@ -93,34 +88,36 @@
 import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
 import DispatchLog from 'src/components/dispatch/Log.vue';
 import UnitList from 'src/components/unit/List.vue';
-import Signal100Bar from 'src/components/nonCivTopBar/Signal100.vue';
-import $socket from 'src/boot/socketio-instance';
+import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import PriorityButton from '../components/PriorityButton.vue';
 
 export default {
   name: 'DispatchPage',
 
   components: {
-    UpperBarComponent, DispatchLog, UnitList, Signal100Bar,
+    UpperBarComponent,
+    DispatchLog,
+    UnitList,
+    SignalBar,
+    PriorityButton,
   },
 
   setup() {
     const store = useStore();
 
-    const switchSignal100 = () => {
-      $socket.emit('dispatch/switchSignal100');
-    };
-
-    const switchPriority = () => {
-      $socket.emit('dispatch/switchPriority');
+    const switchSignal = () => {
+      store.commit('window/add', {
+        component: 'dispatch/EditSignal',
+        title: 'Редактирование сигнала',
+        dialog: true,
+      });
     };
 
     return {
-      switchSignal100,
-      signal100status: computed(() => store.getters['other/getSignal100']),
-      switchPriority,
-      priorityStatus: computed(() => store.getters['other/getPriority']),
+      switchSignal,
+      signalStatus: computed(() => store.getters['other/getSignal']),
     };
   },
 };

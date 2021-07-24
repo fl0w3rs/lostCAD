@@ -1,6 +1,6 @@
 <template>
   <div class="civilian-page full-width text-center">
-    <Signal100Bar/>
+    <SignalBar/>
     <div class="accent q-pa-md non-selectable">
       <div class="row q-col-gutter-xs text-uppercase">
         <div class="col-12 col-sm-4 justify-start">
@@ -172,7 +172,7 @@ import VehicleList from 'src/components/vehicle/List.vue';
 import WeaponList from 'src/components/weapon/List.vue';
 import InfoBar from 'src/components/nonCivTopBar/Info.vue';
 import Time from 'src/components/nonCivTopBar/Time.vue';
-import Signal100Bar from 'src/components/nonCivTopBar/Signal100.vue';
+import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
 
 import {
   ref, onBeforeMount, onBeforeUnmount, computed, watch,
@@ -191,7 +191,7 @@ export default {
     InfoBar,
     WeaponList,
     Time,
-    Signal100Bar,
+    SignalBar,
   },
 
   setup() {

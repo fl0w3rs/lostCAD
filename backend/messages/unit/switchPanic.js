@@ -1,11 +1,18 @@
 module.exports = {
     message: 'unit/switchPanic',
-    callback: async ({ socket, data, io }) => {
+    callback: async ({ socket, io }) => {
+        if (!socket.isAuthenticated) return
+
+        if (
+            !await socket.isDepartmentTypeAvailable('police') &&
+            !await socket.isDepartmentTypeAvailable('fire')
+        ) return
+
         const user = await socket.getUser();
-        
+
         const unit = await user.getUnit();
 
-        if(!unit) return;
+        if (!unit) return;
 
         unit.panic = !unit.dataValues.panic;
 

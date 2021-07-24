@@ -82,7 +82,7 @@
 </style>
 
 <script>
-import { computed, onBeforeMount } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import WindowComponent from 'components/Window.vue';
 
@@ -93,8 +93,6 @@ export default {
 
   setup() {
     const store = useStore();
-
-    onBeforeMount(() => { store.dispatch('other/requestPriority'); });
 
     return {
       username: computed(() => store.getters['user/getName']),

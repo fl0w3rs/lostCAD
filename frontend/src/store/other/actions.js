@@ -9,10 +9,6 @@ export function requestDispatchLog() {
   $socket.emit('dispatch/requestLog');
 }
 
-export function requestSignal100() {
-  $socket.emit('getSignal100');
-}
-
-export function requestPriority() {
-  $socket.emit('getPriority');
+export function requestSignal() {
+  $socket.emit('getSignal');
 }

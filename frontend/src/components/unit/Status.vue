@@ -130,6 +130,8 @@
           label="Паника"
         />
 
+        <priority-button />
+
       </div>
     </div>
   </div>
@@ -152,8 +154,10 @@ import { onBeforeMount, computed } from 'vue';
 import { useStore } from 'vuex';
 import $socket from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
+import PriorityButton from '../PriorityButton.vue';
 
 export default {
+  components: { PriorityButton },
   setup() {
     const $q = useQuasar();
     const store = useStore();
@@ -205,7 +209,7 @@ export default {
 
     onBeforeMount(() => {
       store.dispatch('unit/requestAllUnits');
-      store.dispatch('other/requestSignal100');
+      store.dispatch('other/requestSignal');
     });
 
     return {
