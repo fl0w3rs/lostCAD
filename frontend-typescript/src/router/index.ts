@@ -5,7 +5,7 @@ import {
   createWebHashHistory,
   createWebHistory,
 } from 'vue-router';
-import { middlewarePipeline, MiddlewareFunction } from './middleware';
+import { middlewarePipeline, MiddlewareFunction } from './middlewares/_main';
 import { StateInterface } from '../store';
 import routes from './routes';
 
@@ -34,6 +34,7 @@ export default route<StateInterface>(({ store }) => {
 
   Router.beforeEach((to, from, next) => {
     if (!to.meta.middlewares) return next();
+    if (to.meta.middlewares.length === 0) return next();
     // eslint-disable-next-line prefer-destructuring
     const middlewares: Array<MiddlewareFunction> = to.meta.middlewares;
     const context = {

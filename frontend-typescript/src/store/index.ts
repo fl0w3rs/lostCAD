@@ -6,8 +6,11 @@ import {
   useStore as vuexUseStore,
 } from 'vuex';
 
-// import example from './module-example'
-// import { ExampleStateInterface } from './module-example/state';
+import authentication from './authentication';
+import { AuthenticationStateInterface } from './authentication/state';
+
+import windows from './windows';
+import { WindowStateInterface } from './windows/state';
 
 /*
  * If not building with SSR mode, you can
@@ -22,7 +25,8 @@ export interface StateInterface {
   // Define your own store structure, using submodules if needed
   // example: ExampleStateInterface;
   // Declared as unknown to avoid linting issue. Best to strongly type as per the line above.
-  example: unknown
+  authentication: AuthenticationStateInterface,
+  windows: WindowStateInterface,
 }
 
 // provide typings for `this.$store`
@@ -38,7 +42,8 @@ export const storeKey: InjectionKey<VuexStore<StateInterface>> = Symbol('vuex-ke
 export default store((/* { ssrContext } */) => {
   const Store = createStore<StateInterface>({
     modules: {
-      // example
+      authentication,
+      windows,
     },
 
     // enable strict mode (adds overhead!)
