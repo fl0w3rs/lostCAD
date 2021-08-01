@@ -1,5 +1,7 @@
 <template>
-  <div>My component My componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy componentMy component</div>
+  <div>
+    My component
+  </div>
 </template>
 
 <script lang="ts">

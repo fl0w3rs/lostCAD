@@ -23,12 +23,7 @@
       :style="{ height: (height - 32) + 'px' }"
       class="bg-grey-10 border-maroon-thick"
     >
-      <component
-        :is="getWindowComponent"
-        v-bind:window="windowData"
-        class="q-pa-sm"
-      >
-      </component>
+      <component :is="getWindowComponent" v-bind:window="windowData" class="q-pa-sm" />
     </q-scroll-area>
   </Vue3DraggableResizable>
 
@@ -39,10 +34,7 @@
     transition-hide="slide-down"
     v-if="windowData.type === 'dialog'"
   >
-    <q-card
-      class="border-maroon-thick"
-      :style="{minWidth: width}"
-    >
+    <q-card class="border-maroon-thick" :style="{minWidth: dialogWidth}">
       <q-bar class="bg-maroon">
         <q-icon name="laptop_chromebook" />
         <div>{{windowData.title}}</div>
@@ -119,6 +111,7 @@ export default defineComponent({
 
     const theWindow = ref<IWindow>(props.windowData);
 
+    // draggable part
     let initialWidth = theWindow.value.initialWidth || '400px';
     const initialHeight = theWindow.value.initialHeight || '300px';
 
@@ -126,17 +119,13 @@ export default defineComponent({
       if (tstpi(initialWidth) > window.innerWidth) initialWidth = `${window.innerWidth}px`;
     }
 
-    const width = ref<number | string>(tstpi(initialWidth));
-    const height = ref<number | string>(tstpi(initialHeight));
+    const width = ref<number>(tstpi(initialWidth));
+    const height = ref<number>(tstpi(initialHeight));
 
     const posX = ref(0);
     const posY = ref(0);
 
     onBeforeMount(() => {
-      if (theWindow.value.type === 'dialog') {
-        width.value = initialWidth;
-      }
-
       posX.value = (window.innerWidth / 2) - (tstpi(initialWidth) / 2);
       posY.value = getVerticalScrollPosition(window) - 50
         + (window.innerHeight / 2)
@@ -146,6 +135,25 @@ export default defineComponent({
     const onActivated = () => {
       store.commit('windows/click', theWindow.value.id);
     };
+
+    /*
+    const onDragEvent = (payload: { x: number, y: number }) => {
+      const { x, y } = payload;
+
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      const maximumX = windowWidth - width.value - 4;
+      const maximumY = windowHeight - height.value - 4;
+
+      if (x > maximumX) posX.value = maximumX;
+      if (y > maximumY) posY.value = maximumY;
+      return false;
+    };
+    */
+
+    // dialog part
+    const dialogWidth = theWindow.value.initialWidth || null;
 
     return {
       width,
@@ -159,6 +167,8 @@ export default defineComponent({
         `components/${theWindow.value.component}.vue`
       )),
       dialog: true,
+      dialogWidth,
+      // onDragEvent,
     };
   },
 });
