@@ -1,7 +1,7 @@
 <template>
-  <q-page class="row items-center justify-center">
+  <div class="row items-center justify-center" style="min-height: inherit;">
     test
-  </q-page>
+  </div>
 </template>
 
 <script lang="ts">
@@ -13,8 +13,9 @@ export default defineComponent({
   name: 'PageIndex',
   setup() {
     const store = useStore();
-    console.log(store);
-    store.commit('windows/open', windowWrapper({ title: '', type: 'draggable' }));
+    store.commit('windows/open', windowWrapper({
+      title: '', type: 'draggable', initialWidth: '50vw', component: 'Test',
+    }));
     return {};
   },
 });

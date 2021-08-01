@@ -1,7 +1,7 @@
-import { Window } from './types';
+import { IWindow } from './types';
 
 export interface WindowStateInterface {
-  list: Array<Window>;
+  list: Array<IWindow>;
 }
 
 function state(): WindowStateInterface {

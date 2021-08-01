@@ -32,6 +32,7 @@
 
     <q-page-container>
       <q-page>
+        <all-windows />
         <router-view v-slot="{ Component }">
           <transition
             name="scale"
@@ -40,6 +41,7 @@
             <component :is="Component" />
           </transition>
         </router-view>
+
       </q-page>
     </q-page-container>
   </q-layout>
@@ -60,9 +62,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import AllWindows from 'src/components/AllWindows.vue';
 
 export default defineComponent({
   name: 'MainLayout',
+  components: { AllWindows },
 
   setup() {
     return {};
