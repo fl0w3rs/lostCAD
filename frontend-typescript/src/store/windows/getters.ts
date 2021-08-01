@@ -3,9 +3,7 @@ import { StateInterface } from '../index';
 import { WindowStateInterface } from './state';
 
 const getters: GetterTree<WindowStateInterface, StateInterface> = {
-  getList(state) {
-    return state.list;
-  },
+  getList: (state) => state.list,
 };
 
 export default getters;

@@ -3,7 +3,7 @@ import { StateInterface } from '../index';
 import { AuthenticationStateInterface } from './state';
 
 const actions: ActionTree<AuthenticationStateInterface, StateInterface> = {
-  someAction(/* context */) {
+  init(/* context */) {
     // your code
   },
 };

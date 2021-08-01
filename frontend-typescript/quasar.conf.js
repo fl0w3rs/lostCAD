@@ -30,7 +30,7 @@ module.exports = configure((ctx) => ({
   // --> boot files are part of "main.js"
   // https://v2.quasar.dev/quasar-cli/boot-files
   boot: [
-    'notify-defaults',
+    'notify-defaults', 'socketio',
   ],
 
   // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
