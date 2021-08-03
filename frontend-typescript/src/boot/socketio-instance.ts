@@ -1,57 +1,95 @@
+/* eslint-disable no-unused-vars */
 import { io } from 'socket.io-client';
-// import { v4 as uuidv4 } from 'uuid';
+import type { Socket } from 'socket.io-client';
+import { v4 as uuidv4 } from 'uuid';
+import { onBeforeMount, onBeforeUnmount } from 'vue';
 
-const instance = io('https://lostcad.fl0w3rs.dev', { path: '/socket' });
+export const socketInstance = io('https://lostcad.fl0w3rs.dev', { path: '/socket' });
 
-// interface SocketWrapper {
-//   wrapperId?: string;
+interface SocketMessage {
+  wrapperId: string;
+  data: unknown;
+}
 
-// }
+interface Listener {
+  event: string;
+  // eslint-disable-next-line no-unused-vars
+  handler: (data: unknown) => void;
+  isAttached: boolean;
+}
 
-// instance.initWrapper = () => {
-//   const wrapper: SocketWrapper = {};
+interface SocketWrapperOptions {
+  hookComponentLifeCycle: boolean;
+}
 
-//   wrapper.wrapperId = uuidv4();
+// eslint-disable-next-line no-unused-vars
+type EmitReturnCallback = (pl: unknown) => void;
 
-//   wrapper.listeners = [];
+export class SocketWrapper {
+  public instance: Socket;
 
-//   wrapper.emit = (evt, payload, options = {}) => {
-//     const requestId = uuidv4();
+  private readonly wrapperId: string;
 
-//     instance.emit(evt, { payload, wrapperId: wrapper.wrapperId, requestId });
+  private listeners: Array<Listener>;
 
-//     if (typeof options?.onReturn === 'function') {
-//       instance.once(`return_${requestId}`, (pl) => {
-//         options.onReturn(pl.data);
-//       });
-//     }
-//   };
+  private readonly options: SocketWrapperOptions;
 
-//   wrapper.listen = (evt, handler, options = {}) => {
-//     const callback = (payload) => {
-//       if (!options.ignoreWrapperID && payload.wrapperId !== wrapper.wrapperId) return;
-//       const data = payload.wrapperId ? payload.data : payload;
-//       handler(data);
-//     };
+  constructor(options: SocketWrapperOptions = { hookComponentLifeCycle: true }) {
+    this.instance = socketInstance;
+    this.wrapperId = uuidv4();
+    this.listeners = [];
+    this.options = options;
 
-//     wrapper.listeners.push({ event: evt, handler: callback });
-//   };
+    if (this.options.hookComponentLifeCycle) {
+      onBeforeMount(() => { this.attachListeners(); });
+      onBeforeUnmount(() => { this.detachListeners(); });
+    }
+  }
 
-//   wrapper.mount = () => {
-//     for (let i = 0; i < wrapper.listeners.length; i += 1) {
-//       const { event, handler } = wrapper.listeners[i];
-//       instance.on(event, handler);
-//     }
-//   };
+  // eslint-disable-next-line no-unused-vars
+  emit(event: string, payload: unknown): { onReturn: (handler: EmitReturnCallback) => void } {
+    const requestId = uuidv4();
 
-//   wrapper.unmount = () => {
-//     for (let i = 0; i < wrapper.listeners.length; i += 1) {
-//       const { event, handler } = wrapper.listeners[i];
-//       instance.off(event, handler);
-//     }
-//   };
+    this.instance.emit(event, { requestId, wrapperId: this.wrapperId, payload });
 
-//   return wrapper;
-// };
+    return {
+      onReturn: (handler: EmitReturnCallback) => {
+        this.instance.once(`return_${requestId}`, (rPayload) => {
+          const pl = rPayload as SocketMessage;
+          handler(pl.data);
+        });
+      },
+    };
+  }
 
-export default instance;
+  listen(
+    event: string,
+    handler: (payload: unknown) => void,
+    options: { ignoreWrapperID: boolean } = { ignoreWrapperID: false },
+  ): void {
+    this.listeners.push({ event, handler, isAttached: false });
+    if (!this.options.hookComponentLifeCycle) this.attachListeners();
+  }
+
+  attachListeners() {
+    for (let i = 0; i < this.listeners.length; i += 1) {
+      // eslint-disable-next-line no-continue
+      if (this.listeners[i].isAttached) continue;
+
+      const { event, handler } = this.listeners[i];
+      socketInstance.on(event, handler);
+      this.listeners[i].isAttached = true;
+    }
+  }
+
+  detachListeners() {
+    for (let i = 0; i < this.listeners.length; i += 1) {
+      // eslint-disable-next-line no-continue
+      if (!this.listeners[i].isAttached) continue;
+
+      const { event, handler } = this.listeners[i];
+      socketInstance.off(event, handler);
+      this.listeners[i].isAttached = false;
+    }
+  }
+}

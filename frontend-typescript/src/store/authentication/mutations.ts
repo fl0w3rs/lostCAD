@@ -2,8 +2,17 @@ import { MutationTree } from 'vuex';
 import { AuthenticationStateInterface } from './state';
 
 const mutation: MutationTree<AuthenticationStateInterface> = {
-  someMutation(/* state: ExampleStateInterface */) {
-    // your code
+  success(state: AuthenticationStateInterface) {
+    state.status = true;
+  },
+  error(state: AuthenticationStateInterface) {
+    state.status = false;
+  },
+  socketInitialized(state: AuthenticationStateInterface) {
+    state.socketInitialized = true;
+  },
+  socketDisconnected(state: AuthenticationStateInterface) {
+    state.status = false;
   },
 };
 

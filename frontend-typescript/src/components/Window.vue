@@ -136,39 +136,25 @@ export default defineComponent({
       store.commit('windows/click', theWindow.value.id);
     };
 
-    /*
-    const onDragEvent = (payload: { x: number, y: number }) => {
-      const { x, y } = payload;
-
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-
-      const maximumX = windowWidth - width.value - 4;
-      const maximumY = windowHeight - height.value - 4;
-
-      if (x > maximumX) posX.value = maximumX;
-      if (y > maximumY) posY.value = maximumY;
-      return false;
-    };
-    */
-
     // dialog part
     const dialogWidth = theWindow.value.initialWidth || null;
 
     return {
+      // = draggable part
       width,
       height,
       posX,
       posY,
       onActivated,
+      // = dialog part
+      dialog: true,
+      dialogWidth,
+      // = shared part
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       getWindowComponent: defineAsyncComponent(() => import(
         /* webpackMode: "lazy-once" */
         `components/${theWindow.value.component}.vue`
       )),
-      dialog: true,
-      dialogWidth,
-      // onDragEvent,
     };
   },
 });

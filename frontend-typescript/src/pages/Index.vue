@@ -13,6 +13,7 @@ export default defineComponent({
   name: 'PageIndex',
   setup() {
     const store = useStore();
+
     store.commit('windows/open', windowWrapper({
       title: '', type: 'draggable', initialWidth: '50vw', component: 'Test',
     }));
