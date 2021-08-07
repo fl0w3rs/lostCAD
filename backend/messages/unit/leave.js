@@ -10,13 +10,13 @@ module.exports = {
         const members = await unit.getUsers();
 
         socket.unitId = undefined;
-        
-        console.log(user)
-        const identifier = await db.cad.Identifier.findOne({ where: { id: user.dataValues.currentIdentifier } });
-        console.log(identifier);
-        await io.sendLogMessageToUnit(unitId, `${identifier.dataValues.name} покинул(-а) юнит.`)
 
-        if(members.length === 0) {
+        const identifier = await db.cad.Identifier.findOne({ where: { id: user.dataValues.currentIdentifier } });
+        if (identifier) {
+            await io.sendLogMessageToUnit(unitId, `${identifier.dataValues.name} покинул(-а) юнит.`)
+        }
+
+        if (members.length === 0) {
             await io.sendLogMessageToUnit(unitId, `юнит расформирован из-за отсутствия участников.`)
             await unit.destroy();
         }
