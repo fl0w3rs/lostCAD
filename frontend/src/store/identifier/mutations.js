@@ -10,7 +10,7 @@ export function SOCKET_UPDATEIDENTIFIERS(state, payload) {
 }
 
 export function selectIdentifier(state, id) {
-  if (!id) $socket.emit('unit/leave');
+  if (state.selected !== id) $socket.emit('unit/leave', null);
 
   state.selected = id;
 
