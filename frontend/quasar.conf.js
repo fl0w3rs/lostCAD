@@ -14,7 +14,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 module.exports = function (/* ctx */) {
   return {
     // https://quasar.dev/quasar-cli/supporting-ts
-    supportTS: false,
+    supportTS: true,
 
     // https://quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
@@ -80,7 +80,7 @@ module.exports = function (/* ctx */) {
 
       chainWebpack(chain) {
         chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }]);
+          .use(ESLintPlugin, [{ extensions: ['js', 'vue', 'ts'] }]);
       },
     },
 
