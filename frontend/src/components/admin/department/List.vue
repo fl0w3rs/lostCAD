@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { onBeforeMount, onBeforeUnmount, ref } from 'vue';
-import $socket from 'src/boot/socketio-instance';
+import { onBeforeMount, ref } from 'vue';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 
 export default {
@@ -43,10 +43,7 @@ export default {
 
     const departments = ref([]);
 
-    const socketWrapper = $socket.initWrapper();
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
+    const socketWrapper = new SocketWrapper();
 
     onBeforeMount(() => {
       socketWrapper.emit('admin/departments/getAll');

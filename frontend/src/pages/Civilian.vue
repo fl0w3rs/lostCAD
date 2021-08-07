@@ -180,7 +180,7 @@ import {
 import { date } from 'quasar';
 import { useStore } from 'vuex';
 
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 export default {
   name: 'CivilianPage',
@@ -213,14 +213,11 @@ export default {
       },
     );
 
-    const socketWrapper = $socket.initWrapper();
+    const socketWrapper = new SocketWrapper();
 
     socketWrapper.listen('user/civilian/characters/deleteSuccess', () => {
       selectedCharacter.value = null;
     });
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
 
     let timeInterval;
 

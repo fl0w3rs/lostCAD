@@ -2,10 +2,10 @@
 export function someAction (context) {
 }
 */
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 
 export function requestAllUnits() {
-  $socket.emit('unit/getAll', null);
+  socketInstance.emit('unit/getAll', null);
 }
 
 // eslint-disable-next-line camelcase

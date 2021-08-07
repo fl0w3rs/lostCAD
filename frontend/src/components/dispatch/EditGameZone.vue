@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import { ref, onBeforeMount, onBeforeUnmount } from 'vue';
+import { ref } from 'vue';
 import { useStore } from 'vuex';
-import socketInstance from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 
 export default {
@@ -35,23 +35,19 @@ export default {
     const store = useStore();
     const $q = useQuasar();
 
-    const socketWrapper = socketInstance.initWrapper();
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
+    const socketWrapper = new SocketWrapper();
 
     const gameZone = ref(store.getters['other/getGameZone']);
     const save = () => {
-      socketWrapper.emit('gameZone/set', gameZone.value, {
-        onReturn: (resp) => {
-          if (resp !== 'success') return;
+      socketWrapper.emit('gameZone/set', gameZone.value).onReturn((resp) => {
+        if (resp !== 'success') return;
 
-          $q.notify({
-            type: 'positive',
-            message: 'Игровая зона успешно изменена',
-          });
+        $q.notify({
+          type: 'positive',
+          message: 'Игровая зона успешно изменена',
+        });
 
-          props.window.closeFn();
-        },
+        props.window.closeFn();
       });
     };
 

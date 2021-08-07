@@ -89,11 +89,11 @@
 
 <script>
 import {
-  ref, watch, onBeforeMount, onBeforeUnmount,
+  ref, watch, onBeforeMount,
 } from 'vue';
 import { departmentTypeList } from 'src/utils/constants';
 import { getAllGroupNames } from 'src/utils/api';
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 export default {
   props: {
@@ -103,9 +103,7 @@ export default {
   },
 
   setup(props) {
-    const socketWrapper = $socket.initWrapper();
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
+    const socketWrapper = new SocketWrapper();
 
     const info = ref({ ...props.dept });
     watch(() => props.dept, (val) => { info.value = val; });
@@ -137,27 +135,21 @@ export default {
 
     const create = () => {
       const data = generateFinalVar();
-      socketWrapper.emit('admin/departments/create', data, {
-        onReturn: (payload) => {
-          if (payload === 'success') closeAndRefetch();
-        },
+      socketWrapper.emit('admin/departments/create', data).onReturn((payload) => {
+        if (payload === 'success') closeAndRefetch();
       });
     };
 
     const save = () => {
       const data = generateFinalVar();
-      socketWrapper.emit('admin/departments/edit', data, {
-        onReturn: (payload) => {
-          if (payload === 'success') closeAndRefetch();
-        },
+      socketWrapper.emit('admin/departments/edit', data).onReturn((payload) => {
+        if (payload === 'success') closeAndRefetch();
       });
     };
 
     const remove = () => {
-      socketWrapper.emit('admin/departments/delete', info.value.id, {
-        onReturn: (payload) => {
-          if (payload === 'success') closeAndRefetch();
-        },
+      socketWrapper.emit('admin/departments/delete', info.value.id).onReturn((payload) => {
+        if (payload === 'success') closeAndRefetch();
       });
     };
 

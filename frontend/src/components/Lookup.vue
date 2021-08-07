@@ -231,10 +231,10 @@
 <script>
 /* eslint-disable eqeqeq */
 import {
-  ref, reactive, onBeforeMount, onBeforeUnmount,
+  ref, reactive,
 } from 'vue';
 import { useStore } from 'vuex';
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 import VehicleList from 'components/vehicle/List';
 import WeaponList from 'components/weapon/List';
 
@@ -253,10 +253,7 @@ export default {
   setup(params) {
     const store = useStore();
 
-    const socketWrapper = $socket.initWrapper();
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
+    const socketWrapper = new SocketWrapper();
 
     //
 

@@ -32,7 +32,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
-import socketInstance from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 
 export default defineComponent({
   setup() {

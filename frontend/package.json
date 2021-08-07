@@ -6,10 +6,9 @@
   "author": "fl0w3rs <47712545+fl0w3rs@users.noreply.github.com>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue ./",
+    "lint": "eslint --ext .js,.vue,.ts ./",
     "test": "echo \"No test specified\" && exit 0",
-    "build": "quasar build",
-    "deploy": "vercel"
+    "build": "quasar build"
   },
   "dependencies": {
     "@bugsnag/js": "^7.11.0",
@@ -26,15 +25,16 @@
     "vuex": "4"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.4",
-    "babel-eslint": "^10.0.1",
+    "@types/uuid": "^8.3.1",
+    "@babel/eslint-parser": "^7.14.9",
+    "@quasar/app": "^3.0.3",
+    "@types/node": "^16.4.10",
+    "@typescript-eslint/eslint-plugin": "^4.28.5",
+    "@typescript-eslint/parser": "^4.28.5",
     "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.19.1",
-    "eslint-plugin-node": "^11.0.0",
-    "eslint-plugin-promise": "^5.1.0",
-    "eslint-plugin-vue": "^7.15.1",
-    "eslint-webpack-plugin": "^3.0.1"
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-vue": "^7.15.0"
   },
   "browserslist": [
     "last 10 Chrome versions",

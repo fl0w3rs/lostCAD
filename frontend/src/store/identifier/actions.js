@@ -1,5 +1,5 @@
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 
 export function request() {
-  $socket.emit('user/identifiers/request', {});
+  socketInstance.emit('user/identifiers/request', {});
 }

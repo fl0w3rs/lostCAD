@@ -365,11 +365,11 @@ table > thead > tr > th:nth-child(7) {
 
 <script>
 import {
-  ref, reactive, onBeforeMount, onBeforeUnmount,
+  ref, reactive,
 } from 'vue';
 import { getPenalCode } from 'src/utils/api.js';
 import draggable from 'vuedraggable';
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import { punishmentTypeList, chargeTypeList } from 'src/utils/constants';
 
@@ -381,10 +381,7 @@ export default {
   },
   setup(props) {
     const $q = useQuasar();
-    const socketWrapper = $socket.initWrapper();
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
+    const socketWrapper = new SocketWrapper();
 
     const penalCode = ref([]);
     const initialArticle = {
@@ -407,16 +404,14 @@ export default {
         if (!penalCode.value[i].desc) penalCode.value[i].desc = '';
       }
 
-      socketWrapper.emit('admin/penalCode/edit', penalCode.value, {
-        onReturn(data) {
-          if (data === 'success') {
-            $q.notify({
-              type: 'positive',
-              message: 'Уголовный кодекс успешно отредактирован',
-            });
-            props.window.closeFn();
-          }
-        },
+      socketWrapper.emit('admin/penalCode/edit', penalCode.value).onReturn((data) => {
+        if (data === 'success') {
+          $q.notify({
+            type: 'positive',
+            message: 'Уголовный кодекс успешно отредактирован',
+          });
+          props.window.closeFn();
+        }
       });
     };
 
@@ -449,11 +444,9 @@ export default {
     };
 
     const onEnd = (evt) => {
-      console.log(expands.value);
       const tmp = expands.value[evt.oldIndex - 1];
       expands.value[evt.oldIndex - 1] = expands.value[evt.newIndex - 1];
       expands.value[evt.newIndex - 1] = tmp;
-      console.log(expands.value);
     };
 
     return {

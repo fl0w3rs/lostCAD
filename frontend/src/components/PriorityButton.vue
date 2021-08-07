@@ -7,13 +7,13 @@
 </template>
 
 <script lang="ts">
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   setup() {
     const doPriority = () => {
-      $socket.emit('doPriority');
+      socketInstance.emit('doPriority');
     };
 
     return { doPriority };

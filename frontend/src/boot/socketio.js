@@ -1,7 +1,7 @@
 import VueSocketIOExt from 'vue-socket.io-extended';
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 import { boot } from 'quasar/wrappers';
 
 export default boot(async ({ app, store }) => {
-  app.use(VueSocketIOExt, $socket, { store });
+  app.use(VueSocketIOExt, socketInstance, { store });
 });

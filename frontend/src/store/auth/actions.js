@@ -1,5 +1,5 @@
 import { Notify } from 'quasar';
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance, SocketWrapper } from 'src/boot/socketio-instance';
 
 export function authError({ commit }, message) {
   Notify.create({
@@ -8,14 +8,13 @@ export function authError({ commit }, message) {
   });
 
   commit('authError');
-  $socket.close();
+  socketInstance.close();
 }
 
 /* eslint-disable no-underscore-dangle */
 export function authRequest({ commit, dispatch }) {
   return new Promise((resolve) => {
-    const socketWrapper = $socket.initWrapper();
-    socketWrapper.mount();
+    const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
 
     const applySuccess = (userdata) => {
       commit('authSuccess');
@@ -36,18 +35,14 @@ export function authRequest({ commit, dispatch }) {
           applyError('Ошибка аутентификации.');
         }, 5000);
 
-        socketWrapper.emit('authenticate', { key: data.auth_key }, {
-          onReturn: (payload) => {
-            clearTimeout(to);
+        socketWrapper.emit('authenticate', { key: data.auth_key }).onReturn((payload) => {
+          clearTimeout(to);
 
-            if (payload.status === 'authenticated') {
-              applySuccess(payload.userdata);
-            } else if (payload.status === 'unauthenticated') {
-              applyError('Вы не участник сообщества.');
-            }
-
-            socketWrapper.unmount();
-          },
+          if (payload.status === 'authenticated') {
+            applySuccess(payload.userdata);
+          } else if (payload.status === 'unauthenticated') {
+            applyError('Вы не участник сообщества.');
+          }
         });
       } else {
         applyError('Вы не авторизованы на форуме.');
@@ -55,12 +50,10 @@ export function authRequest({ commit, dispatch }) {
     }).catch((rsn) => {
       console.log(rsn);
       if (process.env.DEV) {
-        socketWrapper.emit('authenticate', { key: 'REDACTED_DEV_LOGIN_KEY' }, {
-          onReturn: (payload) => {
-            if (payload.status === 'authenticated') {
-              applySuccess(payload.userdata);
-            }
-          },
+        socketWrapper.emit('authenticate', { key: 'REDACTED_DEV_LOGIN_KEY' }).onReturn((payload) => {
+          if (payload.status === 'authenticated') {
+            applySuccess(payload.userdata);
+          }
         });
       } else {
         applyError('Ошибка аутентификации.');

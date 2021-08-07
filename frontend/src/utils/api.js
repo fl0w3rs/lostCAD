@@ -1,4 +1,4 @@
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 import { createCacheInstance } from 'src/utils/cache.js';
 
@@ -8,14 +8,12 @@ export const getAvailableDepartments = () => new Promise((resolve) => {
   const cached = cache.get('availableDepartments');
 
   if (!cached) {
-    const socketWrapper = $socket.initWrapper();
+    const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
     socketWrapper.listen('user/responseDepartments', (data) => {
-      socketWrapper.unmount();
+      socketWrapper.detachListeners();
       cache.set('availableDepartments', data.list, 60);
       resolve(data.list);
     });
-
-    socketWrapper.mount();
 
     socketWrapper.emit('user/getAvailableDepartments');
   } else {

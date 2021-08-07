@@ -116,7 +116,7 @@ import {
   watch,
   onMounted,
 } from 'vue';
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import { identifierRankList } from 'src/utils/constants';
 import { getAvailableDepartments } from 'src/utils/api';
@@ -156,7 +156,7 @@ export default {
     };
 
     const createIdentifier = () => {
-      $socket.emit('user/identifiers/create', []);
+      socketInstance.emit('user/identifiers/create', []);
     };
 
     const onSelectIdentifier = (evt, row) => {
@@ -164,13 +164,13 @@ export default {
     };
 
     const deleteIdentifier = () => {
-      $socket.emit('user/identifiers/delete', currentIdentifier.value.id);
+      socketInstance.emit('user/identifiers/delete', currentIdentifier.value.id);
       changeIdentifier();
     };
 
     const saveIdentifier = () => {
       currentIdentifier.value.name = toTitleCase(currentIdentifier.value.name);
-      $socket.emit('user/identifiers/edit', currentIdentifier.value);
+      socketInstance.emit('user/identifiers/edit', currentIdentifier.value);
     };
 
     const departments = ref([]);

@@ -152,7 +152,7 @@
 <script>
 import { onBeforeMount, computed } from 'vue';
 import { useStore } from 'vuex';
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import PriorityButton from '../PriorityButton.vue';
 
@@ -163,11 +163,11 @@ export default {
     const store = useStore();
 
     const switchStatus = (val) => {
-      $socket.emit('unit/setStatus', val);
+      socketInstance.emit('unit/setStatus', val);
     };
 
     const switchPanic = () => {
-      $socket.emit('unit/switchPanic', null);
+      socketInstance.emit('unit/switchPanic', null);
     };
 
     const changeCallsign = () => {
@@ -181,7 +181,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk((data) => {
-        $socket.emit('unit/setCallsign', data);
+        socketInstance.emit('unit/setCallsign', data);
       });
     };
 
@@ -192,7 +192,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        $socket.emit('unit/leave', null);
+        socketInstance.emit('unit/leave', null);
       });
     };
 
@@ -203,7 +203,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        $socket.emit('unit/disband', null);
+        socketInstance.emit('unit/disband', null);
       });
     };
 

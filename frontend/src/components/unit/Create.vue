@@ -19,18 +19,15 @@
 </template>
 
 <script>
-import { reactive, onBeforeMount, onBeforeUnmount } from 'vue';
-import $socket from 'src/boot/socketio-instance';
+import { reactive } from 'vue';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 export default {
   props: {
     window: { type: Object },
   },
   setup(props) {
-    const socketWrapper = $socket.initWrapper();
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
+    const socketWrapper = new SocketWrapper();
 
     const info = reactive({ callsign: '' });
 
@@ -39,10 +36,8 @@ export default {
         return;
       }
 
-      socketWrapper.emit('unit/create', info, {
-        onReturn(resp) {
-          if (resp === 'success') props.window.closeFn();
-        },
+      socketWrapper.emit('unit/create', info).onReturn((resp) => {
+        if (resp === 'success') props.window.closeFn();
       });
     };
 

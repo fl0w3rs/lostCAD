@@ -169,11 +169,11 @@ table > tbody > tr > td:nth-child(1) {
 
 <script>
 import {
-  ref, reactive, onBeforeMount, onBeforeUnmount,
+  ref, reactive,
 } from 'vue';
 import { getTenCodes } from 'src/utils/api.js';
 import draggable from 'vuedraggable';
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 
 export default {
@@ -184,10 +184,7 @@ export default {
   },
   setup(props) {
     const $q = useQuasar();
-    const socketWrapper = $socket.initWrapper();
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
+    const socketWrapper = new SocketWrapper();
 
     const codes = ref([]);
     const newCode = reactive({
@@ -200,16 +197,14 @@ export default {
     });
 
     const save = () => {
-      socketWrapper.emit('admin/tenCodes/edit', codes.value, {
-        onReturn(data) {
-          if (data === 'success') {
-            $q.notify({
-              type: 'positive',
-              message: '10-коды успешно отредактированы',
-            });
-            props.window.closeFn();
-          }
-        },
+      socketWrapper.emit('admin/tenCodes/edit', codes.value).onReturn((data) => {
+        if (data === 'success') {
+          $q.notify({
+            type: 'positive',
+            message: '10-коды успешно отредактированы',
+          });
+          props.window.closeFn();
+        }
       });
     };
 

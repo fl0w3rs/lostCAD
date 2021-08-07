@@ -361,12 +361,12 @@ import { getRandomArrayItem, toTitleCase } from 'src/utils/functions';
 
 import { useQuasar } from 'quasar';
 
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 import { useStore } from 'vuex';
 
 import {
-  ref, watch, computed, onBeforeMount, onBeforeUnmount,
+  ref, watch, computed,
 } from 'vue';
 
 export default {
@@ -382,7 +382,7 @@ export default {
     const store = useStore();
     const $q = useQuasar();
 
-    const socketWrapper = $socket.initWrapper();
+    const socketWrapper = new SocketWrapper();
 
     const info = ref({ ...props.character });
     watch(
@@ -500,9 +500,6 @@ export default {
       store.commit('characters/updateSelected', null);
       store.commit('window/close', props.window.id);
     });
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
 
     return {
       info,

@@ -23,7 +23,7 @@
 import { computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useQuasar } from 'quasar';
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 
 export default {
   props: {
@@ -58,7 +58,6 @@ export default {
     };
 
     const onClick = (evt, row) => {
-      console.log(props);
       if (props.type === 'join') {
         $q.dialog({
           title: 'Присоединение к юниту',
@@ -66,7 +65,7 @@ export default {
           cancel: true,
           persistent: true,
         }).onOk(() => {
-          $socket.emit('unit/join', row.id);
+          socketInstance.emit('unit/join', row.id);
           props.window.closeFn();
         });
       }

@@ -221,12 +221,12 @@ import {
 } from 'src/utils/functions';
 
 import {
-  watch, ref, computed, onBeforeMount, onBeforeUnmount,
+  watch, ref, computed,
 } from 'vue';
 
 import { useQuasar } from 'quasar';
 
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 import { useStore } from 'vuex';
 
@@ -245,7 +245,7 @@ export default {
     const store = useStore();
     const $q = useQuasar();
 
-    const socketWrapper = $socket.initWrapper();
+    const socketWrapper = new SocketWrapper();
 
     const closeWindow = () => {
       store.commit('window/close', props.window.id);
@@ -356,9 +356,6 @@ export default {
       });
       closeWindow();
     });
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
 
     return {
       create,

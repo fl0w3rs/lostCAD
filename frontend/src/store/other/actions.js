@@ -3,12 +3,12 @@ export function someAction (context) {
 }
 */
 
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 
 export function requestDispatchLog() {
-  $socket.emit('dispatch/requestLog');
+  socketInstance.emit('dispatch/requestLog');
 }
 
 export function requestSignal() {
-  $socket.emit('getSignal');
+  socketInstance.emit('getSignal');
 }

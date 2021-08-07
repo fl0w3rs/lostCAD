@@ -107,7 +107,7 @@
 /* eslint-disable no-useless-return */
 
 import {
-  watch, ref, computed, onBeforeMount, onBeforeUnmount,
+  watch, ref, computed, onBeforeMount,
 } from 'vue';
 
 import { weaponModelList, weaponRegStatusList } from 'src/utils/constants';
@@ -115,7 +115,7 @@ import { randomString } from 'src/utils/functions';
 
 import { useQuasar } from 'quasar';
 
-import $socket from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 import { useStore } from 'vuex';
 
@@ -132,7 +132,7 @@ export default {
     const store = useStore();
     const $q = useQuasar();
 
-    const socketWrapper = $socket.initWrapper();
+    const socketWrapper = new SocketWrapper();
 
     const closeWindow = () => {
       store.commit('window/close', props.window.id);
@@ -203,9 +203,6 @@ export default {
         character.value = payload.data;
       });
     }
-
-    onBeforeMount(socketWrapper.mount);
-    onBeforeUnmount(socketWrapper.unmount);
 
     onBeforeMount(() => {
       if (!info.value.serial) info.value.serial = randomString(10, 'A#');

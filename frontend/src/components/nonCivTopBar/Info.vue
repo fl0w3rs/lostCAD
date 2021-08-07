@@ -29,16 +29,15 @@
 </template>
 
 <script>
-import $socket from 'src/boot/socketio-instance';
+import { socketInstance } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 
 export default {
   setup() {
     const store = useStore();
-    const socketWrapper = $socket.initWrapper();
 
-    socketWrapper.emit('gameZone/get');
+    socketInstance.emit('gameZone/get');
 
     const onClickGameZone = () => {
       if (store.getters['user/getCurrentDepartment'] !== 'dispatch') return;
