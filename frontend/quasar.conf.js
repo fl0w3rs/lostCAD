@@ -76,7 +76,8 @@ module.exports = function (/* ctx */) {
       //   });
       // },
 
-      chainWebpack(chain) {
+      chainWebpack() {
+        //
       },
     },
 
