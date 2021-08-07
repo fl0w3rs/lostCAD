@@ -18,17 +18,7 @@
         <priority-button />
       </div>
       <div class="row q-mt-xs q-gutter-xs">
-        <q-btn
-          label="БАЗА ДАННЫХ"
-          outline
-          color="gray"
-          size="sm"
-          @click="$store.commit('window/add', {
-            component: 'Lookup',
-            windowHeight: 400, title: 'Поиск',
-          windowWidth: 800,
-          })"
-        />
+        <lookup-button />
         <q-btn
           label="10-КОДЫ"
           outline
@@ -91,6 +81,7 @@ import UnitList from 'src/components/unit/List.vue';
 import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import LookupButton from 'src/components/LookupButton.vue';
 import PriorityButton from '../components/PriorityButton.vue';
 
 export default {
@@ -102,6 +93,7 @@ export default {
     UnitList,
     SignalBar,
     PriorityButton,
+    LookupButton,
   },
 
   setup() {

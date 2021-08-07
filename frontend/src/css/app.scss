@@ -55,3 +55,13 @@ p {
 .tableNoHoverEffect > table > tbody > tr > td:before{
     background: rgba(0,0,0,0) !important;
 }
+
+// 
+
+.bg-maroon {
+  background-color: #5f1919;
+}
+
+.border-maroon-thick {
+  border: 2px #5f1919 solid;
+}

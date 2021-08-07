@@ -49,6 +49,7 @@
         <div class="full-width text-center q-py-sm text-bold bg-red-10" v-if="!$socket.connected">
           Отсутствует подключение к серверу, весь функционал отключен.
         </div>
+        <all-windows />
         <router-view v-slot="{ Component }">
           <transition
             name="scale"
@@ -84,12 +85,13 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import WindowComponent from 'components/Window.vue';
+import WindowComponent from 'src/components/WindowOld.vue';
+import AllWindows from 'src/components/AllWindows.vue';
 
 export default {
   name: 'MainLayout',
 
-  components: { WindowComponent },
+  components: { WindowComponent, AllWindows },
 
   setup() {
     const store = useStore();

@@ -1,78 +1,55 @@
 <template>
+  <!-- <div></div> -->
   <Vue3DraggableResizable
-    :x="x"
-    :y="y"
-    :minW="300"
-    :minH="150"
-    :initW="width"
-    :initH="height"
-    :style="{position: 'absolute', zIndex: zIndex}"
-    :parent="true"
-    class="bg-grey-10 border-maroon-thick position-absolute shadow-3"
-    @activated="handleWindowClick"
-    v-if="!getWindow.dialog"
-    @resizing="onResize"
+    v-if="windowData.type === 'draggable'"
+    :parent="true" :initW="width" :initH="height"
+    v-model:x="posX" v-model:y="posY"
+    v-model:h="height" v-model:w="width"
+    @activated="onActivated"
+    :style="{ zIndex: windowData.zIndex }"
+    class="shadow-3"
   >
-    <q-bar class="accentMaroon">
+    <q-bar class="bg-maroon">
       <q-icon name="laptop_chromebook" />
-      <div>{{window.title}}</div>
+      <div class="ellipsis">{{ windowData.title || 'Google Chrome' }}</div>
 
       <q-space />
 
-      <q-btn
-        dense
-        flat
-        icon="close"
-        @click="closeWindow"
-      >
+      <q-btn dense flat icon="close" @click="closeWindow">
         <q-tooltip content-class="bg-grey-9 shadow-2">Закрыть</q-tooltip>
       </q-btn>
     </q-bar>
-    <q-scroll-area :style="{height: (height - 32 - 4) + 'px'}">
-      <component
-        v-if="authInitialized"
-        :is="getWindowComponent"
-        v-bind:window="window"
-        v-bind="getWindow.params"
-        class="q-pa-sm"
-      >
-      </component>
+    <q-scroll-area
+      :style="{ height: (height - 32) + 'px' }"
+      class="bg-grey-10 border-maroon-thick"
+    >
+      <component :is="getWindowComponent" v-bind:window="windowData" class="q-pa-sm" />
     </q-scroll-area>
   </Vue3DraggableResizable>
 
   <q-dialog
-    v-model="getWindow.dialog"
     persistent
+    v-model="dialog"
     transition-show="slide-up"
     transition-hide="slide-down"
-    v-else
+    v-if="windowData.type === 'dialog'"
   >
-    <q-card
-      class="border-maroon-thick"
-      :style="{minWidth: getWindow.dialogMinWidth}"
-    >
-      <q-bar class="accentMaroon">
+    <q-card class="border-maroon-thick" :style="{minWidth: dialogWidth}">
+      <q-bar class="bg-maroon">
         <q-icon name="laptop_chromebook" />
-        <div>{{window.title}}</div>
+        <div>{{windowData.title}}</div>
 
         <q-space />
 
-        <q-btn
-          dense
-          flat
-          icon="close"
-          @click="closeWindow"
-        >
+        <q-btn dense flat icon="close" @click="closeWindow">
           <q-tooltip content-class="bg-grey-9 shadow-2">Закрыть</q-tooltip>
         </q-btn>
       </q-bar>
 
       <q-card-section>
         <component
-          v-if="authInitialized"
           :is="getWindowComponent"
-          v-bind:window="window"
-          v-bind="getWindow.params"
+          v-bind:window="windowData"
           class="q-pa-sm"
         >
         </component>
@@ -82,100 +59,109 @@
 </template>
 
 <style>
-.handle {
-  background: transparent !important;
-  border: none !important;
-  width: 15px;
-}
+  .handle {
+    background: transparent!important;
+    border: none!important;
+  }
+
+  .vdr-container {
+    border: none!important;
+  }
 </style>
 
-<script>
-/* eslint-disable prefer-template */
-
+<script lang="ts">
+import Vue3DraggableResizable from 'vue3-draggable-resizable';
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
 import {
-  ref, computed, defineAsyncComponent, onBeforeMount,
+  defineComponent, ref, onBeforeMount, PropType, defineAsyncComponent,
 } from 'vue';
+import { scroll } from 'quasar';
+import type { IWindow } from 'src/store/windows/types';
 import { useStore } from 'vuex';
-import { useQuasar, scroll } from 'quasar';
 
 const { getVerticalScrollPosition } = scroll;
 
-export default {
-  name: 'Window',
+const transformSizeToPixelInteger = (size: string): number => {
+  const windowWidth = window.innerWidth;
+  const windowHeight = window.innerHeight;
 
+  const suffix = size.slice(-2);
+  const number = Number(size.substr(0, size.length - 2));
+
+  if (suffix === 'px') return number;
+  if (suffix === 'vw') return (number / 100) * windowWidth;
+  if (suffix === 'vh') return (number / 100) * windowHeight;
+
+  return 0;
+};
+
+const tstpi = transformSizeToPixelInteger;
+
+export default defineComponent({
+  // name: 'ComponentName'
+  components: { Vue3DraggableResizable },
   props: {
-    window: Object,
+    windowData: {
+      type: Object as PropType<IWindow>,
+      required: true,
+    },
   },
-
-  setup(params) {
+  setup(props) {
     const store = useStore();
-    const $q = useQuasar();
 
-    const zIndex = ref(store.getters['window/getCurrentWindowZ']);
+    const theWindow = ref<IWindow>(props.windowData);
 
-    store.watch(
-      (state) => state.window.lastClickedWindowId, (val) => {
-        // eslint-disable-next-line eqeqeq
-        if (val == params.window.id) {
-          zIndex.value = store.getters['window/getCurrentWindowZ'];
-        }
-      },
-    );
+    // draggable part
+    let initialWidth = theWindow.value.initialWidth || '400px';
+    const initialHeight = theWindow.value.initialHeight || '300px';
 
-    const closeWindow = () => {
-      store.commit('window/close', params.window.id);
-    };
+    if (theWindow.value.type === 'draggable') {
+      if (tstpi(initialWidth) > window.innerWidth) initialWidth = `${window.innerWidth}px`;
+    }
 
-    const handleWindowClick = () => {
-      store.commit('window/click', { id: params.window.id });
-    };
+    const width = ref<number>(tstpi(initialWidth));
+    const height = ref<number>(tstpi(initialHeight));
 
-    const height = ref(
-      // eslint-disable-next-line no-nested-ternary
-      Number.isInteger(params.window.windowHeight)
-        ? params.window.windowHeight
-        : $q.platform.is.mobile ? 300 : 450,
-    );
-
-    // eslint-disable-next-line no-nested-ternary
-    const width = Number.isInteger(params.window.windowWidth)
-      ? params.window.windowWidth
-      : $q.platform.is.mobile ? 300 : 600;
-
-    const onResize = ({ h }) => {
-      height.value = h;
-    };
-
-    const x = ref(0);
-    const y = ref(0);
+    const posX = ref(0);
+    const posY = ref(0);
 
     onBeforeMount(() => {
-      x.value = (window.innerWidth / 2) - (width / 2);
-      y.value = getVerticalScrollPosition(window) - 50
+      posX.value = (window.innerWidth / 2) - (tstpi(initialWidth) / 2);
+      posY.value = getVerticalScrollPosition(window) - 50
         + (window.innerHeight / 2)
-        - (height.value / 2);
+        - (tstpi(initialHeight) / 2);
     });
 
+    const onActivated = () => {
+      store.commit('windows/click', theWindow.value.id);
+    };
+
+    // dialog part
+    const dialogWidth = theWindow.value.initialWidth || null;
+
+    // shared part
+
+    const closeWindow = () => {
+      store.commit('windows/close', theWindow.value.id);
+    };
+
     return {
-      getWindow: computed(() => params.window),
+      // = draggable part
+      width,
+      height,
+      posX,
+      posY,
+      onActivated,
+      // = dialog part
+      dialog: true,
+      dialogWidth,
+      // = shared part
       getWindowComponent: defineAsyncComponent(() => import(
         /* webpackMode: "lazy-once" */
-        'components/' + params.window.component + '.vue'
+        `components/${theWindow.value.component}.vue`
       )),
-      authInitialized: computed(() => store.getters['auth/isAuthInitialized']),
-
-      height,
-      width,
-      zIndex,
-
       closeWindow,
-      handleWindowClick,
-
-      onResize,
-
-      x,
-      y,
     };
   },
-};
+});
 </script>

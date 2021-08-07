@@ -19,3 +19,12 @@ export function click(state, id) {
   // eslint-disable-next-line no-plusplus
   state.list[elId].zIndex = ++zIndex;
 }
+
+export function close(state, id) {
+  const elId = getWindowElementNumber(state, id);
+  state.list.splice(elId, 1);
+}
+
+export function clearAll(state) {
+  state.list = [];
+}

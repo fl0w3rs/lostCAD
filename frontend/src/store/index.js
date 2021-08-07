@@ -3,6 +3,7 @@ import { createStore } from 'vuex';
 import auth from './auth';
 import user from './user';
 import window from './window';
+import windows from './windows';
 import error from './error';
 import characters from './characters';
 import identifier from './identifier';
@@ -24,6 +25,7 @@ export default function (/* { ssrContext } */) {
       auth,
       user,
       window,
+      windows,
       error,
       characters,
       identifier,
