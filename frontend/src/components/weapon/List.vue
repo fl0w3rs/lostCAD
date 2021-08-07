@@ -54,8 +54,6 @@ export default {
       );
     }
 
-    console.log(props.weapons);
-
     return {
       weaponList,
 
