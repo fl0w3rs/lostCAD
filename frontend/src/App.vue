@@ -10,6 +10,8 @@
 
 <script>
 import { useQuasar } from 'quasar';
+import { socketInstance } from 'src/boot/socketio-instance';
+import { useStore } from 'vuex';
 
 // eslint-disable-next-line global-require
 const unitNotifyAudio = new Audio(require('src/assets/sounds/unitNotify.mp3'));
@@ -19,53 +21,56 @@ export default {
 
   setup() {
     const $q = useQuasar();
-    $q.dark.set(true);
+    const store = useStore();
 
-    return {};
-  },
-
-  sockets: {
-    connect() {
+    socketInstance.on('connect', () => {
       console.log('socket connected');
-      this.$store.dispatch('auth/authRequest');
-    },
-    disconnect() {
+      store.dispatch('auth/authRequest');
+    });
+
+    socketInstance.on('disconnect', () => {
       console.log('socket disconnected');
-      this.$store.commit('auth/socketDisconnected');
-    },
-    errorNotify(message) {
-      this.$q.notify({
+      store.commit('auth/socketDisconnected');
+    });
+
+    socketInstance.on('errorNotify', (message) => {
+      $q.notify({
         type: 'negative',
         message,
       });
-    },
-    errorNotifyUnescaped(message) {
-      this.$q.notify({
+    });
+    socketInstance.on('errorNotifyUnescaped', (message) => {
+      $q.notify({
         type: 'negative',
         message,
         html: true,
       });
-    },
-    successNotify(message) {
-      this.$q.notify({
+    });
+    socketInstance.on('successNotifyUnescaped', (message) => {
+      $q.notify({
         type: 'positive',
         message,
       });
-    },
-    successNotifyUnescaped(message) {
-      this.$q.notify({
+    });
+    socketInstance.on('successNotifyUnescaped', (message) => {
+      $q.notify({
         type: 'positive',
         message,
         html: true,
       });
-    },
-    unitLogMessage(message) {
-      this.$q.notify({
+    });
+
+    socketInstance.on('unitLogMessage', (message) => {
+      $q.notify({
         type: 'unit-info',
         message,
       });
       unitNotifyAudio.play();
-    },
+    });
+
+    $q.dark.set(true);
+
+    return {};
   },
 };
 </script>
