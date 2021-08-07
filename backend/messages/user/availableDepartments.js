@@ -1,8 +1,8 @@
 module.exports = {
     message: 'user/getAvailableDepartments',
-    callback: async ({ socket, emitMessage, }) => {
-        if(!socket.isAuthenticated) return
-        
-        emitMessage('user/responseDepartments', { list: await socket.getAvailableDepartments() });
+    callback: async ({ socket, emitReturn, }) => {
+        if (!socket.isAuthenticated) return
+
+        emitReturn({ list: await socket.getAvailableDepartments() });
     }
 }

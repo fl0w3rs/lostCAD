@@ -9,13 +9,11 @@ export const getAvailableDepartments = () => new Promise((resolve) => {
 
   if (!cached) {
     const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
-    socketWrapper.listen('user/responseDepartments', (data) => {
-      socketWrapper.detachListeners();
+
+    socketWrapper.emit('user/getAvailableDepartments').onReturn((data) => {
       cache.set('availableDepartments', data.list, 60);
       resolve(data.list);
     });
-
-    socketWrapper.emit('user/getAvailableDepartments');
   } else {
     resolve(cached);
   }
@@ -25,37 +23,29 @@ export const getAllGroupNames = () => new Promise((resolve) => {
   const cached = cache.get('allGroupNames');
 
   if (!cached) {
-    const socketWrapper = $socket.initWrapper();
-    socketWrapper.listen('admin/getAllGroupNamesResponse', (data) => {
-      socketWrapper.unmount();
+    const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
+
+    socketWrapper.emit('admin/getAllGroupNames').onReturn((data) => {
       cache.set('allGroupNames', data.list, 60);
       resolve(data.list);
     });
-
-    socketWrapper.mount();
-
-    socketWrapper.emit('admin/getAllGroupNames');
   } else {
     resolve(cached);
   }
 });
 
 export const getTenCodes = () => new Promise((resolve) => {
-  const socketWrapper = $socket.initWrapper();
+  const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
 
-  socketWrapper.emit('user/tenCodes/get', null, {
-    onReturn(data) {
-      resolve(JSON.parse(data));
-    },
+  socketWrapper.emit('user/tenCodes/get', null).onReturn((data) => {
+    resolve(JSON.parse(data));
   });
 });
 
 export const getPenalCode = () => new Promise((resolve) => {
-  const socketWrapper = $socket.initWrapper();
+  const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
 
-  socketWrapper.emit('user/penalCode/get', null, {
-    onReturn(data) {
-      resolve(JSON.parse(data));
-    },
+  socketWrapper.emit('user/penalCode/get', null).onReturn((data) => {
+    resolve(JSON.parse(data));
   });
 });
