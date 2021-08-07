@@ -3,6 +3,9 @@ module.exports = {
     callback: async ({ socket, io, db }) => {
         const user = await socket.getUser();
         const unit = await user.getUnit();
+
+        if (!unit) return;
+        
         const unitId = unit.dataValues.id;
         user.unitId = null;
         await user.save();
