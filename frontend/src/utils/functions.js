@@ -42,8 +42,9 @@ export function getRandomByDict(length, chars) {
 }
 
 export function toTitleCase(str) {
+  if (typeof str !== 'string') return '';
   return str.replace(
     /[\wа-яА-ЯЁё]\S*/g,
     (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
-  );
+  ) || '';
 }

@@ -27,7 +27,7 @@ export default function (/* { store, ssrContext } */ { store }) {
   });
 
   Router.beforeEach(async (to, from, next) => {
-    store.commit('window/clearAll');
+    store.commit('window/clearAll'); // REMOVE: старые окна
     store.commit('windows/clearAll');
     if (store.state.auth.initialized == false) {
       await new Promise((resolve) => {
@@ -43,6 +43,7 @@ export default function (/* { store, ssrContext } */ { store }) {
 
   Router.beforeEach((to, from, next) => {
     if (!to.meta.middlewares) return next();
+    if (to.meta.middlewares.length === 0) return next();
     const { middlewares } = to.meta;
     const context = {
       to, from, next, store,

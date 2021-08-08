@@ -98,53 +98,58 @@
           />
         </div>
 
-        <div
-          class="text-left sectionTitle q-mt-md"
-          v-if="ncicResults?.weapons?.length > 0 || ncicResults?.vehicles?.length > 0"
-        >ЗАПИСИ</div>
-        <q-card
-          class="section rounded-borders"
-          v-if="ncicResults?.weapons?.length > 0 || ncicResults?.vehicles?.length > 0"
+        <template
+          v-if="
+            (ncicResults?.weapons?.length > 0 || ncicResults?.vehicles?.length > 0)
+            && (allowedTypes.fld || allowedTypes.dmv)
+          "
         >
-          <q-tabs
-            v-model="ncicTab"
-            dense
-            class="text-grey"
-            active-color="primary"
-            indicator-color="primary"
-            align="justify"
-            narrow-indicator
+          <div
+            class="text-left sectionTitle q-mt-md"
+          >ЗАПИСИ</div>
+          <q-card
+            class="section rounded-borders"
           >
-            <q-tab
-              name="vehicles" :label="`ТРАНСПОРТНОЕ СРЕДСТВО (${ncicResults?.vehicles?.length})`"
-              v-if="ncicResults?.vehicles?.length > 0"
-            />
-            <q-tab
-              name="weapons" :label="`ОРУЖИЕ (${ncicResults?.weapons?.length})`"
-              v-if="ncicResults?.weapons?.length > 0"
-            />
-          </q-tabs>
-
-          <q-separator />
-
-          <q-tab-panels v-model="ncicTab" animated>
-            <q-tab-panel name="vehicles">
-              <VehicleList
-                type="dmv"
-                showOwners="true"
-                :vehicles="ncicResults.vehicles"
+            <q-tabs
+              v-model="ncicTab"
+              dense
+              class="text-grey"
+              active-color="primary"
+              indicator-color="primary"
+              align="justify"
+              narrow-indicator
+            >
+              <q-tab
+                name="vehicles" :label="`ТРАНСПОРТНОЕ СРЕДСТВО (${ncicResults?.vehicles?.length})`"
+                v-if="ncicResults?.vehicles?.length > 0 && allowedTypes.dmv"
               />
-            </q-tab-panel>
-
-            <q-tab-panel name="weapons">
-              <WeaponList
-                type="fld"
-                showOwners="true"
-                :weapons="ncicResults.weapons"
+              <q-tab
+                name="weapons" :label="`ОРУЖИЕ (${ncicResults?.weapons?.length})`"
+                v-if="ncicResults?.weapons?.length > 0 && allowedTypes.fld"
               />
-            </q-tab-panel>
-          </q-tab-panels>
-        </q-card>
+            </q-tabs>
+
+            <q-separator />
+
+            <q-tab-panels v-model="ncicTab" animated>
+              <q-tab-panel name="vehicles">
+                <VehicleList
+                  type="dmv"
+                  showOwners="true"
+                  :vehicles="ncicResults.vehicles"
+                />
+              </q-tab-panel>
+
+              <q-tab-panel name="weapons">
+                <WeaponList
+                  type="fld"
+                  showOwners="true"
+                  :weapons="ncicResults.weapons"
+                />
+              </q-tab-panel>
+            </q-tab-panels>
+          </q-card>
+        </template>
       </q-tab-panel>
 
       <q-tab-panel name="dmv">
@@ -239,6 +244,7 @@ import VehicleList from 'components/vehicle/List';
 import WeaponList from 'components/weapon/List';
 
 import { date } from 'quasar';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'Lookup',
@@ -270,12 +276,14 @@ export default {
     };
 
     const onNcicRowClick = (evt, row) => {
-      store.commit('window/add', {
+      store.commit('windows/open', windowWrapper({
         component: 'civilian/Character',
-        params: { type: 'ncic', character: row },
-        windowHeight: 355,
+        type: 'draggable',
+        initialHeight: '350px',
+        initialWidth: '800px',
         title: `Просмотр ${row.name} ${row.surname}`,
-      });
+        props: { type: 'ncic', character: row },
+      }));
     };
 
     socketWrapper.listen('ncic/response', (data) => {

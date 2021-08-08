@@ -8,6 +8,9 @@ export interface IWindow {
 
   initialWidth?: string;
   initialHeight?: string;
+  props?: Record<string, unknown>;
+
+  doClose?: () => void;
 }
 
 export function windowWrapper(window: IWindow): IWindow {

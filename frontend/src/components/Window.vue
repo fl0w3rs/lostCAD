@@ -5,9 +5,9 @@
     :parent="true" :initW="width" :initH="height"
     v-model:x="posX" v-model:y="posY"
     v-model:h="height" v-model:w="width"
-    @activated="onActivated"
+    :minW="300" :minH="150"
+    @activated="onActivated" class="shadow-3"
     :style="{ zIndex: windowData.zIndex }"
-    class="shadow-3"
   >
     <q-bar class="bg-maroon">
       <q-icon name="laptop_chromebook" />
@@ -23,7 +23,12 @@
       :style="{ height: (height - 32) + 'px' }"
       class="bg-grey-10 border-maroon-thick"
     >
-      <component :is="getWindowComponent" v-bind:window="windowData" class="q-pa-sm" />
+      <component
+        :is="getWindowComponent"
+        v-bind:window="windowData"
+        v-bind="windowData.props"
+        class="q-pa-sm"
+      />
     </q-scroll-area>
   </Vue3DraggableResizable>
 
@@ -50,6 +55,7 @@
         <component
           :is="getWindowComponent"
           v-bind:window="windowData"
+          v-bind="windowData.props"
           class="q-pa-sm"
         >
         </component>

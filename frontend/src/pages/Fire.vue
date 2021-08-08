@@ -8,18 +8,7 @@
     </div>
 
     <div class="accent q-mt-sm q-py-md row justify-center q-gutter-xs">
-      <q-btn
-        label="БАЗА ДАННЫХ"
-        outline
-        color="gray"
-        size="sm"
-        @click="$store.commit('window/add', {
-          component: 'Lookup',
-          params: { types: { dmv: false, fld: false } },
-          windowHeight: 400, title: 'Поиск',
-          windowWidth: 800,
-        })"
-      />
+      <lookup-button :tabs='{ dmv: false, fld: false }' />
       <q-btn
         label="10-КОДЫ"
         outline
@@ -56,10 +45,11 @@
 <script>
 import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
 import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
+import LookupButton from 'src/components/LookupButton.vue';
 
 export default {
   name: 'FirePage',
 
-  components: { UpperBarComponent, SignalBar },
+  components: { UpperBarComponent, SignalBar, LookupButton },
 };
 </script>

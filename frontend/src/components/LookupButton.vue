@@ -10,12 +10,24 @@
 
 <script lang="ts">
 import { windowWrapper } from 'src/store/windows/types';
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { useStore } from 'vuex';
+
+interface Tabs {
+  ncic?: boolean;
+  dmv?: boolean;
+  fld?: boolean;
+}
 
 export default defineComponent({
   // name: 'ComponentName'
-  setup() {
+  props: {
+    tabs: {
+      type: Object as PropType<Tabs>,
+      required: false,
+    },
+  },
+  setup(props) {
     const store = useStore();
 
     const onClick = () => {
@@ -25,6 +37,7 @@ export default defineComponent({
         title: 'База данных',
         initialWidth: '800px',
         initialHeight: '400px',
+        props: { types: props.tabs },
       }));
     };
 

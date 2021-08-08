@@ -10,18 +10,7 @@
     <div class="accent q-mt-sm q-py-md">
       <UnitStatus />
       <div class="row justify-center q-mt-sm q-gutter-xs">
-        <q-btn
-          label="БАЗА ДАННЫХ"
-          outline
-          color="gray"
-          size="sm"
-          @click="$store.commit('window/add', {
-            component: 'Lookup',
-            windowHeight: 400,
-            windowWidth: 800,
-            title: 'Поиск'
-          })"
-        />
+        <lookup-button />
         <q-btn
           label="10-КОДЫ"
           outline
@@ -66,10 +55,13 @@
 import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
 import UnitStatus from 'src/components/unit/Status.vue';
 import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
+import LookupButton from 'src/components/LookupButton.vue';
 
 export default {
   name: 'PolicePage',
 
-  components: { UpperBarComponent, UnitStatus, SignalBar },
+  components: {
+    UpperBarComponent, UnitStatus, SignalBar, LookupButton,
+  },
 };
 </script>

@@ -1,7 +1,5 @@
 <template>
-  <div style="min-height: inherit; position: absolute;" class="full-width">
-    <window v-for="window in windowList()" :key="window.id" :windowData="window" />
-  </div>
+  <window v-for="window in windowList()" :key="window.id" :windowData="window" />
 </template>
 
 <script lang="ts">

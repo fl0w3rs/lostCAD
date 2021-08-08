@@ -32,6 +32,7 @@
 import { socketInstance } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   setup() {
@@ -42,11 +43,11 @@ export default {
     const onClickGameZone = () => {
       if (store.getters['user/getCurrentDepartment'] !== 'dispatch') return;
 
-      store.commit('window/add', {
+      store.commit('windows/open', windowWrapper({
         component: 'dispatch/EditGameZone',
-        dialog: true,
+        type: 'dialog',
         title: 'Изменение игровой зоны',
-      });
+      }));
     };
 
     return {

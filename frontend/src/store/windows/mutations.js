@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 let windowLatestId = 0;
 let zIndex = 0;
 
@@ -10,13 +11,17 @@ const getWindowElementNumber = (state, id) => {
 };
 
 export function open(state, window) {
-  // eslint-disable-next-line no-plusplus
-  state.list.push({ ...window, id: ++windowLatestId, zIndex: ++zIndex });
+  state.list.push({
+    ...window,
+    id: ++windowLatestId,
+    zIndex: ++zIndex,
+
+    doClose: () => this.commit('windows/close', windowLatestId),
+  });
 }
 
 export function click(state, id) {
   const elId = getWindowElementNumber(state, id);
-  // eslint-disable-next-line no-plusplus
   state.list[elId].zIndex = ++zIndex;
 }
 
