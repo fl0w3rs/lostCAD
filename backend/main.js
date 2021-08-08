@@ -6,6 +6,7 @@ const createCacheInstance = require('./cache.js');
 const globalCache = createCacheInstance();
 
 let Validator = require('validatorjs');
+import 'validatorjs/dist/lang/ru.js'
 Validator.useLang('ru');
 
 const express = require('express');
