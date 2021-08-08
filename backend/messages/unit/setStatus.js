@@ -1,16 +1,16 @@
 module.exports = {
-    message: 'unit/setStatus',
-    callback: async ({ socket, data, io }) => {
-        const user = await socket.getUser();
-        
-        const unit = await user.getUnit();
+  message: 'unit/setStatus',
+  callback: async ({ socket, data, io }) => {
+    const user = await socket.getUser();
 
-        if(!unit) return;
+    const unit = await user.getUnit();
 
-        unit.status = data;
+    if (!unit) return;
 
-        await unit.save();
+    unit.status = data;
 
-        io.updateAllUnits();
-    },
-}
+    await unit.save();
+
+    io.updateAllUnits();
+  },
+};

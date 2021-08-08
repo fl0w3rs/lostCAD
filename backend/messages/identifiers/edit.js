@@ -1,29 +1,33 @@
 module.exports = {
-    message: 'user/identifiers/edit',
-    callback: async ({ db, socket, data }) => {
-        if(!socket.isAuthenticated) return
+  message: 'user/identifiers/edit',
+  callback: async ({ db, socket, data }) => {
+    if (!socket.isAuthenticated) return;
 
-        if(
-            !await socket.isDepartmentTypeAvailable('police') &&
-            !await socket.isDepartmentTypeAvailable('dispatch') &&
-            !await socket.isDepartmentTypeAvailable('fire')
-        ) return
+    if (
+      !await socket.isDepartmentTypeAvailable('police')
+            && !await socket.isDepartmentTypeAvailable('dispatch')
+            && !await socket.isDepartmentTypeAvailable('fire')
+    ) return;
 
-        let identifier = await db.cad.Identifier.findOne({
-            where: {
-                id: data.id,
-                userId: socket.userId,
-            }
-        })
+    const identifier = await db.cad.Identifier.findOne({
+      where: {
+        id: data.id,
+        userId: socket.userId,
+      },
+    });
 
-        if(!identifier) return;
+    if (!identifier) return;
 
-        const { name, callsign, rank, department, division } = data;
+    const {
+      name, callsign, rank, department, division,
+    } = data;
 
-        await db.cad.Identifier.update({ name, callsign, rank, department, division }, { where: { id: data.id } });
+    await db.cad.Identifier.update({
+      name, callsign, rank, department, division,
+    }, { where: { id: data.id } });
 
-        await socket.updateIdentifiers();
+    await socket.updateIdentifiers();
 
-        socket.emit('user/identifiers/editSuccess', [])
-    }   
-}
+    socket.emit('user/identifiers/editSuccess', []);
+  },
+};

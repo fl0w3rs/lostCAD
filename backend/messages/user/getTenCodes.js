@@ -1,10 +1,10 @@
 module.exports = {
-    message: 'user/tenCodes/get',
-    callback: async ({ utils, socket, emitReturn, }) => {
-        if(!socket.isAuthenticated) return
+  message: 'user/tenCodes/get',
+  callback: async ({ utils, socket, emitReturn }) => {
+    if (!socket.isAuthenticated) return;
 
-        const data = await utils.getTenCodes();
+    const data = await utils.getTenCodes();
 
-        emitReturn(data);
-    },
-}
+    emitReturn(data);
+  },
+};

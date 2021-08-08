@@ -1,25 +1,27 @@
 module.exports = {
-    message: 'admin/tenCodes/edit',
-    callback: async ({ socket, Validator, data, emitReturn, utils }) => {
-        if(!socket.isAuthenticated) return
+  message: 'admin/tenCodes/edit',
+  callback: async ({
+    socket, Validator, data, emitReturn, utils,
+  }) => {
+    if (!socket.isAuthenticated) return;
 
-        const tmp = {};
-        tmp.data = data;
+    const tmp = {};
+    tmp.data = data;
 
-        let validation = new Validator(tmp, {
-            'data.*.code': 'required|string|min:1|max:10',
-            'data.*.desc': 'required|string|min:1|max:128',
-        });
-          
-        if(validation.fails()) {
-            socket.emit('errorNotifyUnescaped', Object.values(validation.errors.all()).join('<br/>'))
-            emitReturn('error');
-            return
-        }
+    const validation = new Validator(tmp, {
+      'data.*.code': 'required|string|min:1|max:10',
+      'data.*.desc': 'required|string|min:1|max:128',
+    });
 
-        const jsonString = JSON.stringify(data);
-        await utils.settings.set('tenCodes', jsonString);
-
-        emitReturn('success');
+    if (validation.fails()) {
+      socket.emit('errorNotifyUnescaped', Object.values(validation.errors.all()).join('<br/>'));
+      emitReturn('error');
+      return;
     }
-}
+
+    const jsonString = JSON.stringify(data);
+    await utils.settings.set('tenCodes', jsonString);
+
+    emitReturn('success');
+  },
+};

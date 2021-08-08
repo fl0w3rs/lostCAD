@@ -1,21 +1,25 @@
 module.exports = {
-    message: 'unit/setCallsign',
-    callback: async ({ socket, data, io, db }) => {
-        const user = await socket.getUser();
-        
-        const unit = await user.getUnit();
+  message: 'unit/setCallsign',
+  callback: async ({
+    socket, data, io, db,
+  }) => {
+    const user = await socket.getUser();
 
-        if(!unit) return;
+    const unit = await user.getUnit();
 
-        const oldCallsign = unit.dataValues.callsign;
+    if (!unit) return;
 
-        unit.callsign = data;
+    const oldCallsign = unit.dataValues.callsign;
 
-        await unit.save();
+    unit.callsign = data;
 
-        await io.updateAllUnits();
-        
-        const identifier = await db.cad.Identifier.findOne({ where: { id: user.dataValues.currentIdentifier } });
-        io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} изменил(-а) маркировку с ${oldCallsign} на ${data}.`)
-    },
-}
+    await unit.save();
+
+    await io.updateAllUnits();
+
+    const identifier = await db.cad.Identifier.findOne({
+      where: { id: user.dataValues.currentIdentifier },
+    });
+    io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} изменил(-а) маркировку с ${oldCallsign} на ${data}.`);
+  },
+};

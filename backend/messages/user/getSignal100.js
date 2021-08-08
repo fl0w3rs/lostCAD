@@ -1,10 +1,10 @@
 module.exports = {
-    message: 'getSignal',
-    callback: async ({ utils, socket }) => {
-        if(!socket.isAuthenticated) return
+  message: 'getSignal',
+  callback: async ({ utils, socket }) => {
+    if (!socket.isAuthenticated) return;
 
-        const state = await utils.settings.get('signal');
+    const state = await utils.settings.get('signal');
 
-        socket.emit('updateSignal', state)
-    }
-}
+    socket.emit('updateSignal', state);
+  },
+};

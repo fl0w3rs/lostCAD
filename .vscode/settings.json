@@ -5,5 +5,6 @@
   
   "vetur.experimental.templateInterpolationService": true,
   "editor.tabSize": 2,
-  "vetur.validation.interpolation": false
+  "vetur.validation.interpolation": false,
+  "editor.detectIndentation": false
 }
