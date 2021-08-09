@@ -15,7 +15,14 @@ import { useStore } from 'vuex';
 
 export default defineComponent({
   // name: 'ComponentName'
-  setup() {
+  props: {
+    admin: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  setup(props) {
     const store = useStore();
 
     const onClick = () => {
@@ -24,6 +31,9 @@ export default defineComponent({
         title: 'Просмотр 10-кодов',
         initialWidth: '30vw',
         type: 'dialog',
+        props: {
+          admin: props.admin,
+        },
       }));
     };
 

@@ -53,11 +53,7 @@
           outline
           class="full-width"
           :label="`${character.name} ${character.surname}`"
-          @click="$store.commit('window/add', {
-            component: 'civilian/Character',
-            params: { type: 'ncic', character },
-            windowHeight: 355, title: `Просмотр ${character.name} ${character.surname}`,
-          });"
+          @click="openCharacterWindow(character)"
         />
       </div>
     </div>
@@ -118,6 +114,7 @@ import { useQuasar } from 'quasar';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 
 import { useStore } from 'vuex';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'Weapon',
@@ -135,7 +132,7 @@ export default {
     const socketWrapper = new SocketWrapper();
 
     const closeWindow = () => {
-      store.commit('window/close', props.window.id);
+      props.window.doClose();
     };
 
     socketWrapper.listen('user/civilian/characters/weapons/removeSuccess', () => {
@@ -208,6 +205,17 @@ export default {
       if (!info.value.serial) info.value.serial = randomString(10, 'A#');
     });
 
+    const openCharacterWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'civilian/Character',
+        props: { type: 'ncic', character: character.value },
+        initialWidth: '700px',
+        initialHeight: '355px',
+        type: 'draggable',
+        title: `Просмотр ${character.value.name} ${character.value.surname}`,
+      }));
+    };
+
     return {
       disabled: computed(() => props.type == 'fld'),
       character,
@@ -220,6 +228,8 @@ export default {
       weaponRegStatusList,
 
       info,
+
+      openCharacterWindow,
     };
   },
 };

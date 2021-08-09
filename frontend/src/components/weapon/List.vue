@@ -18,6 +18,7 @@
 <script>
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   props: ['weapons', 'type', 'showOwners'],
@@ -27,9 +28,14 @@ export default {
     store.dispatch('characters/requestWeapons');
 
     const onClickRow = (evt, row) => {
-      store.commit('window/add', {
-        component: 'weapon/Template', params: { type: props.type === 'fld' ? 'fld' : 'edit', weapon: row }, windowHeight: 210, title: 'Просмотр оружия',
-      });
+      store.commit('windows/open', windowWrapper({
+        component: 'weapon/Template',
+        type: 'draggable',
+        props: { type: props.type === 'fld' ? 'fld' : 'edit', weapon: row },
+        initialHeight: '230px',
+        initialWidth: '700px',
+        title: 'Просмотр оружия',
+      }));
     };
 
     const weaponList = props.weapons ? computed(() => props.weapons) : computed(() => store.getters['characters/getSelectedCharacterWeaponList']);

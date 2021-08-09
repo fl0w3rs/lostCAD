@@ -12,21 +12,12 @@
             <small>
               <span
                 class="text-green cursor-pointer"
-                @click="$store.commit('window/add', {
-                  component: 'unit/Create',
-                  dialog: true, dialogMinWidth: '20vw',
-                  title: `Создание юнита`,
-                });"
+                @click="openCreateUnitWindow"
               >СОЗДАЙТЕ ЮНИТ</span>
               ИЛИ
               <span
                 class="text-blue cursor-pointer"
-                @click="$store.commit('window/add', {
-                  component: 'unit/List',
-                  dialog: true, dialogMinWidth: '40vw',
-                  params: { type: 'join' },
-                  title: `Присоединиться к существующему`,
-                });"
+                @click="openJoinUnitWindow"
               >ПРИСОЕДИНИТЕСЬ К СУЩЕСТВУЮЩЕМУ</span>
             </small>
           </div>
@@ -68,11 +59,7 @@
           </q-tooltip>
           <q-menu fit>
             <q-list dense>
-              <q-item clickable @click="$store.commit('window/add', {
-                  component: 'unit/Log',
-                  title: `Лог юнита`,
-                  windowHeight: 300
-                });">
+              <q-item clickable @click="openUnitLogWindow">
                 <q-item-section>Открыть лог юнита</q-item-section>
               </q-item>
               <q-item clickable @click="changeCallsign">
@@ -154,6 +141,7 @@ import { onBeforeMount, computed } from 'vue';
 import { useStore } from 'vuex';
 import { socketInstance } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
+import { windowWrapper } from 'src/store/windows/types';
 import PriorityButton from '../PriorityButton.vue';
 
 export default {
@@ -212,6 +200,34 @@ export default {
       store.dispatch('other/requestSignal');
     });
 
+    const openJoinUnitWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'unit/List',
+        type: 'dialog',
+        initialWidth: '40vw',
+        props: { type: 'join' },
+        title: 'Присоединиться к существующему',
+      }));
+    };
+
+    const openCreateUnitWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'unit/Create',
+        type: 'dialog',
+        initialWidth: '20vw',
+        title: 'Создание юнита',
+      }));
+    };
+
+    const openUnitLogWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'unit/Log',
+        title: 'Лог юнита',
+        initialHeight: '300px',
+        type: 'draggable',
+      }));
+    };
+
     return {
       switchStatus,
       changeCallsign,
@@ -220,6 +236,10 @@ export default {
       switchPanic,
       currentUnit: computed(() => store.getters['unit/getCurrentUnit']),
       selectedIdentifier: computed(() => store.getters['identifier/getSelectedIdentifierObject']),
+
+      openJoinUnitWindow,
+      openCreateUnitWindow,
+      openUnitLogWindow,
     };
   },
 };

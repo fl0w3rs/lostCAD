@@ -16,15 +16,7 @@
           icon='fas fa-plus'
           size='sm'
           round
-          @click="
-            $store.commit('window/add', {
-              component: 'admin/department/Template',
-              params: { type: 'create', dept: val },
-              title: 'Создание департамента',
-              dialog: true,
-              dialogMinWidth: '40vw',
-            })
-          "
+          @click="openCreateDepartmentWindow"
         >
         </q-btn>
       </template>
@@ -36,6 +28,7 @@
 import { onBeforeMount, ref } from 'vue';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   setup() {
@@ -53,13 +46,23 @@ export default {
       departments.value = val;
     }, { ignoreWrapperID: true });
 
-    const editDepartment = (evt, val) => store.commit('window/add', {
+    const editDepartment = (evt, val) => store.commit('windows/open', windowWrapper({
       component: 'admin/department/Template',
-      params: { type: 'edit', dept: val },
+      props: { type: 'edit', dept: val },
       title: 'Редактирование департамента',
-      dialog: true,
-      dialogMinWidth: '40vw',
-    });
+      type: 'dialog',
+      initialWidth: '40vw',
+    }));
+
+    const openCreateDepartmentWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'admin/department/Template',
+        props: { type: 'create' },
+        title: 'Создание департамента',
+        type: 'dialog',
+        initialWidth: '40vw',
+      }));
+    };
 
     return {
       columns: [
@@ -75,6 +78,8 @@ export default {
       ],
       departments,
       editDepartment,
+
+      openCreateDepartmentWindow,
     };
   },
 };

@@ -58,11 +58,6 @@
             <component :is="Component" />
           </transition>
         </router-view>
-        <WindowComponent
-          v-for="window in windowList"
-          v-bind:key="window.id"
-          :window="window"
-        />
       </q-page>
     </q-page-container>
 
@@ -85,20 +80,18 @@
 <script>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
-import WindowComponent from 'src/components/WindowOld.vue';
 import AllWindows from 'src/components/AllWindows.vue';
 
 export default {
   name: 'MainLayout',
 
-  components: { WindowComponent, AllWindows },
+  components: { AllWindows },
 
   setup() {
     const store = useStore();
 
     return {
       username: computed(() => store.getters['user/getName']),
-      windowList: computed(() => store.getters['window/getWindowList']),
       isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
     };
   },

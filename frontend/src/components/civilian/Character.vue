@@ -477,7 +477,7 @@ export default {
         type: 'positive',
         message: 'Персонаж успешно создан.',
       });
-      store.commit('window/close', props.window.id);
+      props.window.doClose();
     });
 
     socketWrapper.listen('user/civilian/characters/editSuccess', () => {
@@ -487,7 +487,7 @@ export default {
         type: 'positive',
         message: 'Персонаж успешно отредактирован.',
       });
-      store.commit('window/close', props.window.id);
+      props.window.doClose();
     });
 
     socketWrapper.listen('user/civilian/characters/deleteSuccess', () => {
@@ -498,7 +498,7 @@ export default {
         message: 'Персонаж успешно удалён.',
       });
       store.commit('characters/updateSelected', null);
-      store.commit('window/close', props.window.id);
+      props.window.doClose();
     });
 
     return {

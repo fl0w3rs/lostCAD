@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 let windowLatestId = 0;
-let zIndex = 0;
+let zIndex = 1;
 
 const getWindowElementNumber = (state, id) => {
   for (let i = 0; i < state.list.length; i += 1) {

@@ -59,6 +59,7 @@ import LookupButton from 'src/components/LookupButton.vue';
 import PenalCodeButton from 'src/components/PenalCodeButton.vue';
 import PriorityButton from 'src/components/PriorityButton.vue';
 import TenCodesButton from 'src/components/TenCodesButton.vue';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'DispatchPage',
@@ -78,11 +79,11 @@ export default {
     const store = useStore();
 
     const switchSignal = () => {
-      store.commit('window/add', {
+      store.commit('windows/open', windowWrapper({
         component: 'dispatch/EditSignal',
         title: 'Редактирование сигнала',
-        dialog: true,
-      });
+        type: 'dialog',
+      }));
     };
 
     return {

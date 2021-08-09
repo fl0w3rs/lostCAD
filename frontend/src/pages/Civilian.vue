@@ -46,15 +46,7 @@
           icon="far fa-plus-square"
           outline
           label="Создать персонажа"
-          @click="
-            $store.commit('window/add', {
-              component: 'civilian/Character',
-              params: { type: 'create' },
-              dialog: true,
-              title: 'Создание персонажа',
-              dialogMinWidth: '75vw',
-            })
-          "
+          @click="openCreateCharacterWindow"
         />
         <q-btn
           color="orange"
@@ -63,15 +55,7 @@
           outline
           v-if="selectedCharacter != null"
           label="Отредактировать персонажа"
-          @click="
-            $store.commit('window/add', {
-              component: 'civilian/Character',
-              params: { type: 'edit', character: currentCharacter },
-              dialog: true,
-              title: 'Редактирование персонажа',
-              dialogMinWidth: '75vw',
-            })
-          "
+          @click="openEditCharacterWindow(currentCharacter)"
         />
         <q-btn-dropdown
           color="white"
@@ -90,15 +74,7 @@
             <q-item
               clickable
               v-close-popup
-              @click="
-                $store.commit('window/add', {
-                  component: 'vehicle/Template',
-                  params: { type: 'create' },
-                  title: 'Создание Т/С',
-                  dialog: true,
-                  dialogMinWidth: '60vw',
-                })
-              "
+              @click="openCreateVehicleWindow"
             >
               <q-item-section>
                 <q-item-label>Создать Т/С</q-item-label>
@@ -108,15 +84,7 @@
             <q-item
               clickable
               v-close-popup
-              @click="
-                $store.commit('window/add', {
-                  component: 'weapon/Template',
-                  params: { type: 'create' },
-                  title: 'Создание оружия',
-                  dialog: true,
-                  dialogMinWidth: '60vw',
-                })
-              "
+              @click="openCreateWeaponWindow"
             >
               <q-item-section>
                 <q-item-label>Создать оружие</q-item-label>
@@ -139,14 +107,7 @@
           outline
           v-if="selectedCharacter != null"
           label="911"
-          @click="
-            $store.commit('window/add', {
-              component: 'civilian/Call',
-              title: 'Вызов 911',
-              dialog: true,
-              dialogMinWidth: '40vw',
-            })
-          "
+          @click="open911Window"
         />
       </div>
       <q-separator
@@ -181,6 +142,7 @@ import { date } from 'quasar';
 import { useStore } from 'vuex';
 
 import { SocketWrapper } from 'src/boot/socketio-instance';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'CivilianPage',
@@ -237,6 +199,55 @@ export default {
       clearInterval(timeInterval);
     });
 
+    const openCreateVehicleWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'vehicle/Template',
+        props: { type: 'create' },
+        title: 'Создание Т/С',
+        type: 'dialog',
+        initialWidth: '60vw',
+      }));
+    };
+
+    const openCreateCharacterWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'civilian/Character',
+        props: { type: 'create' },
+        type: 'dialog',
+        title: 'Создание персонажа',
+        initialWidth: '75vw',
+      }));
+    };
+
+    const open911Window = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'civilian/Call',
+        title: 'Вызов 911',
+        type: 'dialog',
+        initialWidth: '40vw',
+      }));
+    };
+
+    const openEditCharacterWindow = (character) => {
+      store.commit('windows/open', windowWrapper({
+        component: 'civilian/Character',
+        props: { type: 'edit', character },
+        type: 'dialog',
+        title: 'Редактирование персонажа',
+        initialWidth: '75vw',
+      }));
+    };
+
+    const openCreateWeaponWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'weapon/Template',
+        props: { type: 'create' },
+        title: 'Создание оружия',
+        type: 'dialog',
+        initialWidth: '60vw',
+      }));
+    };
+
     return {
       rDate,
       rTime,
@@ -247,6 +258,12 @@ export default {
       }))),
       currentCharacter: computed(() => store.getters['characters/getSelectedCharacter']),
       selectedCharacter,
+
+      openCreateVehicleWindow,
+      openCreateCharacterWindow,
+      open911Window,
+      openEditCharacterWindow,
+      openCreateWeaponWindow,
     };
   },
 };

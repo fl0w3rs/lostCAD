@@ -158,11 +158,7 @@
           outline
           class="full-width"
           :label="`${character.name} ${character.surname}`"
-          @click="$store.commit('window/add', {
-            component: 'civilian/Character',
-            params: { type: 'ncic', character },
-            windowHeight: 355, title: `Просмотр ${character.name} ${character.surname}`,
-          });"
+          @click="openCharacterWindow"
         />
       </div>
     </div>
@@ -231,6 +227,7 @@ import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 
 import { generateVin } from 'vin-generator';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'Vehicle',
@@ -248,7 +245,7 @@ export default {
     const socketWrapper = new SocketWrapper();
 
     const closeWindow = () => {
-      store.commit('window/close', props.window.id);
+      props.window.doClose();
     };
 
     watch(() => store.getters['characters/getSelectedCharacterId'], (val) => {
@@ -357,6 +354,17 @@ export default {
       closeWindow();
     });
 
+    const openCharacterWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'civilian/Character',
+        props: { type: 'ncic', character: character.value },
+        initialWidth: '700px',
+        initialHeight: '355px',
+        type: 'draggable',
+        title: `Просмотр ${character.value.name} ${character.value.surname}`,
+      }));
+    };
+
     return {
       create,
       save,
@@ -381,6 +389,8 @@ export default {
       onMarkUpdate,
       modelFilterFn,
       onModelUpdate,
+
+      openCharacterWindow,
     };
   },
 };

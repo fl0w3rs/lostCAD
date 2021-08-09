@@ -7,34 +7,8 @@
       <div class="col-12 col-md-6">
         <div class="bg-dark rounded-borders q-pa-sm">
           <div class="row q-gutter-sm justify-center">
-            <q-btn
-              color="blue"
-              outline
-              label="Редактировать 10-коды"
-              @click="
-                $store.commit('window/add', {
-                  component: 'TenCodes',
-                  title: 'Редактирование 10-кодов',
-                  params: { admin: true },
-                  dialogMinWidth: '30vw',
-                  dialog: true,
-                })
-              "
-            />
-            <q-btn
-              color="orange"
-              outline
-              label="Редактировать уголовный кодекс"
-              @click="
-                $store.commit('window/add', {
-                  component: 'PenalCode',
-                  title: 'Редактирование уголовного кодекса',
-                  params: { admin: true },
-                  dialogMinWidth: '70vw',
-                  dialog: true,
-                })
-              "
-            />
+            <ten-codes-button :admin='true' />
+            <penal-code-button :admin='true' />
 
           </div>
         </div>
@@ -47,10 +21,12 @@
 
 <script>
 import DepartmentList from 'components/admin/department/List.vue';
+import TenCodesButton from 'src/components/TenCodesButton.vue';
+import PenalCodeButton from 'src/components/PenalCodeButton.vue';
 
 export default {
   name: 'AdminPage',
-  components: { DepartmentList },
+  components: { DepartmentList, TenCodesButton, PenalCodeButton },
   setup() {
     return {};
   },

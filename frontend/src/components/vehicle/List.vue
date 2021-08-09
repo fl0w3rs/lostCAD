@@ -18,6 +18,7 @@
 <script>
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import { windowWrapper } from 'src/store/windows/types';
 
 let store;
 
@@ -29,9 +30,14 @@ export default {
     store.dispatch('characters/requestVehicles');
 
     const onClickVehicleRow = (evt, row) => {
-      store.commit('window/add', {
-        component: 'vehicle/Template', params: { type: props.type === 'dmv' ? 'dmv' : 'edit', vehicle: row }, windowHeight: 350, title: 'Просмотр Т/С',
-      });
+      store.commit('windows/open', windowWrapper({
+        component: 'vehicle/Template',
+        props: { type: props.type === 'dmv' ? 'dmv' : 'edit', vehicle: row },
+        title: 'Просмотр Т/С',
+        type: 'draggable',
+        initialWidth: '700px',
+        initialHeight: '350px',
+      }));
     };
 
     const vehicleList = props.vehicles ? computed(() => props.vehicles) : computed(() => store.getters['characters/getSelectedCharacterVehicleList']);

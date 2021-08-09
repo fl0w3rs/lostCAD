@@ -15,13 +15,23 @@ import { useStore } from 'vuex';
 
 export default defineComponent({
   // name: 'ComponentName'
-  setup() {
+  props: {
+    admin: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+  },
+  setup(props) {
     const store = useStore();
 
     const onClick = () => {
       store.commit('windows/open', windowWrapper({
         component: 'PenalCode',
         type: 'dialog',
+        props: {
+          admin: props.admin,
+        },
         title: 'Просмотр Уголовного кодекса',
         initialWidth: '70vw',
       }));

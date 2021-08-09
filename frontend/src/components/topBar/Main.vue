@@ -38,6 +38,7 @@ import { useStore } from 'vuex';
 
 import InfoBar from 'components/topBar/Info';
 import Time from 'components/topBar/Time';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'UpperBarComponent',
@@ -48,11 +49,11 @@ export default {
     const store = useStore();
 
     const openIdentifierWindow = () => {
-      store.commit('window/add', {
+      store.commit('windows/open', windowWrapper({
         component: 'Identifier',
-        dialog: true,
+        type: 'dialog',
         title: 'Идентификатор',
-      });
+      }));
     };
 
     onBeforeMount(() => {
