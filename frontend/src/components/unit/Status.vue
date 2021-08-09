@@ -144,6 +144,9 @@ import { useQuasar } from 'quasar';
 import { windowWrapper } from 'src/store/windows/types';
 import PriorityButton from '../PriorityButton.vue';
 
+// eslint-disable-next-line global-require
+const statusChangeAudio = new Audio(require('src/assets/sounds/statusChange.wav'));
+
 export default {
   components: { PriorityButton },
   setup() {
@@ -152,6 +155,7 @@ export default {
 
     const switchStatus = (val) => {
       socketInstance.emit('unit/setStatus', val);
+      statusChangeAudio.play();
     };
 
     const switchPanic = () => {
