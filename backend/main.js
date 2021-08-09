@@ -4,13 +4,15 @@ import 'validatorjs/dist/lang/ru.js';
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import * as Validator from 'validatorjs';
+// import * as Validator from 'validatorjs';
 import createCacheInstance from './cache.js';
 import db from './db.js';
 import vtemplates from './vtemplates.js';
 
 // eslint-disable-next-line import/no-unresolved
 import * as messages from './messages/**/*';
+
+const Validator = require('validatorjs');
 
 const adminGroups = [4];
 
