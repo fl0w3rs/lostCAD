@@ -14,11 +14,11 @@ import * as messages from './messages/**/*';
 
 const Validator = require('validatorjs');
 
+Validator.useLang('ru');
+
 const adminGroups = [4];
 
 const globalCache = createCacheInstance();
-
-Validator.useLang('ru');
 
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
@@ -51,6 +51,11 @@ const io = require('socket.io')(http, {
 app.get('/api/getAuthKey', (req, res) => {
   res.append('Access-Control-Allow-Origin', req.get('origin'));
   res.json({ status: req.cookies.ips4_login_key ? 'success' : 'fail', auth_key: req.cookies.ips4_login_key });
+});
+
+app.get('/api/getUnitLoad', (req, res) => {
+  res.append('Access-Control-Allow-Origin', req.get('origin'));
+  res.json({ status: 'fail' });
 });
 
 // -+
