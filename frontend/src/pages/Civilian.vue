@@ -170,9 +170,9 @@
 import Character from 'components/civilian/Character.vue';
 import VehicleList from 'src/components/vehicle/List.vue';
 import WeaponList from 'src/components/weapon/List.vue';
-import InfoBar from 'src/components/nonCivTopBar/Info.vue';
-import Time from 'src/components/nonCivTopBar/Time.vue';
-import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
+import InfoBar from 'src/components/topBar/Info.vue';
+import Time from 'src/components/topBar/Time.vue';
+import SignalBar from 'src/components/topBar/Signal.vue';
 
 import {
   ref, onBeforeMount, onBeforeUnmount, computed, watch,

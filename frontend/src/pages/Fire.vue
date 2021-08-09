@@ -9,47 +9,29 @@
 
     <div class="accent q-mt-sm q-py-md row justify-center q-gutter-xs">
       <lookup-button :tabs='{ dmv: false, fld: false }' />
-      <q-btn
-        label="10-КОДЫ"
-        outline
-        color="gray"
-        size="sm"
-        @click="
-          $store.commit('window/add', {
-            component: 'TenCodes',
-            title: 'Просмотр 10-кодов',
-            dialogMinWidth: '30vw',
-            dialog: true,
-          })
-        "
-      />
-      <q-btn
-        label="Уголовный кодекс"
-        outline
-        color="gray"
-        size="sm"
-        @click="
-          $store.commit('window/add', {
-            component: 'PenalCode',
-            title: 'Просмотр Уголовного кодекса',
-            dialogMinWidth: '70vw',
-            dialog: true,
-          })
-        "
-      />
+      <ten-codes-button />
+      <penal-code-button />
     </div>
 
   </div>
 </template>
 
 <script>
-import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
-import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
+import UpperBarComponent from 'src/components/topBar/Main.vue';
+import SignalBar from 'src/components/topBar/Signal.vue';
 import LookupButton from 'src/components/LookupButton.vue';
+import PenalCodeButton from 'src/components/PenalCodeButton.vue';
+import TenCodesButton from 'src/components/TenCodesButton.vue';
 
 export default {
   name: 'FirePage',
 
-  components: { UpperBarComponent, SignalBar, LookupButton },
+  components: {
+    UpperBarComponent,
+    SignalBar,
+    LookupButton,
+    PenalCodeButton,
+    TenCodesButton,
+  },
 };
 </script>

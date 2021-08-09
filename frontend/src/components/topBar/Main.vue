@@ -36,8 +36,8 @@ import {
 } from 'vue';
 import { useStore } from 'vuex';
 
-import InfoBar from 'components/nonCivTopBar/Info';
-import Time from 'components/nonCivTopBar/Time';
+import InfoBar from 'components/topBar/Info';
+import Time from 'components/topBar/Time';
 
 export default {
   name: 'UpperBarComponent',

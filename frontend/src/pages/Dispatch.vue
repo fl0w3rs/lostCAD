@@ -19,34 +19,8 @@
       </div>
       <div class="row q-mt-xs q-gutter-xs">
         <lookup-button />
-        <q-btn
-          label="10-КОДЫ"
-          outline
-          color="gray"
-          size="sm"
-          @click="
-            $store.commit('window/add', {
-              component: 'TenCodes',
-              title: 'Просмотр 10-кодов',
-              dialogMinWidth: '30vw',
-              dialog: true,
-            })
-          "
-        />
-        <q-btn
-          label="Уголовный кодекс"
-          outline
-          color="gray"
-          size="sm"
-          @click="
-            $store.commit('window/add', {
-              component: 'PenalCode',
-              title: 'Просмотр Уголовного кодекса',
-              dialogMinWidth: '70vw',
-              dialog: true,
-            })
-          "
-        />
+        <ten-codes-button />
+        <penal-code-button />
         <q-btn
           label="РОЗЫСК"
           outline
@@ -75,14 +49,16 @@
 </template>
 
 <script>
-import UpperBarComponent from 'src/components/nonCivTopBar/Main.vue';
+import UpperBarComponent from 'src/components/topBar/Main.vue';
 import DispatchLog from 'src/components/dispatch/Log.vue';
 import UnitList from 'src/components/unit/List.vue';
-import SignalBar from 'src/components/nonCivTopBar/Signal.vue';
+import SignalBar from 'src/components/topBar/Signal.vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 import LookupButton from 'src/components/LookupButton.vue';
-import PriorityButton from '../components/PriorityButton.vue';
+import PenalCodeButton from 'src/components/PenalCodeButton.vue';
+import PriorityButton from 'src/components/PriorityButton.vue';
+import TenCodesButton from 'src/components/TenCodesButton.vue';
 
 export default {
   name: 'DispatchPage',
@@ -94,6 +70,8 @@ export default {
     SignalBar,
     PriorityButton,
     LookupButton,
+    PenalCodeButton,
+    TenCodesButton,
   },
 
   setup() {
