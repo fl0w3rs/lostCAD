@@ -16,7 +16,7 @@ export function SOCKET_UPDATESIGNAL(state, payload) {
 }
 
 // eslint-disable-next-line global-require
-const priorityAudio = new Audio(require('src/assets/sounds/unitNotify.mp3'));
+const priorityAudio = new Audio(require('src/assets/sounds/priority.wav'));
 
 export function SOCKET_DOPRIORITY() {
   priorityAudio.play();
