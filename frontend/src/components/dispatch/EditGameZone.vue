@@ -47,7 +47,7 @@ export default {
           message: 'Игровая зона успешно изменена',
         });
 
-        props.window.closeFn();
+        props.window.doClose();
       });
     };
 

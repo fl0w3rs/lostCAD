@@ -130,7 +130,7 @@ export default {
 
     const closeAndRefetch = () => {
       socketWrapper.emit('admin/departments/getAll');
-      props.window.closeFn();
+      props.window.doClose();
     };
 
     const create = () => {
@@ -153,7 +153,7 @@ export default {
       });
     };
 
-    // props.window.closeFn();
+    // props.window.doClose();
 
     return {
       info, departmentTypeList, groupList, create, save, remove,

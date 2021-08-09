@@ -410,7 +410,7 @@ export default {
             type: 'positive',
             message: 'Уголовный кодекс успешно отредактирован',
           });
-          props.window.closeFn();
+          props.window.doClose();
         }
       });
     };

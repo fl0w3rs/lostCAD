@@ -66,7 +66,7 @@ export default {
           persistent: true,
         }).onOk(() => {
           socketInstance.emit('unit/join', row.id);
-          props.window.closeFn();
+          props.window.doClose();
         });
       }
     };

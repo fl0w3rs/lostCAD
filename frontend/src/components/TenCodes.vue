@@ -203,7 +203,7 @@ export default {
             type: 'positive',
             message: '10-коды успешно отредактированы',
           });
-          props.window.closeFn();
+          props.window.doClose();
         }
       });
     };
