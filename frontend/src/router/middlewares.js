@@ -3,7 +3,7 @@
 
 export function auth({ next, store }) {
   if (store.getters['auth/isAuthenticated'] == false) {
-    store.dispatch('error/show', 'У Вас нет доступа');
+    store.dispatch('error/show', { message: 'У Вас нет доступа' });
     return next(false);
   }
 
@@ -12,7 +12,7 @@ export function auth({ next, store }) {
 
 export function admin({ next, store }) {
   if (store.getters['user/isAdmin'] == false) {
-    store.dispatch('error/show', 'Вы не администратор');
+    store.dispatch('error/show', { message: 'Вы не администратор' });
     return next(false);
   }
 
@@ -32,7 +32,7 @@ for (let i = 0; i < keys.length; i += 1) {
 
   depts[name] = ({ next, store }) => {
     if (!store.getters['user/getDepartments'][name]) {
-      store.dispatch('error/show', 'У Вас нет доступа к этому департаменту.');
+      store.dispatch('error/show', { message: 'У Вас нет доступа к этому департаменту.' });
       return next(false);
     }
 

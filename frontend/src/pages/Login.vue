@@ -35,22 +35,32 @@
 </style>
 
 <script>
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 /* eslint-disable eqeqeq */
 export default {
   name: 'LoginPage',
-  mounted() {
-    setTimeout(() => {
-      if (this.$store.getters['auth/isAuthenticated'] == true) {
-        this.$router.push('/home');
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    const $q = useQuasar();
 
-        this.$q.notify({
-          type: 'positive',
-          message: 'Успешная авторизация!',
-        });
-      } else {
-        this.$store.dispatch('error/show', 'У Вас нет доступа');
-      }
-    }, 1500);
+    onMounted(() => {
+      setTimeout(() => {
+        if (store.getters['auth/isAuthenticated'] == true) {
+          router.push('/home');
+
+          $q.notify({
+            type: 'positive',
+            message: 'Успешная авторизация!',
+          });
+        } else {
+          store.dispatch('error/show', { message: 'У Вас нет доступа' });
+        }
+      }, 1500);
+    });
   },
 };
 </script>
