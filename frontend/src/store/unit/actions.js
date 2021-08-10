@@ -5,7 +5,7 @@ export function someAction (context) {
 import { socketInstance } from 'src/boot/socketio-instance';
 
 export function requestAllUnits() {
-  socketInstance.emit('unit/getAll', null);
+  socketInstance.emit('units:getAll', null);
 }
 
 // eslint-disable-next-line camelcase

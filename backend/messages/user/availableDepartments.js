@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/getAvailableDepartments',
+  message: 'user:getAvailableDepartments',
   callback: async ({ socket, emitReturn }) => {
     if (!socket.isAuthenticated) return;
 

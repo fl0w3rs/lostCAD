@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/civilian/characters/weapons/create',
+  message: 'characters:weapons:create',
   callback: async ({
     socket, db, data, Validator, vtemplates, emitMessage,
   }) => {
@@ -41,7 +41,7 @@ module.exports = {
       characterId: character_owner,
     });
 
-    emitMessage('user/civilian/characters/weapons/createSuccess');
+    emitMessage('characters:weapons:createSuccess');
 
     socket.updateWeapons();
   },

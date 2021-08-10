@@ -36,7 +36,7 @@ export default {
         return;
       }
 
-      socketWrapper.emit('unit/create', info).onReturn((resp) => {
+      socketWrapper.emit('units:create', info).onReturn((resp) => {
         if (resp === 'success') props.window.doClose();
       });
     };

@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/civilian/characters/vehicles/get',
+  message: 'characters:vehicles:get',
   callback: async ({ socket }) => {
     if (!socket.isAuthenticated) return;
 

@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'dispatch/setSignal',
+  message: 'signal:set',
   callback: async ({
     utils, socket, io, data,
   }) => {

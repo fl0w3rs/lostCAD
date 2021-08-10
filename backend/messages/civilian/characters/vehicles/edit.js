@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/civilian/characters/vehicles/edit',
+  message: 'characters:vehicles:edit',
   callback: async ({
     socket, db, data, Validator, vtemplates, emitMessage,
   }) => {
@@ -38,7 +38,7 @@ module.exports = {
       mark, model, numberplate, /* vin, */ regStatus, insStatus, dor, color, type,
     }, { where: { id: data.id } });
 
-    emitMessage('user/civilian/characters/vehicles/editSuccess', []);
+    emitMessage('characters:vehicles:editSuccess', []);
 
     socket.updateVehicles();
   },

@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/civilian/characters/create',
+  message: 'characters:create',
   callback: async ({
     socket, Validator, db, data, vtemplates, emitMessage,
   }) => {
@@ -55,6 +55,6 @@ module.exports = {
 
     socket.sendAllCharacters(false);
 
-    emitMessage('user/civilian/characters/createSuccess');
+    emitMessage('characters:createSuccess');
   },
 };

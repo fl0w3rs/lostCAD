@@ -1,8 +1,10 @@
 module.exports = {
-  message: 'unit/create',
+  message: 'units:create',
   callback: async ({
     socket, io, data, db, emitReturn,
   }) => {
+    if (!socket.isAuthenticated) return;
+
     const user = await socket.getUser();
     const unit = await db.cad.Unit.create({ callsign: data.callsign, status: 'unavail', log: '' });
 

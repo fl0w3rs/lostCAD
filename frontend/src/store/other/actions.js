@@ -10,5 +10,5 @@ export function requestDispatchLog() {
 }
 
 export function requestSignal() {
-  socketInstance.emit('getSignal');
+  socketInstance.emit('signal:get');
 }

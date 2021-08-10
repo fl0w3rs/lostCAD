@@ -41,11 +41,11 @@ export default defineComponent({
     const signalStatus = ref(store.getters['other/getSignal']);
 
     const save = () => {
-      socketInstance.emit('dispatch/setSignal', signalStatus.value);
+      socketInstance.emit('signal:set', signalStatus.value);
     };
 
     const clear = () => {
-      socketInstance.emit('dispatch/setSignal', 'clear');
+      socketInstance.emit('signal:set', 'clear');
     };
 
     return {

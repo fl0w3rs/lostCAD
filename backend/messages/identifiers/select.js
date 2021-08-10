@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/selectIdentifier',
+  message: 'identifiers:select',
   callback: async ({ db, data, socket }) => {
     if (data !== null) {
       const identifier = await db.cad.Identifier.findOne({

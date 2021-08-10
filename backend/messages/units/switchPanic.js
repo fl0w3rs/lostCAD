@@ -1,11 +1,11 @@
 module.exports = {
-  message: 'unit/switchPanic',
+  message: 'units:switchPanic',
   callback: async ({ socket, io }) => {
     if (!socket.isAuthenticated) return;
 
     if (
       !await socket.isDepartmentTypeAvailable('police')
-            && !await socket.isDepartmentTypeAvailable('fire')
+      && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
     const user = await socket.getUser();

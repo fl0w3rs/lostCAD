@@ -1,9 +1,9 @@
 const { Op } = require('sequelize');
 
 module.exports = {
-  message: 'ncic/request',
+  message: 'lookup:ncic',
   callback: async ({
-    socket, Validator, data, db, emitMessage,
+    socket, Validator, data, db, emitReturn,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -71,6 +71,6 @@ module.exports = {
       }
     }
 
-    emitMessage('ncic/response', { characters, vehicles, weapons });
+    emitReturn({ characters, vehicles, weapons });
   },
 };

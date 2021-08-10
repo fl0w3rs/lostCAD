@@ -39,7 +39,7 @@ export default {
 
     const gameZone = ref(store.getters['other/getGameZone']);
     const save = () => {
-      socketWrapper.emit('gameZone/set', gameZone.value).onReturn((resp) => {
+      socketWrapper.emit('gameZone:set', gameZone.value).onReturn((resp) => {
         if (resp !== 'success') return;
 
         $q.notify({

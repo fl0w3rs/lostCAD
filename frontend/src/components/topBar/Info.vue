@@ -38,7 +38,7 @@ export default {
   setup() {
     const store = useStore();
 
-    socketInstance.emit('gameZone/get');
+    socketInstance.emit('gameZone:get');
 
     const onClickGameZone = () => {
       if (store.getters['user/getCurrentDepartment'] !== 'dispatch') return;

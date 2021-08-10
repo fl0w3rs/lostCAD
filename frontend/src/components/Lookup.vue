@@ -272,23 +272,21 @@ export default {
     const ncicResults = ref({});
 
     const requestNcic = () => {
-      socketWrapper.emit('ncic/request', { data: ncic });
+      socketWrapper.emit('lookup:ncic', { data: ncic }).onReturn((data) => {
+        ncicResults.value = data;
+      });
     };
 
     const onNcicRowClick = (evt, row) => {
       store.commit('windows/open', windowWrapper({
         component: 'civilian/Character',
         type: 'draggable',
-        initialHeight: '350px',
-        initialWidth: '800px',
+        initialHeight: '355px',
+        initialWidth: '700px',
         title: `Просмотр ${row.name} ${row.surname}`,
         props: { type: 'ncic', character: row },
       }));
     };
-
-    socketWrapper.listen('ncic/response', (data) => {
-      ncicResults.value = data;
-    });
 
     //
 
@@ -299,12 +297,10 @@ export default {
     const fldResults = ref([]);
 
     const requestFld = () => {
-      socketWrapper.emit('fld/request', { data: fld });
+      socketWrapper.emit('lookup:fld', { data: fld }).onReturn((data) => {
+        fldResults.value = data.results;
+      });
     };
-
-    socketWrapper.listen('fld/response', (data) => {
-      fldResults.value = data.results;
-    });
 
     //
 
@@ -316,12 +312,10 @@ export default {
     const dmvResults = ref([]);
 
     const requestDmv = () => {
-      socketWrapper.emit('dmv/request', { data: dmv });
+      socketWrapper.emit('lookup:dmv', { data: dmv }).onReturn((data) => {
+        dmvResults.value = data.results;
+      });
     };
-
-    socketWrapper.listen('dmv/response', (data) => {
-      dmvResults.value = data.results;
-    });
 
     return {
       allowedTypes: {

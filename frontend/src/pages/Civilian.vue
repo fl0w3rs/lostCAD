@@ -177,7 +177,7 @@ export default {
 
     const socketWrapper = new SocketWrapper();
 
-    socketWrapper.listen('user/civilian/characters/deleteSuccess', () => {
+    socketWrapper.listen('characters:deleteSuccess', () => {
       selectedCharacter.value = null;
     });
 

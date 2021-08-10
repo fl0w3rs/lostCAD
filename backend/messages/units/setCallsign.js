@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'unit/setCallsign',
+  message: 'units:setCallsign',
   callback: async ({
     socket, data, io, db,
   }) => {

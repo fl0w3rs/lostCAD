@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'getSignal',
+  message: 'signal:get',
   callback: async ({ utils, socket }) => {
     if (!socket.isAuthenticated) return;
 

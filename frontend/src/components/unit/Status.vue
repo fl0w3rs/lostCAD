@@ -154,12 +154,12 @@ export default {
     const store = useStore();
 
     const switchStatus = (val) => {
-      socketInstance.emit('unit/setStatus', val);
+      socketInstance.emit('units:setStatus', val);
       statusChangeAudio.play();
     };
 
     const switchPanic = () => {
-      socketInstance.emit('unit/switchPanic', null);
+      socketInstance.emit('units:switchPanic', null);
     };
 
     const changeCallsign = () => {
@@ -173,7 +173,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk((data) => {
-        socketInstance.emit('unit/setCallsign', data);
+        socketInstance.emit('units:setCallsign', data);
       });
     };
 
@@ -184,7 +184,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        socketInstance.emit('unit/leave', null);
+        socketInstance.emit('units:leave', null);
       });
     };
 
@@ -195,7 +195,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        socketInstance.emit('unit/disband', null);
+        socketInstance.emit('units:disband', null);
       });
     };
 

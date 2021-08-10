@@ -127,11 +127,11 @@ let $q;
 
 export default {
   sockets: {
-    'user/identifiers/createSuccess': (payload) => {
+    'identifiers:createSuccess': (payload) => {
       store.commit('identifier/selectIdentifier', payload.id);
     },
 
-    'user/identifiers/editSuccess': () => {
+    'identifiers:editSuccess': () => {
       $q.notify({
         type: 'positive',
         message: 'Идентификатор успешно отредактирован',
@@ -156,7 +156,7 @@ export default {
     };
 
     const createIdentifier = () => {
-      socketInstance.emit('user/identifiers/create', []);
+      socketInstance.emit('identifiers:create', []);
     };
 
     const onSelectIdentifier = (evt, row) => {
@@ -164,13 +164,13 @@ export default {
     };
 
     const deleteIdentifier = () => {
-      socketInstance.emit('user/identifiers/delete', currentIdentifier.value.id);
+      socketInstance.emit('identifiers:delete', currentIdentifier.value.id);
       changeIdentifier();
     };
 
     const saveIdentifier = () => {
       currentIdentifier.value.name = toTitleCase(currentIdentifier.value.name);
-      socketInstance.emit('user/identifiers/edit', currentIdentifier.value);
+      socketInstance.emit('identifiers:edit', currentIdentifier.value);
     };
 
     const departments = ref([]);

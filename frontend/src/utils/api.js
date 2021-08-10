@@ -10,7 +10,7 @@ export const getAvailableDepartments = () => new Promise((resolve) => {
   if (!cached) {
     const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
 
-    socketWrapper.emit('user/getAvailableDepartments').onReturn((data) => {
+    socketWrapper.emit('user:getAvailableDepartments').onReturn((data) => {
       cache.set('availableDepartments', data.list, 60);
       resolve(data.list);
     });
@@ -37,7 +37,7 @@ export const getAllGroupNames = () => new Promise((resolve) => {
 export const getTenCodes = () => new Promise((resolve) => {
   const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
 
-  socketWrapper.emit('user/tenCodes/get', null).onReturn((data) => {
+  socketWrapper.emit('tenCodes:get', null).onReturn((data) => {
     resolve(JSON.parse(data));
   });
 });
@@ -45,7 +45,7 @@ export const getTenCodes = () => new Promise((resolve) => {
 export const getPenalCode = () => new Promise((resolve) => {
   const socketWrapper = new SocketWrapper({ hookComponentLifeCycle: false });
 
-  socketWrapper.emit('user/penalCode/get', null).onReturn((data) => {
+  socketWrapper.emit('penalCode:get', null).onReturn((data) => {
     resolve(JSON.parse(data));
   });
 });

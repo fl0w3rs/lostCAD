@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'gameZone/set',
+  message: 'gameZone:set',
   callback: async ({
     data, io, socket, utils, emitReturn,
   }) => {

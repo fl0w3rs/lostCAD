@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'unit/leave',
+  message: 'units:leave',
   callback: async ({ socket, io, db }) => {
     const user = await socket.getUser();
     const unit = await user.getUnit();

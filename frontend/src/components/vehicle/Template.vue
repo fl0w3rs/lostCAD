@@ -297,12 +297,12 @@ export default {
     const create = () => {
       if (props.type != 'create') return;
 
-      socketWrapper.emit('user/civilian/characters/vehicles/create', { character_owner: store.getters['characters/getSelectedCharacterId'], ...info.value });
+      socketWrapper.emit('characters:vehicles:create', { character_owner: store.getters['characters/getSelectedCharacterId'], ...info.value });
     };
     const save = () => {
       if (props.type != 'edit') return;
 
-      socketWrapper.emit('user/civilian/characters/vehicles/edit', info.value);
+      socketWrapper.emit('characters:vehicles:edit', info.value);
     };
     const remove = () => {
       if (props.type != 'edit') return;
@@ -314,7 +314,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        socketWrapper.emit('user/civilian/characters/vehicles/remove', info.value);
+        socketWrapper.emit('characters:vehicles:remove', info.value);
       });
     };
 
@@ -331,7 +331,7 @@ export default {
       });
     }
 
-    socketWrapper.listen('user/civilian/characters/vehicles/removeSuccess', () => {
+    socketWrapper.listen('characters:vehicles:removeSuccess', () => {
       $q.notify({
         type: 'positive',
         message: 'Т/С успешно удалено',
@@ -339,14 +339,14 @@ export default {
       closeWindow();
     });
 
-    socketWrapper.listen('user/civilian/characters/vehicles/editSuccess', () => {
+    socketWrapper.listen('characters:vehicles:editSuccess', () => {
       $q.notify({
         type: 'positive',
         message: 'Т/С успешно отредактировано',
       });
     });
 
-    socketWrapper.listen('user/civilian/characters/vehicles/createSuccess', () => {
+    socketWrapper.listen('characters:vehicles:createSuccess', () => {
       $q.notify({
         type: 'positive',
         message: 'Т/С успешно создано',

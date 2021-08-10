@@ -1,12 +1,12 @@
 module.exports = {
-  message: 'user/identifiers/delete',
+  message: 'identifiers:delete',
   callback: async ({ db, socket, data }) => {
     if (!socket.isAuthenticated) return;
 
     if (
       !await socket.isDepartmentTypeAvailable('police')
-            && !await socket.isDepartmentTypeAvailable('dispatch')
-            && !await socket.isDepartmentTypeAvailable('fire')
+      && !await socket.isDepartmentTypeAvailable('dispatch')
+      && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
     const identifier = await db.cad.Identifier.findOne({

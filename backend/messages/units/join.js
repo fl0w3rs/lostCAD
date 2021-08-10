@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'unit/join',
+  message: 'units:join',
   callback: async ({
     socket, io, data, db,
   }) => {

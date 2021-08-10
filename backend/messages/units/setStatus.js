@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'unit/setStatus',
+  message: 'units:setStatus',
   callback: async ({ socket, data, io }) => {
     const user = await socket.getUser();
 

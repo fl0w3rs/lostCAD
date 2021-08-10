@@ -33,12 +33,17 @@ export default {
       store.commit('auth/socketDisconnected');
     });
 
+    // setInterval(() => {
+
+    // }, interval);
+
     socketInstance.on('errorNotify', (message) => {
       $q.notify({
         type: 'negative',
         message,
       });
     });
+
     socketInstance.on('errorNotifyUnescaped', (message) => {
       $q.notify({
         type: 'negative',
@@ -46,12 +51,14 @@ export default {
         html: true,
       });
     });
+
     socketInstance.on('successNotifyUnescaped', (message) => {
       $q.notify({
         type: 'positive',
         message,
       });
     });
+
     socketInstance.on('successNotifyUnescaped', (message) => {
       $q.notify({
         type: 'positive',

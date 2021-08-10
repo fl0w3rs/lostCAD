@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/identifiers/request',
+  message: 'identifiers:request',
   callback: async ({ socket }) => {
     if (!socket.isAuthenticated) return;
 

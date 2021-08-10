@@ -12,6 +12,19 @@
           :class="props.row.panic == true ? 'bg-orange-14' : ''"
         >
           {{props.value}}
+          <q-menu touch-position v-if="type == 'dispatch'">
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup>
+                <q-item-section>Branches</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Leaves</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup>
+                <q-item-section>Roots</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-td>
       </template>
 
@@ -65,7 +78,7 @@ export default {
           cancel: true,
           persistent: true,
         }).onOk(() => {
-          socketInstance.emit('unit/join', row.id);
+          socketInstance.emit('units:join', row.id);
           props.window.doClose();
         });
       }

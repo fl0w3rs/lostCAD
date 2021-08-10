@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'user/civilian/characters/weapons/remove',
+  message: 'characters:weapons:remove',
   callback: async ({
     socket, db, data, emitMessage,
   }) => {
@@ -16,7 +16,7 @@ module.exports = {
 
     await db.cad.Weapon.destroy({ where: { id } });
 
-    emitMessage('user/civilian/characters/weapons/removeSuccess');
+    emitMessage('characters:weapons:removeSuccess');
 
     socket.updateWeapons();
   },

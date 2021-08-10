@@ -40,7 +40,7 @@
       <div class="col-6">
         <div class="accent q-pa-sm">
           <p class="text-h6 q-mb-sm">Список юнитов</p>
-          <UnitList />
+          <UnitList type="dispatch" />
         </div>
       </div>
     </div>

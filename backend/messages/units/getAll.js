@@ -1,5 +1,5 @@
 module.exports = {
-  message: 'unit/getAll',
+  message: 'units:getAll',
   callback: ({ socket }) => {
     socket.updateAllUnits();
     // io.updateAllUnits();

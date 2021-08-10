@@ -1,12 +1,12 @@
 module.exports = {
-  message: 'user/identifiers/create',
+  message: 'identifiers:create',
   callback: async ({ db, socket }) => {
     if (!socket.isAuthenticated) return;
 
     if (
       !await socket.isDepartmentTypeAvailable('police')
-            && !await socket.isDepartmentTypeAvailable('dispatch')
-            && !await socket.isDepartmentTypeAvailable('fire')
+      && !await socket.isDepartmentTypeAvailable('dispatch')
+      && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
     const created = await db.cad.Identifier.create({
@@ -15,6 +15,6 @@ module.exports = {
 
     socket.updateIdentifiers();
 
-    socket.emit('user/identifiers/createSuccess', created);
+    socket.emit('identifiers:createSuccess', created);
   },
 };

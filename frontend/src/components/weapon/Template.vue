@@ -135,7 +135,7 @@ export default {
       props.window.doClose();
     };
 
-    socketWrapper.listen('user/civilian/characters/weapons/removeSuccess', () => {
+    socketWrapper.listen('characters:weapons:removeSuccess', () => {
       $q.notify({
         type: 'positive',
         message: 'Оружие успешно удалено',
@@ -143,14 +143,14 @@ export default {
       closeWindow();
     });
 
-    socketWrapper.listen('user/civilian/characters/weapons/editSuccess', () => {
+    socketWrapper.listen('characters:weapons:editSuccess', () => {
       $q.notify({
         type: 'positive',
         message: 'Оружие успешно отредактировано',
       });
     });
 
-    socketWrapper.listen('user/civilian/characters/weapons/createSuccess', () => {
+    socketWrapper.listen('characters:weapons:createSuccess', () => {
       $q.notify({
         type: 'positive',
         message: 'Оружие успешно создано',
@@ -171,12 +171,12 @@ export default {
     const create = () => {
       if (props.type != 'create') return;
 
-      socketWrapper.emit('user/civilian/characters/weapons/create', { character_owner: store.getters['characters/getSelectedCharacterId'], ...info.value });
+      socketWrapper.emit('characters:weapons:create', { character_owner: store.getters['characters/getSelectedCharacterId'], ...info.value });
     };
     const save = () => {
       if (props.type != 'edit') return;
 
-      socketWrapper.emit('user/civilian/characters/weapons/edit', info.value);
+      socketWrapper.emit('characters:weapons:edit', info.value);
     };
     const remove = () => {
       if (props.type != 'edit') return;
@@ -188,7 +188,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        socketWrapper.emit('user/civilian/characters/weapons/remove', info.value);
+        socketWrapper.emit('characters:weapons:remove', info.value);
       });
     };
 

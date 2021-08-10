@@ -6,15 +6,15 @@ export function SOCKET_UPDATEIDENTIFIERS(state, payload) {
   state.list = payload.list;
 
   state.selected = LocalStorage.getItem('selectedIdentifier') || null;
-  socketInstance.emit('user/selectIdentifier', state.selected);
+  socketInstance.emit('identifiers:select', state.selected);
 }
 
 export function selectIdentifier(state, id) {
-  if (state.selected !== id) socketInstance.emit('unit/leave', null);
+  if (state.selected !== id) socketInstance.emit('units:leave', null);
 
   state.selected = id;
 
-  socketInstance.emit('user/selectIdentifier', id);
+  socketInstance.emit('identifiers:select', id);
 
   LocalStorage.set('selectedIdentifier', id);
 }

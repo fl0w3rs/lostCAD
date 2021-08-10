@@ -7,8 +7,8 @@ module.exports = {
 
     if (
       !await socket.isDepartmentTypeAvailable('police')
-            && !await socket.isDepartmentTypeAvailable('dispatch')
-            && !await socket.isDepartmentTypeAvailable('fire')
+      && !await socket.isDepartmentTypeAvailable('dispatch')
+      && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
     const char = await db.cad.Character.findOne({ where: { id: data.id } });

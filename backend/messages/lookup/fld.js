@@ -1,16 +1,16 @@
 const { Op } = require('sequelize');
 
 module.exports = {
-  message: 'fld/request',
+  message: 'lookup:fld',
   callback: async ({
-    socket, Validator, data, db, emitMessage,
+    socket, Validator, data, db, emitReturn,
   }) => {
     if (!socket.isAuthenticated) return;
 
     if (
       !await socket.isDepartmentTypeAvailable('police')
-            && !await socket.isDepartmentTypeAvailable('dispatch')
-            && !await socket.isDepartmentTypeAvailable('fire')
+      && !await socket.isDepartmentTypeAvailable('dispatch')
+      && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
     const payload = data;
@@ -33,6 +33,6 @@ module.exports = {
       limit: 10,
     }) || [];
 
-    emitMessage('fld/response', { results: weapons });
+    emitReturn({ results: weapons });
   },
 };

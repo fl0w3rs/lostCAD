@@ -427,7 +427,7 @@ export default {
 
       normalizeInfo();
 
-      socketWrapper.emit('user/civilian/characters/create', info.value);
+      socketWrapper.emit('characters:create', info.value);
     };
 
     const edit = () => {
@@ -435,7 +435,7 @@ export default {
 
       normalizeInfo();
 
-      socketWrapper.emit('user/civilian/characters/edit', info.value);
+      socketWrapper.emit('characters:edit', info.value);
     };
 
     const remove = () => {
@@ -448,7 +448,7 @@ export default {
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        socketWrapper.emit('user/civilian/characters/delete', {
+        socketWrapper.emit('characters:delete', {
           id: props.character.id,
         });
       });
@@ -470,7 +470,7 @@ export default {
       });
     };
 
-    socketWrapper.listen('user/civilian/characters/createSuccess', () => {
+    socketWrapper.listen('characters:createSuccess', () => {
       if (props.type != 'create') return;
 
       $q.notify({
@@ -480,7 +480,7 @@ export default {
       props.window.doClose();
     });
 
-    socketWrapper.listen('user/civilian/characters/editSuccess', () => {
+    socketWrapper.listen('characters:editSuccess', () => {
       if (props.type != 'edit') return;
 
       $q.notify({
@@ -490,7 +490,7 @@ export default {
       props.window.doClose();
     });
 
-    socketWrapper.listen('user/civilian/characters/deleteSuccess', () => {
+    socketWrapper.listen('characters:deleteSuccess', () => {
       if (props.type != 'edit') return;
 
       $q.notify({
