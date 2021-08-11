@@ -5,6 +5,11 @@ module.exports = {
   }) => {
     if (!socket.isAuthenticated) return;
 
+    if (
+      !await socket.isDepartmentTypeAvailable('police')
+      && !await socket.isDepartmentTypeAvailable('fire')
+    ) return;
+
     const user = await socket.getUser();
     const unit = await db.cad.Unit.create({ callsign: data.callsign, status: 'unavail', log: '' });
 

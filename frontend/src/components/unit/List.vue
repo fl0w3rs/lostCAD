@@ -13,15 +13,12 @@
         >
           {{props.value}}
           <q-menu touch-position v-if="type == 'dispatch'">
-            <q-list style="min-width: 100px">
-              <q-item clickable v-close-popup>
-                <q-item-section>Branches</q-item-section>
+            <q-list dense style="min-width: 100px">
+              <q-item @click="dispatchDisband(props.row)" clickable v-close-popup>
+                <q-item-section>Расформировать</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
-                <q-item-section>Leaves</q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup>
-                <q-item-section>Roots</q-item-section>
+              <q-item @click="dispatchSetCallsign(props.row)" clickable v-close-popup>
+                <q-item-section>Изменить маркировку</q-item-section>
               </q-item>
             </q-list>
           </q-menu>
@@ -49,7 +46,7 @@ export default {
 
     const statuses = {
       unavail: {
-        text: 'НЕ ДОСТУПЕН',
+        text: 'НЕДОСТУПЕН',
         class: 'text-red',
       },
       avail: {
@@ -86,7 +83,39 @@ export default {
 
     onBeforeMount(() => { store.dispatch('unit/requestAllUnits'); });
 
+    const dispatchDisband = (unit) => {
+      $q.dialog({
+        title: 'Расформирование юнита',
+        message: `Вы уверены, что хотите расформировать юнит ${unit.callsign}?`,
+        cancel: true,
+        persistent: true,
+        ok: {
+          label: 'Да',
+          flat: true,
+        },
+      }).onOk(() => {
+        socketInstance.emit('units:disband', { dispatch: true, unitId: unit.id });
+      });
+    };
+
+    const dispatchSetCallsign = (unit) => {
+      $q.dialog({
+        title: 'Изменение маркировки',
+        message: 'Введите новую маркировку в поле ниже.',
+        prompt: {
+          model: unit.callsign,
+          type: 'text',
+        },
+        cancel: true,
+        persistent: true,
+      }).onOk((data) => {
+        socketInstance.emit('units:setCallsign', { dispatch: true, unitId: unit.id, newCallsign: data });
+      });
+    };
+
     return {
+      dispatchDisband,
+      dispatchSetCallsign,
       columns: [
         {
           name: 'callsign',

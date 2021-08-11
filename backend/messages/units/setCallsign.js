@@ -3,23 +3,43 @@ module.exports = {
   callback: async ({
     socket, data, io, db,
   }) => {
-    const user = await socket.getUser();
+    if (!socket.isAuthenticated) return;
 
-    const unit = await user.getUnit();
+    if (data?.dispatch) {
+      if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
 
-    if (!unit) return;
+      const unit = await db.cad.Unit.findOne({ where: { id: data?.unitId } });
+      if (!unit) return;
 
-    const oldCallsign = unit.dataValues.callsign;
+      unit.callsign = data?.newCallsign;
 
-    unit.callsign = data;
+      await unit.save();
 
-    await unit.save();
+      await io.updateAllUnits();
+    } else {
+      if (
+        !await socket.isDepartmentTypeAvailable('police')
+        && !await socket.isDepartmentTypeAvailable('fire')
+      ) return;
 
-    await io.updateAllUnits();
+      const user = await socket.getUser();
 
-    const identifier = await db.cad.Identifier.findOne({
-      where: { id: user.dataValues.currentIdentifier },
-    });
-    io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} изменил(-а) маркировку с ${oldCallsign} на ${data}.`);
+      const unit = await user.getUnit();
+
+      if (!unit) return;
+
+      const oldCallsign = unit.dataValues.callsign;
+
+      unit.callsign = data;
+
+      await unit.save();
+
+      await io.updateAllUnits();
+
+      const identifier = await db.cad.Identifier.findOne({
+        where: { id: user.dataValues.currentIdentifier },
+      });
+      io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} изменил(-а) маркировку с ${oldCallsign} на ${data}.`);
+    }
   },
 };

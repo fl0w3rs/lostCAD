@@ -8,11 +8,18 @@ module.exports = {
     if (data?.dispatch) {
       if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
 
-      const unit = await db.Unit.findOne({ where: { id: data?.unitId } });
+      const unit = await db.cad.Unit.findOne({ where: { id: data?.unitId } });
       if (!unit) return;
 
       await unit.destroy();
+
+      io.updateAllUnits();
     } else {
+      if (
+        !await socket.isDepartmentTypeAvailable('police')
+        && !await socket.isDepartmentTypeAvailable('fire')
+      ) return;
+
       const user = await socket.getUser();
 
       const unit = await user.getUnit();
@@ -28,8 +35,8 @@ module.exports = {
       socket.unitId = undefined;
 
       await unit.destroy();
-    }
 
-    io.updateAllUnits();
+      io.updateAllUnits();
+    }
   },
 };

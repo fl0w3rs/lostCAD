@@ -5,26 +5,44 @@
         name="o_language"
         size="sm"
       /> {{gameZone}}
+      <q-tooltip>Игровая зона</q-tooltip>
     </div>
-    <q-separator
+    <!-- <q-separator
       vertical
-    ></q-separator>
-    <q-icon
-      name="o_volume_up"
-      size="sm"
-    />
+    /> -->
+
     <q-icon
       name="o_podcasts"
       size="sm"
-    />
+      color="grey"
+      class="q-pl-md"
+    >
+      <q-tooltip>Наличие активного диспетчера</q-tooltip>
+    </q-icon>
+
     <q-icon
       name="o_info"
       size="sm"
-    />
+      color="green"
+    >
+      <q-tooltip>Наличие диспетчера по сбору информации</q-tooltip>
+    </q-icon>
+
     <q-icon
       name="o_phone"
       size="sm"
-    />
+      color="grey"
+    >
+      <q-tooltip>Наличие оператора 911</q-tooltip>
+    </q-icon>
+
+    <q-icon
+      name="o_volume_up"
+      size="sm"
+      class="cursor-pointer q-pl-md"
+    >
+      <q-tooltip>Звуковые оповещения</q-tooltip>
+    </q-icon>
   </div>
 </template>
 
