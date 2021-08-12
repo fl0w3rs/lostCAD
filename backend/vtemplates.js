@@ -48,6 +48,12 @@ module.exports = {
       groups: 'required|max:256',
       divisions: 'present|max:1024',
     },
+    call: {
+      caller: 'required|max:64',
+      location: 'required|max:64',
+      block: 'required|numeric',
+      description: 'required|max:4096',
+    },
 
   },
 
@@ -94,6 +100,12 @@ module.exports = {
       driverLicense: 'Лицензия на вождение',
       pilotLicense: 'Лицензия пилота',
       boatLicense: 'Лодочная лицензия',
+    },
+    call: {
+      caller: 'Звонивший',
+      location: 'Местоположение',
+      block: 'Блок',
+      description: 'Описание',
     },
   },
 };

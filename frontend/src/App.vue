@@ -52,7 +52,7 @@ export default {
       });
     });
 
-    socketInstance.on('successNotifyUnescaped', (message) => {
+    socketInstance.on('successNotify', (message) => {
       $q.notify({
         type: 'positive',
         message,

@@ -176,6 +176,24 @@ const Setting = sequelize.define('setting',
     tableName: 'settings',
   });
 
+const Call = sequelize.define('call',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    status: DataTypes.STRING(64),
+    caller: DataTypes.STRING(64),
+    location: DataTypes.STRING(64),
+    blockNumber: DataTypes.INTEGER,
+    description: DataTypes.TEXT,
+
+  },
+  {
+    tableName: 'calls',
+  });
+
 // unit
 
 Unit.hasMany(User);
@@ -207,8 +225,13 @@ Identifier.belongsTo(User);
 User.hasMany(Character, { sourceKey: 'fid' });
 Character.belongsTo(User);
 
-// Unit.sync({alter: true})
-// User.sync({alter: true})
+// call
+
+Call.hasMany(Unit);
+Unit.belongsTo(Call);
+
+// Unit.sync({ alter: true });
+// Call.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;
@@ -219,6 +242,7 @@ exports.Vehicle = Vehicle;
 exports.Weapon = Weapon;
 exports.Unit = Unit;
 exports.Setting = Setting;
+exports.Call = Call;
 
 // const createTables = async () => {
 //   const keys = Object.keys(exports);

@@ -61,6 +61,7 @@
         color="red"
         outline
         size="sm"
+        @click="createCall"
         label="Создать текстовый"
       />
       <q-btn
@@ -74,15 +75,20 @@
   </div>
 </template>
 
-<script>
-import { reactive, ref, onBeforeMount } from 'vue';
+<script lang="ts">
+import {
+  reactive, ref, onBeforeMount, defineComponent,
+} from 'vue';
 import { useStore } from 'vuex';
 
 import { streetList } from 'src/utils/constants';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
-export default {
-  setup() {
+export default defineComponent({
+  props: ['window'],
+  setup(props) {
     const store = useStore();
+    const socketWrapper = new SocketWrapper();
 
     const callData = reactive({
       caller: 'Очевидец',
@@ -90,7 +96,7 @@ export default {
 
     const callerList = ref(['Очевидец']);
 
-    const onCallerUpdate = (val) => {
+    const onCallerUpdate = (val: any) => {
       callData.caller = val;
     };
 
@@ -103,7 +109,7 @@ export default {
 
     const streetListFiltered = ref(streetList);
 
-    const streetFilterFn = (val, update) => {
+    const streetFilterFn = (val: any, update: any) => {
       if (val === '') {
         update(() => {
           streetListFiltered.value = streetList;
@@ -117,15 +123,23 @@ export default {
       });
     };
 
+    const createCall = () => {
+      socketWrapper.emit('calls:create', { type: 'civilian', callData }).onReturn((resp) => {
+        if (resp === 'success') props.window.doClose();
+      });
+    };
+
     return {
       callData,
       callerList,
       streetListFiltered,
       streetFilterFn,
       onCallerUpdate,
+
+      createCall,
     };
   },
-};
+});
 </script>
 
 <style>
