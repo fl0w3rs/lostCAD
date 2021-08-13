@@ -20,6 +20,8 @@ module.exports = {
 
     io.updateAllUnits();
 
+    if (unit.panic) io.emit('panic:sound');
+
     io.sendDispatchLogMessage(`UNIT ${unit.dataValues.callsign}: ${unit.dataValues.panic ? 'включена' : 'выключена'} кнопка паники.`);
   },
 };

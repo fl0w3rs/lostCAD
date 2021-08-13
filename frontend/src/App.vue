@@ -10,13 +10,13 @@
 
 <script>
 import { useQuasar } from 'quasar';
-import { socketInstance } from 'src/boot/socketio-instance';
+import { socketInstance, SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { onBeforeMount, onBeforeUnmount } from 'vue';
-import { getAudioDuration } from './utils/functions';
 
 const unitNotifyAudio = new Audio(require('src/assets/sounds/unitNotify.mp3'));
 const panicAudio = new Audio(require('src/assets/sounds/panic.wav'));
+const signalAudio = new Audio(require('src/assets/sounds/signal.wav'));
 
 const useSocketNotifications = () => {
   const $q = useQuasar();
@@ -60,20 +60,48 @@ const useSocketNotifications = () => {
   });
 };
 
-const usePanicSoundCheck = () => {
+const useSounds = () => {
   const store = useStore();
+  const socketWrapper = new SocketWrapper();
 
-  let panicCheckInterval;
+  socketWrapper.listen('panic:sound', () => {
+    if (store.getters['other/isSoundMuted']) return;
+    panicAudio.play();
+  }, { ignoreWrapperID: true });
+
+  socketWrapper.listen('signal:sound', () => {
+    if (store.getters['other/isSoundMuted']) return;
+    signalAudio.play();
+  }, { ignoreWrapperID: true });
+
+  let interval;
 
   onBeforeMount(async () => {
-    const duration = await getAudioDuration(panicAudio);
-    panicCheckInterval = setInterval(() => {
+    interval = setInterval(() => {
+      if (store.getters['other/isSoundMuted']) return;
 
-    }, (duration * 1000) + 10000);
+      // eslint-disable-next-line eqeqeq
+      if (store.getters['other/getSignal'] != 0) {
+        signalAudio.play();
+      }
+
+      setTimeout(() => {
+        if (store.getters['other/isSoundMuted']) return;
+
+        const units = store.getters['unit/getAllUnits'];
+
+        for (let i = 0; i < units.length; i += 1) {
+          // eslint-disable-next-line no-continue
+          if (!units[i].panic) continue;
+          panicAudio.play();
+          break;
+        }
+      }, 5000);
+    }, 12000);
   });
 
   onBeforeUnmount(() => {
-    clearInterval(panicCheckInterval);
+    clearInterval(interval);
   });
 };
 
@@ -95,7 +123,7 @@ export default {
     });
 
     useSocketNotifications();
-    usePanicSoundCheck();
+    useSounds();
 
     $q.dark.set(true);
 

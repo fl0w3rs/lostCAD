@@ -9,7 +9,6 @@
       <template v-slot:body-cell="props">
         <q-td
           :props="props"
-          :class="props.row.panic == true ? 'bg-orange-14' : ''"
         >
           {{props.value}}
           <q-menu touch-position v-if="type == 'dispatch'">
@@ -144,8 +143,9 @@ export default {
           required: true,
           label: 'Статус',
           align: 'center',
-          classes: (row) => `${row.panic ? '' : statuses[row.status].class} text-bold`,
-          field: (row) => statuses[row.status].text,
+          classes: (row) => `${row.panic ? 'text-red panic-blinking' : statuses[row.status].class} text-bold`,
+          // field: (row) => statuses[row.status].text,
+          format: (val, row) => (row.panic ? '! ПАНИКА !' : statuses[row.status].text),
           sortable: true,
         },
       ],
@@ -155,3 +155,14 @@ export default {
   },
 };
 </script>
+
+<style>
+.panic-blinking{
+  animation: unitListPanicBlink 2s infinite;
+}
+@keyframes unitListPanicBlink {
+  0%  { background-color: rgba(143, 8, 8, 0.3);}
+  50% { background-color: rgba(255, 99, 71, 0);}
+  100%  { background-color: rgba(143, 8, 8, 0.3);}
+}
+</style>

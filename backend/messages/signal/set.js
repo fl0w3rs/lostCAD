@@ -8,8 +8,12 @@ module.exports = {
 
     if (!data) return;
 
-    await utils.settings.set('signal', data);
+    const newData = data.includes('clear') ? '0' : data;
 
-    io.emit('updateSignal', data == 'clear' ? '0' : data);
+    await utils.settings.set('signal', newData);
+
+    io.emit('updateSignal', newData);
+
+    if (newData != 0) io.emit('signal:sound');
   },
 };

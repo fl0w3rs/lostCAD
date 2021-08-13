@@ -68,8 +68,8 @@ export class SocketWrapper {
     options: { ignoreWrapperID: boolean } = { ignoreWrapperID: false },
   ): void {
     const handlerWrapper = (payload: any) => {
-      if (!options.ignoreWrapperID && payload.wrapperId !== this.wrapperId) return;
-      const data = payload.wrapperId ? payload.data : payload;
+      if (!options.ignoreWrapperID && payload?.wrapperId !== this.wrapperId) return;
+      const data = payload?.wrapperId ? payload.data : payload;
       handler(data);
     };
 
