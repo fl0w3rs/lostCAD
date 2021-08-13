@@ -1,7 +1,7 @@
 module.exports = {
   message: 'calls:create',
   callback: async ({
-    data, socket, Validator, vtemplates, emitReturn, db,
+    data, socket, Validator, vtemplates, emitReturn, db, io,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -39,6 +39,9 @@ module.exports = {
       if (call) {
         socket.emit('successNotify', 'Вызов успешно создан.');
         emitReturn('success');
+
+        io.emit('newCall');
+        io.updateActiveCalls();
       } else {
         socket.emit('errorNotify', 'Произошла непредвиденная ошибка при создании вызова.');
         emitReturn('error');

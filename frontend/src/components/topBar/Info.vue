@@ -37,9 +37,10 @@
     </q-icon>
 
     <q-icon
-      name="o_volume_up"
+      :name="isSoundMuted ? 'o_volume_off' : 'o_volume_up'"
       size="sm"
       class="cursor-pointer q-pl-md"
+      @click="$store.commit('other/switchSoundMute')"
     >
       <q-tooltip>Звуковые оповещения</q-tooltip>
     </q-icon>
@@ -71,6 +72,7 @@ export default {
     return {
       gameZone: computed(() => store.getters['other/getGameZone']),
       onClickGameZone,
+      isSoundMuted: computed(() => store.getters['other/isSoundMuted']),
     };
   },
 };

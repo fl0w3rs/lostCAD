@@ -74,6 +74,8 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'func-names': 'off',
 
+    'global-require': 'off',
+
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
   },

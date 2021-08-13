@@ -3,21 +3,33 @@ export function someMutation (state) {
 }
 */
 
-export function SOCKET_GAMEZONEUPDATE(state, payload) {
-  state.gameZone = payload;
-}
+import { LocalStorage } from 'quasar';
 
-export function SOCKET_UPDATEDISPATCHLOG(state, payload) {
-  state.dispatchLog = payload;
-}
-
-export function SOCKET_UPDATESIGNAL(state, payload) {
-  state.signal = payload;
-}
-
-// eslint-disable-next-line global-require
 const priorityAudio = new Audio(require('src/assets/sounds/priority.wav'));
 
-export function SOCKET_DOPRIORITY() {
-  priorityAudio.play();
-}
+const mutations = {
+  'SOCKET_GAMEZONE:UPDATE': (state, payload) => {
+    state.gameZone = payload;
+  },
+
+  SOCKET_UPDATEDISPATCHLOG(state, payload) {
+    state.dispatchLog = payload;
+  },
+
+  SOCKET_UPDATESIGNAL(state, payload) {
+    state.signal = payload;
+  },
+
+  SOCKET_DOPRIORITY(state) {
+    if (state.soundMuted) return;
+    priorityAudio.play();
+  },
+
+  switchSoundMute(state) {
+    state.soundMuted = !state.soundMuted;
+    LocalStorage.set('soundMuted', state.soundMuted);
+  },
+
+};
+
+export default mutations;

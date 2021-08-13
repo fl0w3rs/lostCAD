@@ -144,7 +144,6 @@ import { useQuasar } from 'quasar';
 import { windowWrapper } from 'src/store/windows/types';
 import PriorityButton from '../PriorityButton.vue';
 
-// eslint-disable-next-line global-require
 const statusChangeAudio = new Audio(require('src/assets/sounds/buttonClick.wav'));
 
 export default {

@@ -48,3 +48,11 @@ export function toTitleCase(str) {
     (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(),
   ) || '';
 }
+
+export const getAudioDuration = (audio) => new Promise((resolve) => {
+  if (Number.isNaN(audio.duration)) {
+    audio.addEventListener('loadedmetadata', () => {
+      resolve(audio?.duration || 0);
+    });
+  } else resolve(audio.duration);
+});

@@ -14,3 +14,5 @@ export function getDispatchLog(state) {
 export function getSignal(state) {
   return state.signal;
 }
+
+export const isSoundMuted = (state) => state.soundMuted;

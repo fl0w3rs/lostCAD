@@ -1,9 +1,9 @@
 <template>
   <div class="civilian-page full-width text-center">
     <SignalBar/>
-    <div class="accent q-pa-md non-selectable">
+    <div class="accent q-pa-sm non-selectable">
       <div class="row q-col-gutter-xs text-uppercase">
-        <div class="col-12 col-sm-4 justify-start">
+        <div class="col-12 col-sm-4">
           <q-select
             dense
             options-dense
@@ -30,11 +30,11 @@
           </q-select>
         </div>
 
-        <div class="col-12 col-sm-4 justify-center">
+        <div class="col-12 col-sm-4">
           <Time />
         </div>
 
-        <div class="col-12 col-sm-4 justify-end">
+        <div class="col-12 col-sm-4 flex justify-center items-center">
           <InfoBar />
         </div>
       </div>
@@ -221,7 +221,7 @@ export default {
 
     const open911Window = () => {
       store.commit('windows/open', windowWrapper({
-        component: 'civilian/Call',
+        component: 'calls/NewCivilian',
         title: 'Вызов 911',
         type: 'dialog',
         initialWidth: '40vw',

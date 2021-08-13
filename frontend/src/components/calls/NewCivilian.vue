@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row q-col-gutter-xs">
-      <div class="col-5">
+      <div class="col-4">
         <q-select
           dense
           options-dense
@@ -16,7 +16,7 @@
           @input-value="onCallerUpdate"
         />
       </div>
-      <div class="col-5">
+      <div class="col-6">
         <q-select
           dense
           options-dense

@@ -88,12 +88,26 @@ const utils = {
     const data = await this.settings.get('penalCode');
     return data;
   },
+  async getCalls(archived = false) {
+    const calls = await db.cad.Call.findAll({
+      where: {
+        archived,
+      },
+    });
+
+    for (let i = 0; i < calls.length; i += 1) {
+      calls[i].dataValues.units = await calls[i].getUnits();
+      calls[i] = calls[i].dataValues;
+    }
+
+    return calls;
+  },
   async getAllUnits() {
     const units = await db.cad.Unit.findAll();
     for (let i = 0; i < units.length; i += 1) {
-      const members = await units[i].getUsers();
+      units[i].dataValues.members = await units[i].getUsers();
       units[i] = units[i].dataValues;
-      units[i].members = members;
+
       for (let j = 0; j < units[i].members.length; j += 1) {
         units[i].members[j] = (await db.cad.Identifier.findOne({
           where: { id: units[i].members[j].dataValues.currentIdentifier },
@@ -138,6 +152,12 @@ io.updateAllUnits = async () => {
   const units = await utils.getAllUnits();
 
   io.emit('updateAllUnits', units);
+};
+
+io.updateActiveCalls = async () => {
+  const calls = await utils.getCalls();
+
+  io.emit('updateActiveCalls', calls);
 };
 
 io.sendDispatchLogMessage = async (message) => {
@@ -336,7 +356,7 @@ io.on('connection', (socket) => {
 
   socket.updateGameZone = async () => {
     const gz = await utils.settings.get('gamezone');
-    socket.emit('gameZoneUpdate', gz);
+    socket.emit('gameZone:update', gz);
   };
 
   socket.updateAllUnits = async () => {
