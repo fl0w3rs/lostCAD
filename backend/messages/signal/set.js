@@ -13,7 +13,5 @@ module.exports = {
     await utils.settings.set('signal', newData);
 
     io.emit('updateSignal', newData);
-
-    if (newData != 0) io.emit('signal:sound');
   },
 };

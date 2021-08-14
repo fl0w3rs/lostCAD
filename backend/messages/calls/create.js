@@ -40,7 +40,7 @@ module.exports = {
         socket.emit('successNotify', 'Вызов успешно создан.');
         emitReturn('success');
 
-        io.emit('newCall');
+        io.emit('calls:sound:new');
         io.updateActiveCalls();
       } else {
         socket.emit('errorNotify', 'Произошла непредвиденная ошибка при создании вызова.');

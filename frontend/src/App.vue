@@ -17,6 +17,7 @@ import { onBeforeMount, onBeforeUnmount } from 'vue';
 const unitNotifyAudio = new Audio(require('src/assets/sounds/unitNotify.mp3'));
 const panicAudio = new Audio(require('src/assets/sounds/panic.wav'));
 const signalAudio = new Audio(require('src/assets/sounds/signal.wav'));
+const newCallAudio = new Audio(require('src/assets/sounds/newCall.wav'));
 
 const useSocketNotifications = () => {
   const $q = useQuasar();
@@ -64,29 +65,38 @@ const useSounds = () => {
   const store = useStore();
   const socketWrapper = new SocketWrapper();
 
+  const canPlay = () => (
+    !store.getters['other/isSoundMuted']
+    && store.getters['user/getCurrentDepartment'] !== 'civilian'
+  );
+
   socketWrapper.listen('panic:sound', () => {
-    if (store.getters['other/isSoundMuted']) return;
+    if (!canPlay()) return;
     panicAudio.play();
   }, { ignoreWrapperID: true });
 
-  socketWrapper.listen('signal:sound', () => {
-    if (store.getters['other/isSoundMuted']) return;
-    signalAudio.play();
+  socketWrapper.listen('calls:sound:new', () => {
+    if (!canPlay()) return;
+    newCallAudio.play();
+  }, { ignoreWrapperID: true });
+
+  socketWrapper.listen('updateSignal', (data) => {
+    if (!canPlay()) return;
+    // eslint-disable-next-line eqeqeq
+    if (data == 100) signalAudio.play();
   }, { ignoreWrapperID: true });
 
   let interval;
 
   onBeforeMount(async () => {
     interval = setInterval(() => {
-      if (store.getters['other/isSoundMuted']) return;
+      if (!canPlay()) return;
 
       // eslint-disable-next-line eqeqeq
-      if (store.getters['other/getSignal'] != 0) {
-        signalAudio.play();
-      }
+      if (store.getters['other/getSignal'] == 100) signalAudio.play();
 
       setTimeout(() => {
-        if (store.getters['other/isSoundMuted']) return;
+        if (!canPlay()) return;
 
         const units = store.getters['unit/getAllUnits'];
 

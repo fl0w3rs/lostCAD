@@ -183,7 +183,14 @@ const Call = sequelize.define('call',
       primaryKey: true,
       autoIncrement: true,
     },
-    status: DataTypes.STRING(64),
+    status: {
+      type: DataTypes.STRING(64),
+      defaultValue: 'processing',
+    },
+    type: {
+      type: DataTypes.STRING(64),
+      defaultValue: 'Не определён',
+    },
     archived: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

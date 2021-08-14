@@ -34,13 +34,17 @@
     <div class="q-mt-sm row q-col-gutter-xs text-left">
       <div class="col-6">
         <div class="accent q-pa-sm">
-          <DispatchLog />
+          <p class="text-h6 q-mb-sm">Список звонков</p>
+          <call-list />
         </div>
       </div>
       <div class="col-6">
         <div class="accent q-pa-sm">
           <p class="text-h6 q-mb-sm">Список юнитов</p>
           <UnitList type="dispatch" />
+        </div>
+        <div class="accent q-mt-sm q-pa-sm">
+          <DispatchLog />
         </div>
       </div>
     </div>
@@ -60,6 +64,7 @@ import PenalCodeButton from 'src/components/PenalCodeButton.vue';
 import PriorityButton from 'src/components/PriorityButton.vue';
 import TenCodesButton from 'src/components/TenCodesButton.vue';
 import { windowWrapper } from 'src/store/windows/types';
+import CallList from 'src/components/calls/List.vue';
 
 export default {
   name: 'DispatchPage',
@@ -73,6 +78,7 @@ export default {
     LookupButton,
     PenalCodeButton,
     TenCodesButton,
+    CallList,
   },
 
   setup() {

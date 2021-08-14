@@ -9,7 +9,7 @@
 
     <div class="accent q-mt-sm q-py-md">
       <UnitStatus />
-      <div class="row justify-center q-mt-sm q-gutter-xs">
+      <div class="row justify-center q-mt-xs q-gutter-xs">
         <lookup-button />
         <ten-codes-button />
         <penal-code-button />

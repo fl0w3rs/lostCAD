@@ -23,17 +23,13 @@ module.exports = {
       ) return;
 
       const user = await socket.getUser();
-
       const unit = await user.getUnit();
-
       if (!unit) return;
 
-      const oldCallsign = unit.dataValues.callsign;
-
+      const oldCallsign = unit.callsign;
       unit.callsign = data;
 
       await unit.save();
-
       await io.updateAllUnits();
 
       const identifier = await db.cad.Identifier.findOne({
