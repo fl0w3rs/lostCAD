@@ -116,6 +116,17 @@ const utils = {
     }
     return units;
   },
+  escapeHtml(text) {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    };
+
+    return text.replace(/[&<>"']/g, (m) => map[m]);
+  },
   settings: {
     async get(name) {
       const cacheVar = `setting_${name}`;
@@ -148,6 +159,8 @@ for (let i = 0; i < messages.default.length; i += 1) {
   messageModules.push(messages.default[i].default);
 }
 
+const getTimeString = () => new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' });
+
 io.updateAllUnits = async () => {
   const units = await utils.getAllUnits();
 
@@ -163,26 +176,24 @@ io.updateActiveCalls = async () => {
 io.sendDispatchLogMessage = async (message) => {
   const log = await utils.settings.get('dispatchLog');
 
-  const time = new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' });
-
-  const newlog = `[${time}] ${message}\n${log}`;
+  const newlog = `[color=#9e9e9e][${getTimeString()}][/color] ${utils.escapeHtml(message)}<br/>` + log;
 
   await utils.settings.set('dispatchLog', newlog);
 
   io.emit('updateDispatchLog', newlog);
+
+  // console.log(message);
 };
 
 io.sendLogMessageToUnit = async (id, message, { sendToDispatch = true } = {}) => {
   const unit = await db.cad.Unit.findOne({ where: { id } });
   if (!unit) return;
 
-  const time = new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' });
-
-  unit.log = `[${time}] ${message}\n${unit.dataValues.log}`;
+  unit.log = `[${getTimeString()}] ${utils.escapeHtml(message)}\n` + unit.log;
   await unit.save();
 
   if (sendToDispatch) {
-    io.sendDispatchLogMessage(`UNIT ${unit.dataValues.callsign}: ${message}`);
+    io.sendDispatchLogMessage(`[b]Юнит ${unit.callsign}[/b]: ${message}`);
   }
 
   io.updateAllUnits();
@@ -227,6 +238,14 @@ io.on('connection', (socket) => {
     }
 
     return cached;
+  };
+
+  socket.getCurrentIdentifier = async () => {
+    const user = await socket.getUser();
+    const identifier = db.cad.Identifier.findOne({
+      where: { id: user.dataValues.currentIdentifier },
+    });
+    return identifier;
   };
 
   socket.getForumUserGroups = async () => {

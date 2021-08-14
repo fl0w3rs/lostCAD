@@ -4418,6 +4418,11 @@ jest-worker@^27.0.2:
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
 
+js-bbcode-parser@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/js-bbcode-parser/-/js-bbcode-parser-3.0.4.tgz#e2615fd6ac977ce7d7a7286e0285fc55d36b7169"
+  integrity sha512-rF7oR1LI0mCqqMXEYKKWp3ovllnutT/vu1N+YOmPqGGPlMd73PNpdIJrdN89cbaBF08YUygi2dZUgvjGNAh5Aw==
+
 js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"

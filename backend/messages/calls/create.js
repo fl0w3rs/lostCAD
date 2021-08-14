@@ -48,7 +48,7 @@ module.exports = {
       }
     } else if (data?.type === 'dispatch') { // ! DISPATCH
       if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
-      console.log(1);
+      console.log('lol');
     }
   },
 };

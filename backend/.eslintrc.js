@@ -17,5 +17,6 @@ module.exports = {
     'no-await-in-loop': 'off',
     'no-bitwise': 'off',
     'import/extensions': 'off',
+    'prefer-template': 'off',
   },
 };

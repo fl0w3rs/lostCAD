@@ -21,21 +21,16 @@ module.exports = {
       ) return;
 
       const user = await socket.getUser();
-
       const unit = await user.getUnit();
-
       if (!unit) return;
 
-      const identifier = await db.cad.Identifier.findOne({
-        where: { id: user.dataValues.currentIdentifier },
-      });
+      const identifier = await socket.getCurrentIdentifier();
 
-      io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} расформировал(-а) юнит.`);
+      await io.sendLogMessageToUnit(unit.id, `${identifier.name} расформировал(-а) юнит.`);
 
       socket.unitId = undefined;
 
       await unit.destroy();
-
       io.updateAllUnits();
     }
   },

@@ -14,7 +14,7 @@ module.exports = {
       where: { id: user.dataValues.currentIdentifier },
     });
 
-    io.sendDispatchLogMessage(`${identifier.dataValues.name}: НАЖАТ ПРИОРИТЕТ`);
+    io.sendDispatchLogMessage(`[b]${identifier.dataValues.name}[/b]: нажат приоритет.`);
 
     io.emit('doPriority', []);
   },

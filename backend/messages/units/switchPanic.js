@@ -27,11 +27,11 @@ module.exports = {
       const unit = await user.getUnit();
       if (!unit) return;
 
-      unit.panic = !unit.dataValues.panic;
+      unit.panic = !unit.panic;
       await unit.save();
 
       if (unit.panic) io.emit('panic:sound');
-      io.sendDispatchLogMessage(`UNIT ${unit.dataValues.callsign}: ${unit.dataValues.panic ? 'включена' : 'выключена'} кнопка паники.`);
+      io.sendDispatchLogMessage(`[b]Юнит ${unit.callsign}[/b]: ${unit.panic ? 'включена' : 'выключена'} кнопка паники.`);
     }
 
     io.updateAllUnits();
