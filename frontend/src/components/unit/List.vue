@@ -19,6 +19,11 @@
               <q-item @click="dispatchSetCallsign(props.row)" clickable v-close-popup>
                 <q-item-section>Изменить маркировку</q-item-section>
               </q-item>
+              <q-item @click="dispatchSwitchPanic(props.row)" clickable v-close-popup>
+                <q-item-section>
+                  {{props.row.panic ? 'Выключить' : 'Включить'}} панику
+                </q-item-section>
+              </q-item>
             </q-list>
           </q-menu>
         </q-td>
@@ -112,7 +117,12 @@ export default {
       });
     };
 
+    const dispatchSwitchPanic = (unit) => {
+      socketInstance.emit('units:switchPanic', { dispatch: true, unitId: unit.id });
+    };
+
     return {
+      dispatchSwitchPanic,
       dispatchDisband,
       dispatchSetCallsign,
       columns: [
