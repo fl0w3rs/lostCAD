@@ -1,7 +1,7 @@
 <template>
   <div class="text-uppercase">
     <q-table
-      class="shadow-0"
+      dense
       :rows='list'
       :columns='columns'
       @row-click="onClick">
@@ -29,6 +29,28 @@
         </q-td>
       </template>
 
+      <template v-slot:body-cell-members="props">
+        <q-td :props="props">
+          <span v-for="(val, key) in props.row.members" v-bind:key="val.id">
+            <span v-if="key !== 0">, </span>{{val.callsign}}
+            <q-tooltip class="bg-indigo text-center" :offset="[10, 10]">
+              <p>{{ val['name'] }}, {{ val['callsign'] }}</p>
+              <p>{{ val['department'] }} {{ val['rank'] }}</p>
+            </q-tooltip>
+          </span>
+        </q-td>
+      </template>
+
+      <template v-slot:body-cell-call="props">
+        <q-td :props="props">
+          {{props.row.callData.id || '-'}}
+          <q-tooltip class="bg-indigo text-center" v-if="props.row.callData.id" :offset="[10, 10]">
+            <b>Тип</b>: {{props.row.callData.type}}<br/>
+            <b>Статус</b>: {{callStatusList[props.row.callData.status].text}}
+          </q-tooltip>
+        </q-td>
+      </template>
+
     </q-table>
   </div>
 </template>
@@ -38,6 +60,7 @@ import { computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useQuasar } from 'quasar';
 import { socketInstance } from 'src/boot/socketio-instance';
+import { callStatusList } from 'src/utils/constants';
 
 export default {
   props: {
@@ -139,14 +162,22 @@ export default {
           required: true,
           label: 'Участники',
           align: 'center',
-          field: (row) => {
-            const names = [];
-            for (let i = 0; i < row.members.length; i += 1) {
-              names.push(row?.members[i]?.callsign || 'ошибка получения');
-            }
-            return names.join(', ');
-          },
+          // field: (row) => {
+          //   const names = [];
+          //   for (let i = 0; i < row.members.length; i += 1) {
+          //     names.push(row?.members[i]?.callsign || 'ошибка получения');
+          //   }
+          //   return names.join(', ');
+          // },
           sortable: true,
+        },
+        {
+          name: 'call',
+          required: true,
+          label: 'Прикреплённый вызов',
+          align: 'center',
+          sortable: true,
+          format: (val, row) => row.callData.id || 'Нет',
         },
         {
           name: 'status',
@@ -161,6 +192,7 @@ export default {
       ],
       list: computed(() => store.getters['unit/getAllUnits']),
       onClick,
+      callStatusList,
     };
   },
 };

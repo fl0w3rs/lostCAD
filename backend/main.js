@@ -106,6 +106,7 @@ const utils = {
     const units = await db.cad.Unit.findAll();
     for (let i = 0; i < units.length; i += 1) {
       units[i].dataValues.members = await units[i].getUsers();
+      units[i].dataValues.callData = await units[i].getCall();
       units[i] = units[i].dataValues;
 
       for (let j = 0; j < units[i].members.length; j += 1) {
