@@ -43,11 +43,16 @@
 
       <template v-slot:body-cell-call="props">
         <q-td :props="props">
-          {{props.row.callData.id || '-'}}
-          <q-tooltip class="bg-indigo text-center" v-if="props.row.callData.id" :offset="[10, 10]">
-            <b>Тип</b>: {{props.row.callData.type}}<br/>
-            <b>Статус</b>: {{callStatusList[props.row.callData.status].text}}
-          </q-tooltip>
+          <template v-if="props.row.callId > 0">
+            {{props.row.callData.id}}
+
+            <q-tooltip class="bg-indigo text-center" :offset="[10, 10]">
+              <b>Тип</b>: {{props.row.callData.type}}<br/>
+              <b>Статус</b>: {{callStatusList[props.row.callData.status].text}}
+            </q-tooltip>
+          </template>
+
+          <template v-else>-</template>
         </q-td>
       </template>
 
@@ -177,7 +182,8 @@ export default {
           label: 'Прикреплённый вызов',
           align: 'center',
           sortable: true,
-          format: (val, row) => row.callData.id || 'Нет',
+          field: (row) => row.callData.id || 'lol',
+          // format: (val, row) => row?.callData?.id || 'Нет',
         },
         {
           name: 'status',
