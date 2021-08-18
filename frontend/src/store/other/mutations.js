@@ -5,8 +5,6 @@ export function someMutation (state) {
 
 import { LocalStorage } from 'quasar';
 
-const priorityAudio = new Audio(require('src/assets/sounds/priority.wav'));
-
 const mutations = {
   'SOCKET_GAMEZONE:UPDATE': (state, payload) => {
     state.gameZone = payload;
@@ -18,11 +16,6 @@ const mutations = {
 
   SOCKET_UPDATESIGNAL(state, payload) {
     state.signal = payload;
-  },
-
-  SOCKET_DOPRIORITY(state) {
-    if (state.soundMuted) return;
-    priorityAudio.play();
   },
 
   switchSoundMute(state) {

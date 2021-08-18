@@ -18,6 +18,7 @@ const unitNotifyAudio = new Audio(require('src/assets/sounds/unitNotify.mp3'));
 const panicAudio = new Audio(require('src/assets/sounds/panic.wav'));
 const signalAudio = new Audio(require('src/assets/sounds/signal.wav'));
 const newCallAudio = new Audio(require('src/assets/sounds/newCall.wav'));
+const priorityAudio = new Audio(require('src/assets/sounds/priority.wav'));
 
 const useSocketNotifications = () => {
   const $q = useQuasar();
@@ -71,19 +72,20 @@ const useSounds = () => {
   );
 
   socketWrapper.listen('panic:sound', () => {
-    if (!canPlay()) return;
     panicAudio.play();
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('calls:sound:new', () => {
-    if (!canPlay()) return;
     newCallAudio.play();
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('updateSignal', (data) => {
-    if (!canPlay()) return;
     // eslint-disable-next-line eqeqeq
     if (data == 100) signalAudio.play();
+  }, { ignoreWrapperID: true });
+
+  socketWrapper.listen('doPriority', () => {
+    priorityAudio.play();
   }, { ignoreWrapperID: true });
 
   let interval;

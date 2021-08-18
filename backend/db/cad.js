@@ -188,8 +188,12 @@ const Call = sequelize.define('call',
       defaultValue: 'processing',
     },
     type: {
-      type: DataTypes.STRING(64),
+      type: DataTypes.STRING(96),
       defaultValue: 'Не определён',
+    },
+    priority: {
+      type: DataTypes.STRING(64),
+      defaultValue: 'Не установлен',
     },
     archived: {
       type: DataTypes.BOOLEAN,
@@ -242,7 +246,7 @@ Call.hasMany(Unit);
 Unit.belongsTo(Call);
 
 // Unit.sync({ alter: true });
-// Call.sync({ alter: true });
+Call.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;
