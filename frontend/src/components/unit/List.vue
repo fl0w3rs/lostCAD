@@ -44,11 +44,11 @@
       <template v-slot:body-cell-call="props">
         <q-td :props="props">
           <template v-if="props.row.callId > 0">
-            {{props.row.callData.id}}
+            {{props.row.call.id}}
 
             <q-tooltip class="bg-indigo text-center" :offset="[10, 10]">
-              <b>Тип</b>: {{props.row.callData.type}}<br/>
-              <b>Статус</b>: {{callStatusList[props.row.callData.status].text}}
+              <b>Тип</b>: {{props.row.call.type}}<br/>
+              <b>Статус</b>: {{callStatusList[props.row.call.status].text}}
             </q-tooltip>
           </template>
 
@@ -182,7 +182,7 @@ export default {
           label: 'Прикреплённый вызов',
           align: 'center',
           sortable: true,
-          field: (row) => row.callData.id || 'lol',
+          field: (row) => row.call.id || 'lol',
           // format: (val, row) => row?.callData?.id || 'Нет',
         },
         {

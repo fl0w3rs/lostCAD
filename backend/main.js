@@ -94,12 +94,8 @@ const utils = {
       where: {
         archived,
       },
+      include: db.cad.Unit,
     });
-
-    for (let i = 0; i < calls.length; i += 1) {
-      calls[i].dataValues.units = await calls[i].getUnits();
-      calls[i] = calls[i].dataValues;
-    }
 
     return calls;
   },
@@ -115,18 +111,30 @@ const utils = {
     return countMapped;
   },
   async getAllUnits() {
-    const units = await db.cad.Unit.findAll();
-    for (let i = 0; i < units.length; i += 1) {
-      units[i].dataValues.members = await units[i].getUsers();
-      units[i].dataValues.callData = await units[i].getCall();
-      units[i] = units[i].dataValues;
+    const units = JSON.parse(JSON.stringify(
+      await db.cad.Unit.findAll({
+        include: [{
+          model: db.cad.User,
+          include: {
+            model: db.cad.Identifier,
+            where: {
+              id: db.cad.sequelize.col('users.currentIdentifier'),
+            },
+          },
+        }, {
+          model: db.cad.Call,
+        }],
+      }),
+    ));
 
-      for (let j = 0; j < units[i].members.length; j += 1) {
-        units[i].members[j] = (await db.cad.Identifier.findOne({
-          where: { id: units[i].members[j].dataValues.currentIdentifier },
-        }))?.dataValues || undefined;
+    for (let i = 0; i < units.length; i += 1) {
+      units[i].members = [];
+      for (let j = 0; j < units[i].users.length; j += 1) {
+        units[i].members.push(units[i].users[j].identifiers[0]);
       }
+      units[i].users = null;
     }
+
     return units;
   },
   escapeHtml(text) {
@@ -189,13 +197,11 @@ io.updateActiveCalls = async () => {
 io.sendDispatchLogMessage = async (message) => {
   const log = await utils.settings.get('dispatchLog');
 
-  const newlog = `[color=#9e9e9e][${getTimeString()}][/color] ${utils.escapeHtml(message)}<br/>` + log;
+  const newlog = `[color=#9e9e9e][${getTimeString()}][/color] ${utils.escapeHtml(message)}[br]` + log;
 
   await utils.settings.set('dispatchLog', newlog);
 
   io.emit('updateDispatchLog', newlog);
-
-  // console.log(message);
 };
 
 io.sendLogMessageToUnit = async (id, message, { sendToDispatch = true } = {}) => {
