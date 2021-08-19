@@ -2,7 +2,7 @@
   <div class="q-gutter-x-xs">
     <q-btn
       outline
-      :color="(dispatchStatus === 'off' || !dispatchStatus) ? 'green' : 'grey'"
+      :color="(dispatchStatus === 'off' || !dispatchStatus) ? 'red' : 'grey'"
       label="ОФФ"
       @click="setStatus('off')"
     />
@@ -31,6 +31,8 @@
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { defineComponent, onBeforeMount, ref } from 'vue';
 
+const buttonClickAudio = new Audio(require('src/assets/sounds/buttonClick.wav'));
+
 export default defineComponent({
   setup() {
     const socketWrapper = new SocketWrapper();
@@ -47,6 +49,7 @@ export default defineComponent({
 
     const setStatus = (status) => {
       socketWrapper.emit('dispatch:duty:setStatus', status);
+      buttonClickAudio.play();
     };
 
     return { dispatchStatus, setStatus };

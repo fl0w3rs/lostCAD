@@ -1,9 +1,9 @@
 <template>
-  <div class="police-page full-width text-center">
+  <div class="police-page full-width">
 
     <SignalBar/>
 
-    <div class="accentDark q-py-xs q-px-lg">
+    <div class="accentDark q-py-xs q-px-lg text-center">
       <UpperBarComponent />
     </div>
 
@@ -21,6 +21,27 @@
       </div>
     </div>
 
+    <div class="q-mt-sm">
+      <div class="row">
+        <div class="col-6">
+          <div class="accent q-pa-sm relative-position">
+            <div
+              class="absolute-center full-width full-height row justify-center"
+              style="backdrop-filter: blur(2px); z-index: 1;"
+            >
+              <div class="text-bold column justify-center">
+                <div class="column">
+                  <p>ВЫ НЕ ПРИКРЕПЛЕНЫ К ВЫЗОВУ</p>
+                </div>
+              </div>
+            </div>
+            <p class="text-h6 q-mb-sm">Вызов #{{'666'}}</p>
+            <call-view />
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -32,6 +53,8 @@ import LookupButton from 'src/components/LookupButton.vue';
 import PenalCodeButton from 'src/components/PenalCodeButton.vue';
 import TenCodesButton from 'src/components/TenCodesButton.vue';
 
+import CallView from 'src/components/calls/View.vue';
+
 export default {
   name: 'PolicePage',
 
@@ -42,6 +65,8 @@ export default {
     LookupButton,
     PenalCodeButton,
     TenCodesButton,
+
+    CallView,
   },
 };
 </script>

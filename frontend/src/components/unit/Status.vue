@@ -6,7 +6,7 @@
         style="backdrop-filter: blur(2px); z-index: 1;"
         v-if="!currentUnit && selectedIdentifier"
       >
-        <div class="text-bold column justify-center">
+        <div class="text-bold column justify-center text-center">
           <div class="column">
             <p>ВЫ НЕ НА СМЕНЕ</p>
             <small>
