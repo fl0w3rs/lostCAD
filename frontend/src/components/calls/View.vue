@@ -49,23 +49,24 @@
         label="Описание" readonly outlined dense
         v-model="data.description" type="textarea"></q-input>
     </div>
-    <div class="col-12">
-      <q-field outlined readonly dense label="Примечания к вызову" stack-label>
-        <template v-slot:control>
-          <q-scroll-area class="full-width q-py-xs" style="height: 130px;">
-            <b>fl0w3rs</b>: test
-          </q-scroll-area>
-          <!-- <div class="self-center full-width no-outline" tabindex="0">Field content</div> -->
-        </template>
-      </q-field>
-    </div>
-    <div class="col-12">
-      <q-input outlined dense label="Новое примечание" v-model="newNote">
-        <template v-slot:append>
-          <q-btn outline label="Добавить" color="green" size="sm" />
-        </template>
-      </q-input>
-    </div>
+    <template v-if="true">
+      <div class="col-12">
+        <q-field outlined readonly dense label="Примечания к вызову" stack-label>
+          <template v-slot:control>
+            <q-scroll-area class="full-width q-py-xs" style="height: 130px;">
+              <div style="height: inherit;" v-html="notesComputed"></div>
+            </q-scroll-area>
+          </template>
+        </q-field>
+      </div>
+      <div class="col-12">
+        <q-input outlined dense label="Новое примечание" v-model="newNote">
+          <template v-slot:append>
+            <q-btn outline label="Добавить" color="green" @click="addNote" size="sm" />
+          </template>
+        </q-input>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -74,6 +75,8 @@ import {
   defineComponent, watch, ref, computed,
 } from 'vue';
 import { callStatusList, callTypeList } from 'src/utils/constants';
+import bbCodeParser from 'js-bbcode-parser';
+import { SocketWrapper } from 'src/boot/socketio-instance';
 
 export default defineComponent({
   props: {
@@ -86,18 +89,35 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const socketWrapper = new SocketWrapper();
+
     const data = ref({ ...props.callData });
+
+    socketWrapper.listen('updateActiveCalls', (payload: any) => {
+      for (let i = 0; i < payload.length; i += 1) {
+        if (payload[i].id === data.value.id) data.value = payload[i];
+      }
+    }, { ignoreWrapperID: true });
+
     watch(() => props.callData, (val) => { data.value = val; });
 
     const newNote = ref('');
 
+    const addNote = () => {
+      socketWrapper.emit('calls:addNote', { callId: data.value.id, text: newNote.value });
+    };
+
     return {
       data,
+
+      addNote,
+      newNote,
+      notesComputed: computed(() => bbCodeParser.parse(data?.value?.notes || 'Тут пока пусто.')),
+
       callTypeList,
       statusListComputed: computed(() => Object.entries(callStatusList).map((val) => ({
         value: val[0], text: val[1].text,
       }))),
-      newNote,
     };
   },
 });

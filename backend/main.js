@@ -148,6 +148,7 @@ const utils = {
 
     return text.replace(/[&<>"']/g, (m) => map[m]);
   },
+  getTimeString: () => new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' }),
   settings: {
     async get(name) {
       const cacheVar = `setting_${name}`;
@@ -180,8 +181,6 @@ for (let i = 0; i < messages.default.length; i += 1) {
   messageModules.push(messages.default[i].default);
 }
 
-const getTimeString = () => new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' });
-
 io.updateAllUnits = async () => {
   const units = await utils.getAllUnits();
 
@@ -197,7 +196,7 @@ io.updateActiveCalls = async () => {
 io.sendDispatchLogMessage = async (message) => {
   const log = await utils.settings.get('dispatchLog');
 
-  const newlog = `[color=#9e9e9e][${getTimeString()}][/color] ${utils.escapeHtml(message)}[br]` + log;
+  const newlog = `[color=#9e9e9e][${utils.getTimeString()}][/color] ${utils.escapeHtml(message)}[br]` + log;
 
   await utils.settings.set('dispatchLog', newlog);
 
@@ -208,7 +207,7 @@ io.sendLogMessageToUnit = async (id, message, { sendToDispatch = true } = {}) =>
   const unit = await db.cad.Unit.findOne({ where: { id } });
   if (!unit) return;
 
-  unit.log = `[${getTimeString()}] ${utils.escapeHtml(message)}\n` + unit.log;
+  unit.log = `[${utils.getTimeString()}] ${utils.escapeHtml(message)}\n` + unit.log;
   await unit.save();
 
   if (sendToDispatch) {
