@@ -4,13 +4,14 @@ import 'validatorjs/dist/lang/ru.js';
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
-// import * as Validator from 'validatorjs';
 import createCacheInstance from './cache.js';
 import db from './db.js';
 import vtemplates from './vtemplates.js';
 
 // eslint-disable-next-line import/no-unresolved
 import * as messages from './messages/**/*';
+
+const { QueryTypes } = require('sequelize');
 
 const Validator = require('validatorjs');
 
@@ -101,6 +102,17 @@ const utils = {
     }
 
     return calls;
+  },
+  async getDispatchCount() {
+    const count = await db.cad.sequelize.query('SELECT dispatchStatus, COUNT(*) as cnt FROM users GROUP BY dispatchStatus;', { type: QueryTypes.SELECT });
+
+    const countMapped = {};
+    for (let i = 0; i < count.length; i += 1) {
+      const o = count[i];
+      countMapped[o.dispatchStatus] = o.cnt;
+    }
+
+    return countMapped;
   },
   async getAllUnits() {
     const units = await db.cad.Unit.findAll();

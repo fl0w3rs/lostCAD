@@ -14,7 +14,7 @@
     <q-icon
       name="o_podcasts"
       size="sm"
-      color="grey"
+      :color="dispatchCount.active > 0 ? 'green' : 'grey'"
       class="q-pl-md"
     >
       <q-tooltip>Наличие активного диспетчера</q-tooltip>
@@ -23,7 +23,7 @@
     <q-icon
       name="o_info"
       size="sm"
-      color="green"
+      :color="dispatchCount.info > 0 ? 'green' : 'grey'"
     >
       <q-tooltip>Наличие диспетчера по сбору информации</q-tooltip>
     </q-icon>
@@ -31,7 +31,7 @@
     <q-icon
       name="o_phone"
       size="sm"
-      color="grey"
+      :color="dispatchCount.operator > 0 ? 'green' : 'grey'"
     >
       <q-tooltip>Наличие оператора 911</q-tooltip>
     </q-icon>
@@ -48,16 +48,25 @@
 </template>
 
 <script>
-import { socketInstance } from 'src/boot/socketio-instance';
+import { socketInstance, SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
-import { computed } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
 import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   setup() {
     const store = useStore();
+    const socketWrapper = new SocketWrapper();
 
-    socketInstance.emit('gameZone:get');
+    // count
+
+    const dispatchCount = ref({});
+
+    socketWrapper.listen('dispatch:duty:updateCount', (payload) => {
+      dispatchCount.value = payload;
+    }, { ignoreWrapperID: true });
+
+    // gz change
 
     const onClickGameZone = () => {
       if (store.getters['user/getCurrentDepartment'] !== 'dispatch') return;
@@ -69,10 +78,20 @@ export default {
       }));
     };
 
+    // shared
+
+    onBeforeMount(() => {
+      socketWrapper.emit('dispatch:duty:requestCount');
+      socketInstance.emit('gameZone:get');
+    });
+
     return {
       gameZone: computed(() => store.getters['other/getGameZone']),
       onClickGameZone,
+
       isSoundMuted: computed(() => store.getters['other/isSoundMuted']),
+
+      dispatchCount,
     };
   },
 };

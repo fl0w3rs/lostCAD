@@ -2,7 +2,6 @@
   <q-btn
     label="10-КОДЫ"
     outline
-    color="gray"
     size="sm"
     @click="onClick"
   />

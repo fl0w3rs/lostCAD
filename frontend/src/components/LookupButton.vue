@@ -2,7 +2,6 @@
   <q-btn
     label="БАЗА ДАННЫХ"
     outline
-    color="gray"
     size="sm"
     @click="onClick"
   />

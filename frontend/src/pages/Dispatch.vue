@@ -8,11 +8,12 @@
     </div>
 
     <div class="accent column items-center q-mt-sm q-py-md row justify-center">
-      <div class="row q-gutter-xs">
+      <div class="row q-gutter-xs justify-center">
+        <dispatch-duty />
         <q-btn
           label="СИГНАЛ"
           outline
-          :color="'gray'"
+          class="q-ml-md"
           @click="switchSignal"
         />
         <priority-button />
@@ -24,7 +25,6 @@
         <q-btn
           label="РОЗЫСК"
           outline
-          color="gray"
           size="sm"
         />
 
@@ -65,6 +65,7 @@ import PriorityButton from 'src/components/PriorityButton.vue';
 import TenCodesButton from 'src/components/TenCodesButton.vue';
 import { windowWrapper } from 'src/store/windows/types';
 import CallList from 'src/components/calls/List.vue';
+import DispatchDuty from 'src/components/dispatch/Duty.vue';
 
 export default {
   name: 'DispatchPage',
@@ -79,6 +80,7 @@ export default {
     PenalCodeButton,
     TenCodesButton,
     CallList,
+    DispatchDuty,
   },
 
   setup() {

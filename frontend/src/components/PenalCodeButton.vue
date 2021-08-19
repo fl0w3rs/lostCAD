@@ -2,7 +2,6 @@
   <q-btn
     label="Уголовный кодекс"
     outline
-    color="gray"
     size="sm"
     @click="onClick"
   />

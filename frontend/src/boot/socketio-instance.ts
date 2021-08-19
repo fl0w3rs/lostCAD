@@ -47,7 +47,7 @@ export class SocketWrapper {
   }
 
   // eslint-disable-next-line no-unused-vars
-  emit(event: string, payload: unknown): { onReturn: (handler: EmitReturnCallback) => void } {
+  emit(event: string, payload?: unknown): { onReturn: (handler: EmitReturnCallback) => void } {
     const requestId = uuidv4();
 
     this.instance.emit(event, { requestId, wrapperId: this.wrapperId, payload });

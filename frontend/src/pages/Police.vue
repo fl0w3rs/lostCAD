@@ -16,7 +16,6 @@
         <q-btn
           label="РОЗЫСК"
           outline
-          color="gray"
           size="sm"
         />
       </div>

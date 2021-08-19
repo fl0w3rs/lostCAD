@@ -23,6 +23,10 @@ const User = sequelize.define('user',
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    dispatchStatus: {
+      type: DataTypes.STRING,
+      defaultValue: 'off',
+    },
   },
   {
     tableName: 'users',
@@ -245,8 +249,8 @@ Character.belongsTo(User);
 Call.hasMany(Unit);
 Unit.belongsTo(Call);
 
-// Unit.sync({ alter: true });
-Call.sync({ alter: true });
+// User.sync({ alter: true });
+// Call.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;
