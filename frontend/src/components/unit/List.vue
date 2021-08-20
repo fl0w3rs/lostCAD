@@ -19,6 +19,12 @@
               <q-item @click="dispatchSetCallsign(props.row)" clickable v-close-popup>
                 <q-item-section>Изменить маркировку</q-item-section>
               </q-item>
+              <q-item
+                @click="dispatchDetachFromCall(props.row)"
+                v-if="props.row.call" clickable v-close-popup
+              >
+                <q-item-section>Открепить от вызова</q-item-section>
+              </q-item>
               <q-item @click="dispatchSwitchPanic(props.row)" clickable v-close-popup>
                 <q-item-section>
                   {{props.row.panic ? 'Выключить' : 'Включить'}} панику
@@ -149,10 +155,15 @@ export default {
       socketInstance.emit('units:switchPanic', { dispatch: true, unitId: unit.id });
     };
 
+    const dispatchDetachFromCall = (unit) => {
+      socketInstance.emit('calls:detachUnit', { unitId: unit.id });
+    };
+
     return {
       dispatchSwitchPanic,
       dispatchDisband,
       dispatchSetCallsign,
+      dispatchDetachFromCall,
       columns: [
         {
           name: 'callsign',

@@ -15,7 +15,6 @@ module.exports = {
 
     await call.save();
 
-    const calls = await utils.getCalls();
-    io.emit('updateActiveCalls', calls);
+    io.updateActiveCalls();
   },
 };
