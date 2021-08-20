@@ -3,7 +3,7 @@
     <q-btn
       outline
       :color="(dispatchStatus === 'off' || !dispatchStatus) ? 'red' : 'grey'"
-      label="ОФФ"
+      label="НЕ НА СМЕНЕ"
       @click="setStatus('off')"
     />
     <q-btn
