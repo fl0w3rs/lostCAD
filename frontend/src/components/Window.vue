@@ -56,7 +56,6 @@
           :is="getWindowComponent"
           v-bind:window="windowData"
           v-bind="windowData.props"
-          class="q-pa-sm"
         >
         </component>
       </q-card-section>

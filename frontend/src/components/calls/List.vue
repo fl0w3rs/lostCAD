@@ -30,7 +30,7 @@ export default defineComponent({
         component: 'calls/View',
         type: 'draggable',
         initialWidth: '50vw',
-        initialHeight: '500px',
+        initialHeight: '520px',
         props: {
           callData: row,
           isDispatcher: true,

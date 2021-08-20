@@ -70,20 +70,27 @@
         </q-input>
       </div>
 
-      <div class="col-12">
+      <div class="col-12" v-if="isDispatcher">
         <q-field outlined readonly dense label="Прикреплённые юниты" stack-label>
           <template v-slot:control>
-            <q-badge
-              v-for="(unit, key) in data.units" v-bind:key="unit.id"
-              class="text-white text-uppercase q-ml-sm q-mt-xs"
-              :color="['blue-grey-6', 'blue-grey-7'][(key + 1) % 2]"
-            >
-              {{unit.callsign}}, {{unitStatusList[unit.status].text}}
-              <q-icon
-                @click="dispatchDetachUnit(unit)"
-                name="fa fa-times" class="cursor-pointer text-deep-orange-10 q-ml-xs"
+            <div class="q-gutter-xs q-my-sm">
+
+              <q-badge
+                v-for="(unit, key) in data.units" v-bind:key="unit.id"
+                class="text-white text-uppercase q-mt-xs"
+                :color="['blue-grey-6', 'blue-grey-7'][(key + 1) % 2]"
+              >
+                {{unit.callsign}}, {{unitStatusList[unit.status].text}}
+                <q-icon
+                  @click="dispatchDetachUnit(unit)"
+                  name="fa fa-times" class="cursor-pointer text-deep-orange-10 q-ml-xs"
+                />
+              </q-badge>
+              <q-badge
+                class="q-mt-xs cursor-pointer" @click="dispatchAttachUnit"
+                outline color="secondary" label="Прикрепить"
               />
-            </q-badge>
+            </div>
           </template>
         </q-field>
       </div>
@@ -99,6 +106,8 @@ import { callStatusList, callTypeList, unitStatusList } from 'src/utils/constant
 import bbCodeParser from 'js-bbcode-parser';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
+import { useStore } from 'vuex';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default defineComponent({
   props: {
@@ -113,6 +122,7 @@ export default defineComponent({
   setup(props) {
     const socketWrapper = new SocketWrapper();
     const $q = useQuasar();
+    const store = useStore();
 
     const data = ref({ ...props.callData });
     watch(() => props.callData, (val) => { data.value = { ...val }; });
@@ -144,6 +154,17 @@ export default defineComponent({
       });
     };
 
+    const dispatchAttachUnit = () => {
+      store.commit('windows/open', windowWrapper({
+        type: 'dialog',
+        component: 'calls/AttachUnit',
+        initialWidth: '20vw',
+        props: {
+          callId: data.value.id,
+        },
+      }));
+    };
+
     return {
       data,
 
@@ -151,6 +172,7 @@ export default defineComponent({
       newNote,
       notesComputed: computed(() => bbCodeParser.parse(data?.value?.notes || 'Тут пока пусто.')),
 
+      dispatchAttachUnit,
       dispatchDetachUnit,
 
       callTypeList,

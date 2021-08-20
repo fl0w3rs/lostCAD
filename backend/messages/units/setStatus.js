@@ -9,7 +9,6 @@ module.exports = {
     ) return;
 
     const user = await socket.getUser();
-
     const unit = await user.getUnit();
 
     if (!unit) return;
@@ -18,6 +17,7 @@ module.exports = {
 
     await unit.save();
 
+    io.updateActiveCalls();
     io.updateAllUnits();
   },
 };
