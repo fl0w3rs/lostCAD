@@ -923,15 +923,15 @@ export const callStatusList = {
   },
   active: {
     text: 'Активный',
-    classes: '',
+    classes: 'text-green',
   },
   false: {
     text: 'Ложный',
-    classes: '',
+    classes: 'text-grey',
   },
   completed: {
     text: 'Завершённый',
-    classes: '',
+    classes: 'text-blue',
   },
 };
 

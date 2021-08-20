@@ -18,7 +18,7 @@
         />
         <priority-button />
       </div>
-      <div class="row q-mt-xs q-gutter-xs">
+      <div class="row q-mt-xs q-gutter-xs justify-center">
         <lookup-button />
         <ten-codes-button />
         <penal-code-button />
@@ -32,13 +32,13 @@
     </div>
 
     <div class="q-mt-sm row q-col-gutter-xs text-left">
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <div class="accent q-pa-sm">
           <p class="text-h6 q-mb-sm">Список звонков</p>
           <call-list />
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-12 col-md-6">
         <div class="accent q-pa-sm">
           <p class="text-h6 q-mb-sm">Список юнитов</p>
           <UnitList type="dispatch" />

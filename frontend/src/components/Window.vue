@@ -42,7 +42,7 @@
     <q-card class="border-maroon-thick" :style="{minWidth: dialogWidth}">
       <q-bar class="bg-maroon">
         <q-icon name="laptop_chromebook" />
-        <div>{{windowData.title}}</div>
+        <div class="ellipsis">{{windowData.title || 'Google Chrome'}}</div>
 
         <q-space />
 

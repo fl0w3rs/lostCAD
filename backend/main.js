@@ -148,6 +148,9 @@ const utils = {
 
     return text.replace(/[&<>"']/g, (m) => map[m]);
   },
+  objectToPlain(obj) {
+    return JSON.parse(JSON.stringify(obj));
+  },
   getTimeString: () => new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' }),
   settings: {
     async get(name) {
@@ -250,6 +253,9 @@ io.on('connection', (socket) => {
     if (!cached) {
       const data = await db.cad.User.findOne({
         where: { fid: socket.userId },
+        include: [
+          { model: db.cad.Unit },
+        ],
       }) || await db.cad.User.create({ fid: socket.userId });
       socket.cache.set('cadUser', data, 20);
       return data;
@@ -260,8 +266,8 @@ io.on('connection', (socket) => {
 
   socket.getCurrentIdentifier = async () => {
     const user = await socket.getUser();
-    const identifier = db.cad.Identifier.findOne({
-      where: { id: user.dataValues.currentIdentifier },
+    const identifier = await db.cad.Identifier.findOne({
+      where: { id: user.currentIdentifier },
     });
     return identifier;
   };
@@ -287,17 +293,24 @@ io.on('connection', (socket) => {
     return cached;
   };
 
-  socket.getAllCharacters = async () => {
-    const cached = socket.cache.get('characters');
+  socket.getDisplayName = async ({ unitPrefix = false, dispatchPrefix = false } = {}) => {
+    const identifier = await socket.getCurrentIdentifier();
+    const forumUser = await socket.getForumUser();
 
-    if (!cached) {
+    let name = `${identifier?.name || forumUser?.name}`;
+
+    if (unitPrefix) {
       const user = await socket.getUser();
-      const data = await user.getCharacters();
-      socket.cache.set('cadUser', data, 20);
-      return data;
+      if (user?.unit) {
+        name += ` [${user?.unit?.callsign}]`;
+      }
     }
 
-    return cached;
+    if (dispatchPrefix) {
+      name += ' [ДИСПЕТЧЕР]';
+    }
+
+    return name;
   };
 
   socket.getAvailableDepartments = async () => {

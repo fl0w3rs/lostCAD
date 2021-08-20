@@ -251,7 +251,7 @@ Call.hasMany(Unit);
 Unit.belongsTo(Call);
 
 // User.sync({ alter: true });
-// Call.sync({ alter: true });
+// Identifier.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;

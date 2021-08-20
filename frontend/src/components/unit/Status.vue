@@ -30,7 +30,7 @@
         v-if="!selectedIdentifier"
       >
         <div class="text-bold column justify-center">
-          <div class="column">
+          <div class="column text-center">
             <p>ФУНКЦИОНАЛ ЮНИТА НЕДОСТУПЕН, ВЫБЕРИТЕ ИДЕНТИФИКАТОР</p>
           </div>
         </div>
@@ -42,7 +42,7 @@
       >
       </div>
 
-      <div class="q-gutter-xs q-pa-xs">
+      <div class="q-gutter-xs q-pa-xs text-center">
         <q-btn
           color="white"
           outline

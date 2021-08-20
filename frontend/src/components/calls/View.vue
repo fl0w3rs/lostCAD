@@ -72,7 +72,7 @@
 
 <script lang="ts">
 import {
-  defineComponent, watch, ref, computed,
+  defineComponent, ref, computed, watch,
 } from 'vue';
 import { callStatusList, callTypeList } from 'src/utils/constants';
 import bbCodeParser from 'js-bbcode-parser';
@@ -92,6 +92,7 @@ export default defineComponent({
     const socketWrapper = new SocketWrapper();
 
     const data = ref({ ...props.callData });
+    watch(() => props.callData, (val) => { data.value = { ...val }; });
 
     socketWrapper.listen('updateActiveCalls', (payload: any) => {
       for (let i = 0; i < payload.length; i += 1) {
@@ -99,12 +100,9 @@ export default defineComponent({
       }
     }, { ignoreWrapperID: true });
 
-    watch(() => props.callData, (val) => { data.value = val; });
-
     const newNote = ref('');
-
     const addNote = () => {
-      socketWrapper.emit('calls:addNote', { callId: data.value.id, text: newNote.value });
+      socketWrapper.emit('calls:addNote', { callId: data.value.id, text: newNote.value, dispatcher: props.isDispatcher });
     };
 
     return {

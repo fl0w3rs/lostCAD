@@ -1,7 +1,7 @@
 module.exports = {
   message: 'calls:addNote',
   callback: async ({
-    utils, socket, data, db,
+    utils, socket, data, db, io,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -10,18 +10,12 @@ module.exports = {
     const call = await db.cad.Call.findOne({ where: { id: data?.callId } });
     if (!call) return;
 
-    const getName = async () => {
-      const identifier = await socket.getCurrentIdentifier();
-      const forumUser = await socket.getForumUser();
-      return identifier.name || forumUser.name;
-    };
-
     if (!call.notes) call.notes = '';
-    call.notes = `[color=#9e9e9e][${utils.getTimeString()}][/color] [b]${utils.escapeHtml(await getName())}[/b]: ${utils.escapeHtml(data?.text)}[br]` + call.notes;
+    call.notes = `[color=#9e9e9e][${utils.getTimeString()}][/color] [b]${utils.escapeHtml(await socket.getDisplayName({ dispatchPrefix: !!data?.dispatcher, unitPrefix: !data?.dispatcher }))}[/b]: ${utils.escapeHtml(data?.text)}[br]` + call.notes;
 
     await call.save();
 
     const calls = await utils.getCalls();
-    socket.emit('updateActiveCalls', calls);
+    io.emit('updateActiveCalls', calls);
   },
 };
