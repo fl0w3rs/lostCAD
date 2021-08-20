@@ -71,7 +71,7 @@ import { computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useQuasar } from 'quasar';
 import { socketInstance } from 'src/boot/socketio-instance';
-import { callStatusList } from 'src/utils/constants';
+import { callStatusList, unitStatusList } from 'src/utils/constants';
 
 export default {
   props: {
@@ -81,29 +81,6 @@ export default {
   setup(props) {
     const $q = useQuasar();
     const store = useStore();
-
-    const statuses = {
-      unavail: {
-        text: 'НЕДОСТУПЕН',
-        class: 'text-red',
-      },
-      avail: {
-        text: 'ДОСТУПЕН',
-        class: 'text-cyan',
-      },
-      busy: {
-        text: 'ЗАНЯТ',
-        class: 'text-orange',
-      },
-      enroute: {
-        text: 'В ПУТИ',
-        class: 'text-blue',
-      },
-      onscene: {
-        text: 'НА СЦЕНЕ',
-        class: 'text-green',
-      },
-    };
 
     const onClick = (evt, row) => {
       if (props.type === 'join') {
@@ -201,9 +178,9 @@ export default {
           required: true,
           label: 'Статус',
           align: 'center',
-          classes: (row) => `${row.panic ? 'text-red panic-blinking' : statuses[row.status].class} text-bold`,
+          classes: (row) => `${row.panic ? 'text-red panic-blinking' : unitStatusList[row.status].class} text-bold`,
           // field: (row) => statuses[row.status].text,
-          format: (val, row) => (row.panic ? '! ПАНИКА !' : statuses[row.status].text),
+          format: (val, row) => (row.panic ? '! ПАНИКА !' : unitStatusList[row.status].text),
           sortable: true,
         },
       ],

@@ -60,11 +60,32 @@
         </q-field>
       </div>
       <div class="col-12">
-        <q-input outlined dense label="Новое примечание" v-model="newNote">
+        <q-input outlined dense @keyup.enter="addNote" label="Новое примечание" v-model="newNote">
           <template v-slot:append>
-            <q-btn outline label="Добавить" color="green" @click="addNote" size="sm" />
+            <q-btn
+              outline label="Добавить" color="green"
+              @click="addNote" size="sm"
+            />
           </template>
         </q-input>
+      </div>
+
+      <div class="col-12">
+        <q-field outlined readonly dense label="Прикреплённые юниты" stack-label>
+          <template v-slot:control>
+            <q-badge
+              v-for="(unit, key) in data.units" v-bind:key="unit.id"
+              class="text-white text-uppercase q-ml-sm q-mt-xs"
+              :color="['blue-grey-6', 'blue-grey-7'][(key + 1) % 2]"
+            >
+              {{unit.callsign}}, {{unitStatusList[unit.status].text}}
+              <q-icon
+                @click="dispatchDetachUnit(unit)"
+                name="fa fa-times" class="cursor-pointer text-deep-orange-10 q-ml-xs"
+              />
+            </q-badge>
+          </template>
+        </q-field>
       </div>
     </template>
   </div>
@@ -74,9 +95,10 @@
 import {
   defineComponent, ref, computed, watch,
 } from 'vue';
-import { callStatusList, callTypeList } from 'src/utils/constants';
+import { callStatusList, callTypeList, unitStatusList } from 'src/utils/constants';
 import bbCodeParser from 'js-bbcode-parser';
 import { SocketWrapper } from 'src/boot/socketio-instance';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   props: {
@@ -90,6 +112,7 @@ export default defineComponent({
   },
   setup(props) {
     const socketWrapper = new SocketWrapper();
+    const $q = useQuasar();
 
     const data = ref({ ...props.callData });
     watch(() => props.callData, (val) => { data.value = { ...val }; });
@@ -103,6 +126,22 @@ export default defineComponent({
     const newNote = ref('');
     const addNote = () => {
       socketWrapper.emit('calls:addNote', { callId: data.value.id, text: newNote.value, dispatcher: props.isDispatcher });
+      newNote.value = '';
+    };
+
+    const dispatchDetachUnit = (unit) => {
+      $q.dialog({
+        title: 'Открепление юнита',
+        message: `Вы уверены, что хотите открепить юнит ${unit.callsign}?`,
+        cancel: true,
+        persistent: true,
+        ok: {
+          label: 'Да',
+          flat: true,
+        },
+      }).onOk(() => {
+        socketWrapper.emit('calls:detachUnit', { unitId: unit.id });
+      });
     };
 
     return {
@@ -112,7 +151,10 @@ export default defineComponent({
       newNote,
       notesComputed: computed(() => bbCodeParser.parse(data?.value?.notes || 'Тут пока пусто.')),
 
+      dispatchDetachUnit,
+
       callTypeList,
+      unitStatusList,
       statusListComputed: computed(() => Object.entries(callStatusList).map((val) => ({
         value: val[0], text: val[1].text,
       }))),

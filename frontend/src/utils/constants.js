@@ -935,6 +935,29 @@ export const callStatusList = {
   },
 };
 
+export const unitStatusList = {
+  unavail: {
+    text: 'НЕДОСТУПЕН',
+    class: 'text-red',
+  },
+  avail: {
+    text: 'ДОСТУПЕН',
+    class: 'text-cyan',
+  },
+  busy: {
+    text: 'ЗАНЯТ',
+    class: 'text-orange',
+  },
+  enroute: {
+    text: 'В ПУТИ',
+    class: 'text-blue',
+  },
+  onscene: {
+    text: 'НА СЦЕНЕ',
+    class: 'text-green',
+  },
+};
+
 export const callTypeList = [
   'Неуточнённый инцидент',
   'Нарушение общественного порядка',
