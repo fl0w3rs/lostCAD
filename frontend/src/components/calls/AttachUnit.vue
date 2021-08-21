@@ -7,7 +7,7 @@
         multiple
         option-value="id"
         option-label="callsign"
-        dense outlined
+        dense outlined options-dense
       />
 
     </div>
