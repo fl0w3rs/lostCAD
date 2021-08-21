@@ -109,6 +109,8 @@ import { useQuasar } from 'quasar';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
 
+const newCallNoteAudio = new Audio(require('src/assets/sounds/newCallNote.mp3'));
+
 export default defineComponent({
   props: {
     callData: {
@@ -131,6 +133,10 @@ export default defineComponent({
       for (let i = 0; i < payload.length; i += 1) {
         if (payload[i].id === data.value.id) data.value = payload[i];
       }
+    }, { ignoreWrapperID: true });
+
+    socketWrapper.listen('calls:sound:notify', (payload:any) => {
+      if (data.value.id === payload) newCallNoteAudio.play();
     }, { ignoreWrapperID: true });
 
     const newNote = ref('');
