@@ -75,21 +75,21 @@
           <template v-slot:control>
             <div class="q-gutter-xs q-my-sm">
 
-              <q-badge
-                v-for="(unit, key) in data.units" v-bind:key="unit.id"
-                class="text-white text-uppercase q-mt-xs"
-                :color="['blue-grey-6', 'blue-grey-7'][(key + 1) % 2]"
+              <q-chip
+                class="text-uppercase"
+                v-for="unit in data.units" v-bind:key="unit.id"
+                removable @remove="dispatchDetachUnit(unit)" color="blue-grey-6"
+                text-color="white"
               >
                 {{unit.callsign}}, {{unitStatusList[unit.status].text}}
-                <q-icon
-                  @click="dispatchDetachUnit(unit)"
-                  name="fa fa-times" class="cursor-pointer text-deep-orange-10 q-ml-xs"
-                />
-              </q-badge>
-              <q-badge
-                class="q-mt-xs cursor-pointer" @click="dispatchAttachUnit"
-                outline color="secondary" label="Прикрепить"
-              />
+              </q-chip>
+              <q-chip
+                class="text-uppercase" outline clickable
+                @click="dispatchAttachUnit" color="green"
+                text-color="white" icon="fas fa-plus"
+              >
+                Прикрепить
+              </q-chip>
             </div>
           </template>
         </q-field>
