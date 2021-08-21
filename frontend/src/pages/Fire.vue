@@ -1,5 +1,5 @@
 <template>
-  <div class="fire-page full-width text-center">
+  <div class="fire-page full-width">
 
     <SignalBar/>
 

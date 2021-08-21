@@ -1,6 +1,6 @@
 <template>
   <div class="row items-center q-py-xs text-uppercase non-selectable">
-    <div class="col-12 col-sm-4">
+    <div class="col-12 col-sm-4 text-center">
       <div
         class="clock"
         v-if="!selectedIdentifier"

@@ -1,5 +1,5 @@
 <template>
-  <div class="civilian-page full-width text-center">
+  <div class="civilian-page full-width">
     <SignalBar/>
     <div class="accent q-pa-sm non-selectable">
       <div class="row q-col-gutter-xs text-uppercase">

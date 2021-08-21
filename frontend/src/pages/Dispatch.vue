@@ -1,5 +1,5 @@
 <template>
-  <div class="dispatch-page full-width text-center">
+  <div class="dispatch-page full-width">
 
     <signal-bar />
 

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="signalStatus > 0" class="full-width bg-red text-white text-bold">
+  <div v-if="signalStatus > 0" class="full-width text-center bg-red text-white text-bold">
     СИГНАЛ {{ signalStatus }} АКТИВИРОВАН
   </div>
 </template>

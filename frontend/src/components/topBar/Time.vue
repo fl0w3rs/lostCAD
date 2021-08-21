@@ -1,5 +1,5 @@
 <template>
-  <div class="clock">
+  <div class="clock text-center">
     <p>{{ rDate }}</p>
     <p>{{ rTime }}</p>
   </div>
