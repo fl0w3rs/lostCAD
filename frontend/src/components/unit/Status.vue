@@ -146,7 +146,7 @@ import { Howl } from 'howler';
 import PriorityButton from '../PriorityButton.vue';
 
 const statusChangeAudio = new Howl({
-  src: [require('src/assets/sounds/buttonClick.wav')],
+  src: [require('src/assets/sounds/buttonClick.mp3')],
 });
 
 export default {

@@ -19,16 +19,16 @@ const unitNotifyAudio = new Howl({
   src: [require('src/assets/sounds/unitNotify.mp3')],
 });
 const panicAudio = new Howl({
-  src: [require('src/assets/sounds/panic.wav')],
+  src: [require('src/assets/sounds/panic.mp3')],
 });
 const signalAudio = new Howl({
-  src: [require('src/assets/sounds/signal.wav')],
+  src: [require('src/assets/sounds/signal.mp3')],
 });
 const newCallAudio = new Howl({
-  src: [require('src/assets/sounds/newCall.wav')],
+  src: [require('src/assets/sounds/newCall.mp3')],
 });
 const priorityAudio = new Howl({
-  src: [require('src/assets/sounds/priority.wav')],
+  src: [require('src/assets/sounds/priority.mp3')],
 });
 
 const useSocketNotifications = () => {

@@ -33,7 +33,7 @@ import { defineComponent, onBeforeMount, ref } from 'vue';
 import { Howl } from 'howler';
 
 const buttonClickAudio = new Howl({
-  src: [require('src/assets/sounds/buttonClick.wav')],
+  src: [require('src/assets/sounds/buttonClick.mp3')],
 });
 
 export default defineComponent({
