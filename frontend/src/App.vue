@@ -13,12 +13,23 @@ import { useQuasar } from 'quasar';
 import { socketInstance, SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { onBeforeMount, onBeforeUnmount } from 'vue';
+import { Howl } from 'howler';
 
-const unitNotifyAudio = new Audio(require('src/assets/sounds/unitNotify.mp3'));
-const panicAudio = new Audio(require('src/assets/sounds/panic.wav'));
-const signalAudio = new Audio(require('src/assets/sounds/signal.wav'));
-const newCallAudio = new Audio(require('src/assets/sounds/newCall.wav'));
-const priorityAudio = new Audio(require('src/assets/sounds/priority.wav'));
+const unitNotifyAudio = new Howl({
+  src: [require('src/assets/sounds/unitNotify.mp3')],
+});
+const panicAudio = new Howl({
+  src: [require('src/assets/sounds/panic.wav')],
+});
+const signalAudio = new Howl({
+  src: [require('src/assets/sounds/signal.wav')],
+});
+const newCallAudio = new Howl({
+  src: [require('src/assets/sounds/newCall.wav')],
+});
+const priorityAudio = new Howl({
+  src: [require('src/assets/sounds/priority.wav')],
+});
 
 const useSocketNotifications = () => {
   const $q = useQuasar();

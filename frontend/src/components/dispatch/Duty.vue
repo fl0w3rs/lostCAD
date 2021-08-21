@@ -30,8 +30,11 @@
 <script lang="ts">
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { defineComponent, onBeforeMount, ref } from 'vue';
+import { Howl } from 'howler';
 
-const buttonClickAudio = new Audio(require('src/assets/sounds/buttonClick.wav'));
+const buttonClickAudio = new Howl({
+  src: [require('src/assets/sounds/buttonClick.wav')],
+});
 
 export default defineComponent({
   setup() {

@@ -15,6 +15,7 @@
     "@bugsnag/plugin-vue": "^7.11.0",
     "@quasar/extras": "^1.10.10",
     "core-js": "^3.16.2",
+    "howler": "^2.2.3",
     "js-bbcode-parser": "^3.0.4",
     "quasar": "^2.0.3",
     "socket.io-client": "^4.1.3",

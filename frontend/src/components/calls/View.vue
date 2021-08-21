@@ -108,8 +108,11 @@ import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
+import { Howl } from 'howler';
 
-const newCallNoteAudio = new Audio(require('src/assets/sounds/newCallNote.mp3'));
+const newCallNoteAudio = new Howl({
+  src: [require('src/assets/sounds/newCallNote.mp3')],
+});
 
 export default defineComponent({
   props: {

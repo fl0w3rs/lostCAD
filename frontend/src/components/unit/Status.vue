@@ -142,9 +142,12 @@ import { useStore } from 'vuex';
 import { socketInstance } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import { windowWrapper } from 'src/store/windows/types';
+import { Howl } from 'howler';
 import PriorityButton from '../PriorityButton.vue';
 
-const statusChangeAudio = new Audio(require('src/assets/sounds/buttonClick.wav'));
+const statusChangeAudio = new Howl({
+  src: [require('src/assets/sounds/buttonClick.wav')],
+});
 
 export default {
   components: { PriorityButton },
