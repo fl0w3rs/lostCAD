@@ -1,6 +1,6 @@
 <template>
   <div class="row q-col-gutter-xs">
-    <div class="col-10">
+    <div class="col-9">
       <q-select
         :options="availableUnits" emit-value map-options
         v-model="selectedUnits"
@@ -11,8 +11,10 @@
       />
 
     </div>
-    <div class="col-2">
-      <q-btn color="green" icon="check" outline class="full-height" @click="attach" />
+    <div class="col-3">
+      <q-btn
+        color="green" icon="check" outline class="full-height full-width" @click="attach"
+      />
     </div>
   </div>
 </template>
