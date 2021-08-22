@@ -10,30 +10,58 @@
     <!-- <q-separator
       vertical
     /> -->
-
     <q-icon
       name="o_podcasts"
       size="sm"
-      :color="dispatchCount.active > 0 ? 'green' : 'grey'"
+      :color="dispatcherList?.active?.length > 0 ? 'green' : 'grey'"
       class="q-pl-md"
     >
-      <q-tooltip>Наличие активного диспетчера</q-tooltip>
+      <q-tooltip class="text-center">
+        Наличие активного диспетчера
+        <p
+          v-for="(disp, key) in dispatcherList?.active"
+          v-bind:key = "key" :class="key == 0 ? 'q-mt-sm' : ''"
+          class="text-uppercase text-bold"
+        >
+          {{disp.name}} {{disp?.callsign ? `[${disp.callsign}]` : ''}}
+        </p>
+      </q-tooltip>
+
     </q-icon>
 
     <q-icon
       name="o_info"
       size="sm"
-      :color="dispatchCount.info > 0 ? 'green' : 'grey'"
+      :color="dispatcherList?.info?.length > 0 ? 'green' : 'grey'"
     >
-      <q-tooltip>Наличие диспетчера по сбору информации</q-tooltip>
+      <q-tooltip class="text-center">
+        Наличие диспетчера по сбору информации
+        <p
+          v-for="(disp, key) in dispatcherList?.info"
+          v-bind:key = "key" :class="key == 0 ? 'q-mt-sm' : ''"
+          class="text-uppercase text-bold"
+        >
+          {{disp.name}} {{disp?.callsign ? `[${disp.callsign}]` : ''}}
+        </p>
+      </q-tooltip>
     </q-icon>
 
     <q-icon
       name="o_phone"
       size="sm"
-      :color="dispatchCount.operator > 0 ? 'green' : 'grey'"
+      :color="dispatcherList?.operator?.length > 0 ? 'green' : 'grey'"
     >
-      <q-tooltip>Наличие оператора 911</q-tooltip>
+      <q-tooltip class="text-center">
+        Наличие оператора 911
+        <p
+          v-for="(disp, key) in dispatcherList?.operator"
+          v-bind:key = "key" :class="key == 0 ? 'q-mt-sm' : ''"
+          class="text-uppercase text-bold"
+        >
+          {{disp.name}} {{disp?.callsign ? `[${disp.callsign}]` : ''}}
+        </p>
+
+      </q-tooltip>
     </q-icon>
 
     <q-icon
@@ -60,10 +88,10 @@ export default {
 
     // count
 
-    const dispatchCount = ref({});
+    const dispatcherList = ref({});
 
-    socketWrapper.listen('dispatch:duty:updateCount', (payload) => {
-      dispatchCount.value = payload;
+    socketWrapper.listen('dispatch:duty:updateDispatcherList', (payload) => {
+      dispatcherList.value = payload;
     }, { ignoreWrapperID: true });
 
     // gz change
@@ -81,7 +109,7 @@ export default {
     // shared
 
     onBeforeMount(() => {
-      socketWrapper.emit('dispatch:duty:requestCount');
+      socketWrapper.emit('dispatch:duty:requestDispatcherList');
       socketInstance.emit('gameZone:get');
     });
 
@@ -91,7 +119,7 @@ export default {
 
       isSoundMuted: computed(() => store.getters['other/isSoundMuted']),
 
-      dispatchCount,
+      dispatcherList,
     };
   },
 };

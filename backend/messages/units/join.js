@@ -10,7 +10,7 @@ module.exports = {
       && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
-    const user = await socket.getUser();
+    const user = await socket.getUser({ skipCache: true });
     user.unitId = data;
     await user.save();
 
@@ -19,8 +19,9 @@ module.exports = {
     await io.updateAllUnits();
 
     const identifier = await db.cad.Identifier.findOne({
-      where: { id: user.dataValues.currentIdentifier },
+      where: { id: user.currentIdentifier },
     });
-    io.sendLogMessageToUnit(data, `${identifier.dataValues.name} присоединился(-ась) к юниту.`);
+
+    io.sendLogMessageToUnit(data, `${identifier.name} присоединился(-ась) к юниту.`);
   },
 };

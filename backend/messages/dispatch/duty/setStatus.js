@@ -14,6 +14,6 @@ module.exports = {
 
     socket.emit('dispatch:duty:updateStatus', user.dispatchStatus);
 
-    io.emit('dispatch:duty:updateCount', await utils.getDispatchCount());
+    io.emit('dispatch:duty:updateDispatcherList', await utils.getDispatcherList());
   },
 };

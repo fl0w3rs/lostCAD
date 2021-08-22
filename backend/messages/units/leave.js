@@ -10,10 +10,9 @@ module.exports = {
 
     const user = await socket.getUser();
     const unit = await user.getUnit();
-
     if (!unit) return;
 
-    const unitId = unit.dataValues.id;
+    const unitId = unit.id;
     user.unitId = null;
     await user.save();
 
@@ -22,10 +21,11 @@ module.exports = {
     socket.unitId = undefined;
 
     const identifier = await db.cad.Identifier.findOne({
-      where: { id: user.dataValues.currentIdentifier },
+      where: { id: user.currentIdentifier },
     });
-    if (identifier) {
-      await io.sendLogMessageToUnit(unitId, `${identifier.dataValues.name} покинул(-а) юнит.`);
+
+    if (identifier.id) {
+      await io.sendLogMessageToUnit(unitId, `${identifier.name} покинул(-а) юнит.`);
     }
 
     if (members.length === 0) {

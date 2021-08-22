@@ -8,7 +8,7 @@ module.exports = {
 
     if (!data) return;
 
-    const newData = data.includes('clear') ? '0' : data;
+    const newData = data.includes('clear') ? '' : data;
 
     await utils.settings.set('signal', newData);
 

@@ -4,14 +4,13 @@ import 'validatorjs/dist/lang/ru.js';
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import createCacheInstance from './cache.js';
-import db from './db.js';
-import vtemplates from './vtemplates.js';
+import * as Sequelize from 'sequelize';
+import createCacheInstance from './helpers/cache.js';
+import db from './db/index';
+import vtemplates from './helpers/vtemplates.js';
 
 // eslint-disable-next-line import/no-unresolved
 import * as messages from './messages/**/*';
-
-const { QueryTypes } = require('sequelize');
 
 const Validator = require('validatorjs');
 
@@ -99,33 +98,64 @@ const utils = {
 
     return calls;
   },
-  async getDispatchCount() {
-    const count = await db.cad.sequelize.query('SELECT dispatchStatus, COUNT(*) as cnt FROM users GROUP BY dispatchStatus;', { type: QueryTypes.SELECT });
+  async getDispatcherList() {
+    const list = await db.cad.User.findAll({
+      where: { dispatchStatus: { [Sequelize.Op.not]: 'off' } },
+      include: [{
+        model: db.cad.Identifier,
+        required: false,
+        where: {
+          id: {
+            [Sequelize.Op.eq]: db.cad.sequelize.col('user.currentIdentifier'),
+          },
+        },
+      }],
+    });
 
-    const countMapped = {};
-    for (let i = 0; i < count.length; i += 1) {
-      const o = count[i];
-      countMapped[o.dispatchStatus] = o.cnt;
+    const forumIds = list.map((val) => val.fid);
+    const forumUsers = await db.forum.core_members.findAll({
+      where: { member_id: { [Sequelize.Op.or]: forumIds } },
+    });
+
+    const forumUsersMapped = {};
+    for (let i = 0; i < forumUsers.length; i += 1) {
+      forumUsersMapped[forumUsers[i].member_id] = utils.convertToPlainObject(forumUsers[i]);
     }
 
-    return countMapped;
+    const listMapped = {};
+    for (let i = 0; i < list.length; i += 1) {
+      const user = list[i];
+
+      const listObject = {
+        id: user.id,
+        name: user?.identifiers[0]?.name || forumUsersMapped[user.fid]?.name || user.id,
+        callsign: user?.identifiers[0]?.callsign || null,
+      };
+
+      if (!listMapped[user.dispatchStatus]) listMapped[user.dispatchStatus] = [];
+      listMapped[user.dispatchStatus].push(listObject);
+    }
+
+    return listMapped;
   },
   async getAllUnits() {
-    const units = JSON.parse(JSON.stringify(
+    const units = utils.convertToPlainObject(
       await db.cad.Unit.findAll({
         include: [{
           model: db.cad.User,
           include: {
             model: db.cad.Identifier,
             where: {
-              id: db.cad.sequelize.col('users.currentIdentifier'),
+              id: {
+                [Sequelize.Op.eq]: db.cad.sequelize.col('users.currentIdentifier'),
+              },
             },
           },
         }, {
           model: db.cad.Call,
         }],
       }),
-    ));
+    );
 
     for (let i = 0; i < units.length; i += 1) {
       units[i].members = [];
@@ -148,7 +178,7 @@ const utils = {
 
     return text.replace(/[&<>"']/g, (m) => map[m]);
   },
-  objectToPlain(obj) {
+  convertToPlainObject(obj) {
     return JSON.parse(JSON.stringify(obj));
   },
   getTimeString: () => new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' }),
@@ -214,7 +244,7 @@ io.sendLogMessageToUnit = async (id, message, { sendToDispatch = true } = {}) =>
   await unit.save();
 
   if (sendToDispatch) {
-    io.sendDispatchLogMessage(`[b]Юнит ${unit.callsign}[/b]: ${message}`);
+    await io.sendDispatchLogMessage(`[b]Юнит ${unit.callsign}[/b]: ${message}`);
   }
 
   io.updateAllUnits();
@@ -247,10 +277,11 @@ io.on('connection', (socket) => {
     return cached;
   };
 
-  socket.getUser = async () => {
+  socket.getUser = async ({ skipCache = false, clearCache = false } = {}) => {
+    if (clearCache) socket.cache.clear('cadUser');
     const cached = socket.cache.get('cadUser');
 
-    if (!cached) {
+    if (skipCache || !cached) {
       const data = await db.cad.User.findOne({
         where: { fid: socket.userId },
         include: [
@@ -262,6 +293,12 @@ io.on('connection', (socket) => {
     }
 
     return cached;
+  };
+
+  socket.getUnit = async () => {
+    const user = await socket.getUser();
+    const unit = await user.getUnit();
+    return unit;
   };
 
   socket.getCurrentIdentifier = async () => {
@@ -300,9 +337,9 @@ io.on('connection', (socket) => {
     let name = `${identifier?.name || forumUser?.name}`;
 
     if (unitPrefix) {
-      const user = await socket.getUser();
-      if (user?.unit) {
-        name += ` [${user?.unit?.callsign}]`;
+      const unit = await socket.getUnit();
+      if (unit) {
+        name += ` [${unit?.callsign}]`;
       }
     }
 

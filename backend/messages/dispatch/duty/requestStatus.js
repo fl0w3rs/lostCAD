@@ -8,6 +8,6 @@ module.exports = {
 
     socket.emit('dispatch:duty:updateStatus', user.dispatchStatus);
 
-    utils.getDispatchCount();
+    utils.getDispatcherList();
   },
 };
