@@ -11,27 +11,7 @@
           :props="props"
         >
           {{props.value}}
-          <q-menu touch-position v-if="type == 'dispatch'">
-            <q-list dense style="min-width: 100px">
-              <q-item @click="dispatchDisband(props.row)" clickable v-close-popup>
-                <q-item-section>Расформировать</q-item-section>
-              </q-item>
-              <q-item @click="dispatchSetCallsign(props.row)" clickable v-close-popup>
-                <q-item-section>Изменить маркировку</q-item-section>
-              </q-item>
-              <q-item
-                @click="dispatchDetachFromCall(props.row)"
-                v-if="props.row.call" clickable v-close-popup
-              >
-                <q-item-section>Открепить от вызова</q-item-section>
-              </q-item>
-              <q-item @click="dispatchSwitchPanic(props.row)" clickable v-close-popup>
-                <q-item-section>
-                  {{props.row.panic ? 'Выключить' : 'Включить'}} панику
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
+          <unit-menu v-if="type == 'dispatch'" :unit="props.row" />
         </q-td>
       </template>
 
@@ -44,6 +24,7 @@
               <p>{{ val['department'] }} {{ val['rank'] }}</p>
             </q-tooltip>
           </span>
+          <unit-menu v-if="type == 'dispatch'" :unit="props.row" />
         </q-td>
       </template>
 
@@ -51,6 +32,7 @@
         <q-td :props="props">
           <template v-if="props.row.callId > 0">
             {{props.row.call.id}}
+            <unit-menu v-if="type == 'dispatch'" :unit="props.row" />
 
             <q-tooltip class="bg-indigo text-center" :offset="[10, 10]">
               <b>Тип</b>: {{props.row.call.type}}<br/>
@@ -72,12 +54,14 @@ import { useStore } from 'vuex';
 import { useQuasar } from 'quasar';
 import { socketInstance } from 'src/boot/socketio-instance';
 import { callStatusList, unitStatusList } from 'src/utils/constants';
+import UnitMenu from 'src/components/unit/Menu.vue';
 
 export default {
   props: {
     type: String,
     window: Object,
   },
+  components: { UnitMenu },
   setup(props) {
     const $q = useQuasar();
     const store = useStore();
@@ -98,49 +82,7 @@ export default {
 
     onBeforeMount(() => { store.dispatch('unit/requestAllUnits'); });
 
-    const dispatchDisband = (unit) => {
-      $q.dialog({
-        title: 'Расформирование юнита',
-        message: `Вы уверены, что хотите расформировать юнит ${unit.callsign}?`,
-        cancel: true,
-        persistent: true,
-        ok: {
-          label: 'Да',
-          flat: true,
-        },
-      }).onOk(() => {
-        socketInstance.emit('units:disband', { dispatch: true, unitId: unit.id });
-      });
-    };
-
-    const dispatchSetCallsign = (unit) => {
-      $q.dialog({
-        title: 'Изменение маркировки',
-        message: 'Введите новую маркировку в поле ниже.',
-        prompt: {
-          model: unit.callsign,
-          type: 'text',
-        },
-        cancel: true,
-        persistent: true,
-      }).onOk((data) => {
-        socketInstance.emit('units:setCallsign', { dispatch: true, unitId: unit.id, newCallsign: data });
-      });
-    };
-
-    const dispatchSwitchPanic = (unit) => {
-      socketInstance.emit('units:switchPanic', { dispatch: true, unitId: unit.id });
-    };
-
-    const dispatchDetachFromCall = (unit) => {
-      socketInstance.emit('calls:detachUnit', { unitId: unit.id });
-    };
-
     return {
-      dispatchSwitchPanic,
-      dispatchDisband,
-      dispatchSetCallsign,
-      dispatchDetachFromCall,
       columns: [
         {
           name: 'callsign',
@@ -155,13 +97,6 @@ export default {
           required: true,
           label: 'Участники',
           align: 'center',
-          // field: (row) => {
-          //   const names = [];
-          //   for (let i = 0; i < row.members.length; i += 1) {
-          //     names.push(row?.members[i]?.callsign || 'ошибка получения');
-          //   }
-          //   return names.join(', ');
-          // },
           sortable: true,
         },
         {
