@@ -330,6 +330,19 @@ io.on('connection', (socket) => {
     return cached;
   };
 
+  socket.getAllCharacters = async () => {
+    const cached = socket.cache.get('characters');
+
+    if (!cached) {
+      const user = await socket.getUser();
+      const data = await user.getCharacters();
+      socket.cache.set('cadUser', data, 20);
+      return data;
+    }
+
+    return cached;
+  };
+
   socket.getDisplayName = async ({ unitPrefix = false, dispatchPrefix = false } = {}) => {
     const identifier = await socket.getCurrentIdentifier();
     const forumUser = await socket.getForumUser();
