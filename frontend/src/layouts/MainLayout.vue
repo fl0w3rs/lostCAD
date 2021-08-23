@@ -12,15 +12,6 @@
       <q-toolbar>
         <div class="col-3 text-left q-pl-md">
 
-          <!-- <q-avatar square>
-            <router-link to="/home">
-              <img
-                class="cursor-pointer"
-                :src="require('src/assets/footerLogo.png')"
-                v-if="isAuthenticated"
-              >
-            </router-link>
-          </!-->
           <q-btn
             flat
             round
@@ -39,7 +30,22 @@
           class="col-3 text-right q-pr-md"
           v-if="username !== null"
         >
-          {{ username }}
+          <span class="full-height cursor-pointer">
+            <q-icon name="fas fa-user"></q-icon>
+            {{ username }}
+            <q-icon name="fas fa-angle-down"></q-icon>
+
+            <q-menu :offset="[-10, 10]">
+              <q-list style="min-width: 100px" dense>
+                <q-item @click="openSettings" clickable v-close-popup>
+                  <q-item-section avatar>
+                    <q-icon color="grey" name="fas fa-cogs" />
+                  </q-item-section>
+                  <q-item-section>Настройки</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </span>
         </div>
       </q-toolbar>
     </q-header>
@@ -81,6 +87,7 @@
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import AllWindows from 'src/components/AllWindows.vue';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'MainLayout',
@@ -90,9 +97,19 @@ export default {
   setup() {
     const store = useStore();
 
+    const openSettings = () => {
+      store.commit('windows/open', windowWrapper({
+        type: 'dialog',
+        component: 'Settings',
+        title: 'Настройки',
+        initialWidth: '20vw',
+      }));
+    };
+
     return {
       username: computed(() => store.getters['user/getName']),
       isAuthenticated: computed(() => store.getters['auth/isAuthenticated']),
+      openSettings,
     };
   },
 };

@@ -8,8 +8,8 @@ export default boot(async (/* { app, router, ... } */) => {
   // something to do
   const actualVolume = LocalStorage.getItem('volume');
   if (!actualVolume) {
-    LocalStorage.set('volume', 0.2);
-    Howler.volume(0.2);
+    LocalStorage.set('volume', 0.5);
+    Howler.volume(0.5);
     return;
   }
   Howler.volume(actualVolume);
