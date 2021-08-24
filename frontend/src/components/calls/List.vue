@@ -4,6 +4,8 @@
       dense
       :rows="list" :columns="columns"
       @row-click="onClick"
+      flat
+      class="bg-transparent"
     >
 
     </q-table>

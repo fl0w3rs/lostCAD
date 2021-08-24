@@ -4,7 +4,10 @@
       dense
       :rows='list'
       :columns='columns'
-      @row-click="onClick">
+      @row-click="onClick"
+      flat
+      class="bg-transparent"
+    >
 
       <template v-slot:body-cell="props">
         <q-td
