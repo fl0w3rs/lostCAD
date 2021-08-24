@@ -12,3 +12,7 @@ export function requestDispatchLog() {
 export function requestSignal() {
   socketInstance.emit('signal:get');
 }
+
+export function requestDispatcherList() {
+  socketInstance.emit('dispatch:duty:requestDispatcherList');
+}

@@ -6,5 +6,6 @@ export default function () {
     dispatchLog: '',
     signal: 0,
     soundMuted: LocalStorage.getItem('soundMuted') || false,
+    dispatcherList: {},
   };
 }

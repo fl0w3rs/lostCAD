@@ -78,21 +78,13 @@
 <script>
 import { socketInstance, SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
-import { computed, onBeforeMount, ref } from 'vue';
+import { computed, onBeforeMount } from 'vue';
 import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   setup() {
     const store = useStore();
     const socketWrapper = new SocketWrapper();
-
-    // count
-
-    const dispatcherList = ref({});
-
-    socketWrapper.listen('dispatch:duty:updateDispatcherList', (payload) => {
-      dispatcherList.value = payload;
-    }, { ignoreWrapperID: true });
 
     // gz change
 
@@ -119,7 +111,7 @@ export default {
 
       isSoundMuted: computed(() => store.getters['other/isSoundMuted']),
 
-      dispatcherList,
+      dispatcherList: computed(() => store.getters['other/getDispatcherList']),
     };
   },
 };

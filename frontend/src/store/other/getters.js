@@ -16,3 +16,5 @@ export function getSignal(state) {
 }
 
 export const isSoundMuted = (state) => state.soundMuted;
+
+export const getDispatcherList = (state) => state.dispatcherList;

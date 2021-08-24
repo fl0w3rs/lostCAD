@@ -23,6 +23,10 @@ const mutations = {
     LocalStorage.set('soundMuted', state.soundMuted);
   },
 
+  'SOCKET_DISPATCH:DUTY:UPDATEDISPATCHERLIST': (state, payload) => {
+    state.dispatcherList = payload;
+  },
+
 };
 
 export default mutations;

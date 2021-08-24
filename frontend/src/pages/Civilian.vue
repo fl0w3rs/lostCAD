@@ -39,7 +39,7 @@
         </div>
       </div>
 
-      <div class="q-gutter-xs q-mt-sm">
+      <div class="q-gutter-xs q-mt-sm row justify-center">
         <q-btn
           color="secondary"
           size="sm"

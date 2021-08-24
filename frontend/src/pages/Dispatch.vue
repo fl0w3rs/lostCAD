@@ -27,6 +27,7 @@
           outline
           size="sm"
         />
+        <dispatcher-list-button />
 
       </div>
     </div>
@@ -66,6 +67,7 @@ import TenCodesButton from 'src/components/TenCodesButton.vue';
 import { windowWrapper } from 'src/store/windows/types';
 import CallList from 'src/components/calls/List.vue';
 import DispatchDuty from 'src/components/dispatch/Duty.vue';
+import DispatcherListButton from 'src/components/dispatch/DispatcherListButton.vue';
 
 export default {
   name: 'DispatchPage',
@@ -81,6 +83,7 @@ export default {
     TenCodesButton,
     CallList,
     DispatchDuty,
+    DispatcherListButton,
   },
 
   setup() {
