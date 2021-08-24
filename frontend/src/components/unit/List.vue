@@ -35,7 +35,6 @@
         <q-td :props="props">
           <template v-if="props.row.callId > 0">
             {{props.row.call.id}}
-            <unit-menu v-if="type == 'dispatch'" :unit="props.row" />
 
             <q-tooltip class="bg-indigo text-center" :offset="[10, 10]">
               <b>Тип</b>: {{props.row.call.type}}<br/>
@@ -43,7 +42,10 @@
             </q-tooltip>
           </template>
 
-          <template v-else>-</template>
+          <template v-else>
+            -
+          </template>
+          <unit-menu v-if="type == 'dispatch'" :unit="props.row" />
         </q-td>
       </template>
 
