@@ -36,8 +36,7 @@ module.exports = {
     socket.isAuthenticated = true;
 
     const cadUser = await socket.getUser();
-    const unit = await cadUser.getUnit();
-    socket.unitId = unit?.dataValues?.id || undefined;
+    socket.unitId = cadUser?.unit?.id || undefined;
 
     emitReturn({
       status: 'authenticated',

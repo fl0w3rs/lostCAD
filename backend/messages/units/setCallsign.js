@@ -33,7 +33,7 @@ module.exports = {
       await io.updateAllUnits();
 
       const identifier = await db.cad.Identifier.findOne({
-        where: { id: user.dataValues.currentIdentifier },
+        where: { id: user.currentIdentifier },
       });
 
       io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} изменил(-а) маркировку с ${oldCallsign} на ${data}.`);

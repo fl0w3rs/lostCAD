@@ -8,13 +8,10 @@ module.exports = {
       && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
-    const user = await socket.getUser();
-    const unit = await user.getUnit();
-
+    const unit = await socket.getUnit();
     if (!unit) return;
 
     unit.status = data;
-
     await unit.save();
 
     io.updateActiveCalls();

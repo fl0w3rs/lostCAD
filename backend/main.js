@@ -214,6 +214,18 @@ for (let i = 0; i < messages.default.length; i += 1) {
   messageModules.push(messages.default[i].default);
 }
 
+// db hooks
+db.cad.User.addHook('afterUpdate', async (user) => {
+  const sockets = await io.fetchSockets();
+
+  sockets.forEach((sock) => {
+    if (sock.userId == user.fid) {
+      sock.cache.clear('cadUser');
+    }
+  });
+});
+// ===
+
 io.updateAllUnits = async () => {
   const units = await utils.getAllUnits();
 
@@ -297,8 +309,7 @@ io.on('connection', (socket) => {
 
   socket.getUnit = async () => {
     const user = await socket.getUser();
-    const unit = await user.getUnit();
-    return unit;
+    return user?.unit;
   };
 
   socket.getCurrentIdentifier = async () => {

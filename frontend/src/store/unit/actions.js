@@ -15,6 +15,7 @@ export function socket_updateAllUnits({ rootGetters, commit }, payload) {
   const currentIdentifier = rootGetters['identifier/getSelectedIdentifier'];
   for (let i = 0; i < payload.length; i += 1) {
     for (let j = 0; j < payload[i].members.length; j += 1) {
+      console.log(payload[i]);
       if (payload[i].members[j].id === currentIdentifier) {
         commit('setCurrentUnit', payload[i]);
         return;

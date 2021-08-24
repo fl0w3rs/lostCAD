@@ -11,7 +11,5 @@ module.exports = {
     const user = await socket.getUser();
     user.currentIdentifier = data;
     await user.save();
-
-    socket.cache.clear('cadUser');
   },
 };
