@@ -47,6 +47,7 @@ module.exports = {
       type: 'required|max:16',
       groups: 'required|max:256',
       divisions: 'present|max:1024',
+      ranks: 'present|max:1024',
     },
     call: {
       caller: 'required|max:64',

@@ -135,6 +135,7 @@ export default {
       const data = { ...info.value };
       data.groups = data?.groups?.join(',') || '';
       if (!data.divisions) data.divisions = '';
+      if (!data.ranks) data.ranks = '';
       return data;
     };
 

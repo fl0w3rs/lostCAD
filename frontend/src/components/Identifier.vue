@@ -66,7 +66,7 @@
             options-dense
             v-model="currentIdentifier.rank"
             label="Звание"
-            :options="identifierRankList"
+            :options="ranks"
           />
         </div>
 
@@ -174,12 +174,16 @@ export default {
     };
 
     const departments = ref([]);
-    const divisions = ref([]);
 
+    const divisions = ref([]);
     const allDivisions = {};
+
+    const ranks = ref([]);
+    const allRanks = {};
 
     watch(() => currentIdentifier.value.department, (val) => {
       divisions.value = allDivisions[val];
+      ranks.value = allRanks[val];
     });
 
     onMounted(async () => {
@@ -192,11 +196,13 @@ export default {
 
       departments.value = responseValues.map((val) => val.name);
       for (let i = 0; i < responseValues.length; i += 1) {
-        allDivisions[responseValues[i].name] = responseValues[i].divisions.split('|||');
+        allDivisions[responseValues[i].name] = responseValues[i]?.divisions?.split('|||') || [];
+        allRanks[responseValues[i].name] = responseValues[i]?.ranks?.split('|||') || [];
       }
 
       if (currentIdentifier.value.department) {
         divisions.value = allDivisions[currentIdentifier.value.department];
+        ranks.value = allRanks[currentIdentifier.value.department];
       }
     });
 
@@ -216,6 +222,7 @@ export default {
 
       departments,
       divisions,
+      ranks,
 
       columns: [
         {
