@@ -49,6 +49,23 @@
         </q-td>
       </template>
 
+      <template v-slot:body-cell-status="props">
+        <q-td :props="props">
+          {{props.value}}
+          <q-menu v-if="type == 'dispatch'" touch-position>
+            <q-list dense style="min-width: 100px">
+              <q-item
+                v-for="(status, key) in unitStatusList" v-bind:key="key"
+                @click="dispatchSetStatus(props.row, key)" clickable v-close-popup
+              >
+                <q-item-section :class="status.class">{{status.text}}</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+          <!-- <unit-menu v-if="type == 'dispatch'" :unit="props.row" /> -->
+        </q-td>
+      </template>
+
     </q-table>
   </div>
 </template>
@@ -86,6 +103,10 @@ export default {
     };
 
     onBeforeMount(() => { store.dispatch('unit/requestAllUnits'); });
+
+    const dispatchSetStatus = (unit, status) => {
+      socketInstance.emit('units:setStatus', { dispatch: true, unitId: unit.id, status });
+    };
 
     return {
       columns: [
@@ -127,6 +148,8 @@ export default {
       list: computed(() => store.getters['unit/getAllUnits']),
       onClick,
       callStatusList,
+      unitStatusList,
+      dispatchSetStatus,
     };
   },
 };
