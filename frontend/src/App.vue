@@ -27,6 +27,9 @@ const signalAudio = new Howl({
 const newCallAudio = new Howl({
   src: [require('src/assets/sounds/newCall.mp3')],
 });
+const unitAttachAudio = new Howl({
+  src: [require('src/assets/sounds/unitAttach.mp3')],
+});
 const priorityAudio = new Howl({
   src: [require('src/assets/sounds/priority.mp3')],
 });
@@ -88,6 +91,10 @@ const useSounds = () => {
 
   socketWrapper.listen('calls:sound:new', () => {
     newCallAudio.play();
+  }, { ignoreWrapperID: true });
+
+  socketWrapper.listen('calls:sound:attach', () => {
+    unitAttachAudio.play();
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('updateSignal', (data) => {

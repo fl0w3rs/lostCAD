@@ -43,6 +43,7 @@ const Department = sequelize.define('department',
     type: DataTypes.STRING(16),
     groups: DataTypes.STRING(256),
     divisions: DataTypes.TEXT,
+    ranks: DataTypes.TEXT,
   },
   {
     tableName: 'departments',
@@ -251,7 +252,7 @@ Call.hasMany(Unit);
 Unit.belongsTo(Call);
 
 // User.sync({ alter: true });
-// Identifier.sync({ alter: true });
+// Department.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;

@@ -32,6 +32,16 @@
         />
       </div>
       <div class="col-12">
+        <q-input
+          dense
+          square
+          outlined
+          v-model="info.ranks"
+          label="Список званий (разделять через |||)"
+          autogrow
+        />
+      </div>
+      <div class="col-12">
         <q-select
           dense
           options-dense

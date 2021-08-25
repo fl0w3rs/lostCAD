@@ -27,6 +27,13 @@ module.exports = {
       await units[i].save();
     }
 
+    const unitIds = units.map((val) => val.id);
+    (await io.fetchSockets()).forEach((sock) => {
+      if (unitIds.includes(sock.unitId)) {
+        sock.emit('calls:sound:attach');
+      }
+    });
+
     io.updateAllUnits();
     io.updateActiveCalls();
   },
