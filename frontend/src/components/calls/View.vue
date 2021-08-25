@@ -1,5 +1,9 @@
 <template>
   <div class="row q-col-gutter-xs">
+    <div class="col-12 q-mb-xs q-gutter-xs text-center" v-if="isDispatcher">
+      <q-btn size="sm"
+        @click="dispatchArchiveCall" label="Архивировать" icon="archive" color="grey" outline />
+    </div>
     <div class="col-6 col-md-4">
       <q-input label="Заявитель" outlined dense readonly v-model="data.caller"></q-input>
     </div>
@@ -10,6 +14,7 @@
         map-options emit-value
         option-label="text"
         option-value="value"
+        @update:model-value="updateCall"
         :readonly="!isDispatcher"
         options-dense
       ></q-select>
@@ -17,6 +22,7 @@
     <div class="col-6 col-md-4">
       <q-select
         label="Приоритет" outlined dense
+        @update:model-value="updateCall"
         v-model="data.priority" :options="['Низкий', 'Средний', 'Высокий']"
         :readonly="!isDispatcher"
         options-dense
@@ -24,16 +30,19 @@
     </div>
     <div class="col-6 col-md-5">
       <q-input
-        label="Местоположение" outlined dense v-model="data.location"
+        @update:model-value="updateCall"
+        label="Местоположение" debounce="1000" outlined dense v-model="data.location"
         :readonly="!isDispatcher"></q-input>
     </div>
     <div class="col-6 col-md-2">
       <q-input
-        label="Блок" outlined dense v-model="data.blockNumber"
+        @update:model-value="updateCall"
+        label="Блок" debounce="1000" outlined dense v-model="data.blockNumber"
         :readonly="!isDispatcher"></q-input>
     </div>
     <div class="col-6 col-md-5">
       <q-select
+        @update:model-value="updateCall"
         label="Тип вызова" outlined dense
         v-model="data.type" :options="callTypeList"
         :readonly="!isDispatcher"
@@ -123,8 +132,11 @@ export default defineComponent({
     isDispatcher: {
       type: Boolean,
     },
+    window: {
+      type: Object,
+    },
   },
-  setup(props) {
+  setup(props: any) {
     const socketWrapper = new SocketWrapper();
     const $q = useQuasar();
     const store = useStore();
@@ -132,10 +144,19 @@ export default defineComponent({
     const data = ref({ ...props.callData });
     watch(() => props.callData, (val) => { data.value = { ...val }; });
 
+    const updateCall = () => {
+      setTimeout(() => socketWrapper.emit('calls:update', data.value), 100);
+    };
+
     socketWrapper.listen('updateActiveCalls', (payload: any) => {
       for (let i = 0; i < payload.length; i += 1) {
-        if (payload[i].id === data.value.id) data.value = payload[i];
+        if (payload[i].id === data.value.id) {
+          data.value = payload[i];
+          return;
+        }
       }
+
+      props.window.doClose();
     }, { ignoreWrapperID: true });
 
     socketWrapper.listen('calls:sound:notify', (payload:any) => {
@@ -163,6 +184,21 @@ export default defineComponent({
       });
     };
 
+    const dispatchArchiveCall = () => {
+      $q.dialog({
+        title: 'Открепление юнита',
+        message: 'Вы уверены, что хотите архивировать вызов?',
+        cancel: true,
+        persistent: true,
+        ok: {
+          label: 'Да',
+          flat: true,
+        },
+      }).onOk(() => {
+        socketWrapper.emit('calls:archive', { callId: data.value.id });
+      });
+    };
+
     const dispatchAttachUnit = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
@@ -176,6 +212,8 @@ export default defineComponent({
 
     return {
       data,
+      updateCall,
+      dispatchArchiveCall,
 
       addNote,
       newNote,
