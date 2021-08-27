@@ -32,20 +32,41 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useStore } from 'vuex';
-import { socketInstance } from 'src/boot/socketio-instance';
+import { SocketWrapper } from 'src/boot/socketio-instance';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
-  setup() {
+  props: ['window'],
+  setup(props: any) {
     const store = useStore();
+    const socketWrapper = new SocketWrapper();
+    const $q = useQuasar();
 
     const signalStatus = ref(store.getters['other/getSignal']);
 
+    const onReturn = (resp) => {
+      if (resp !== 'success') {
+        $q.notify({
+          type: 'negative',
+          message: 'Произошла ошибка при изменении сигнала.',
+        });
+        return;
+      }
+
+      $q.notify({
+        type: 'positive',
+        message: 'Сигнал успешно изменён.',
+      });
+
+      props.window.doClose();
+    };
+
     const save = () => {
-      socketInstance.emit('signal:set', signalStatus.value);
+      socketWrapper.emit('signal:set', signalStatus.value).onReturn(onReturn);
     };
 
     const clear = () => {
-      socketInstance.emit('signal:set', 'clear');
+      socketWrapper.emit('signal:set', 'clear').onReturn(onReturn);
     };
 
     return {
