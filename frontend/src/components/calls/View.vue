@@ -107,6 +107,10 @@
         </q-field>
       </div>
     </template>
+
+    <div class="col-12 text-center q-gutter-sm q-mt-xs" v-if="canCreate">
+      <q-btn color="green" label="Создать" @click="createCall" icon="fas fa-plus" outline />
+    </div>
   </div>
 </template>
 
@@ -147,31 +151,39 @@ export default defineComponent({
     const data = ref({ ...props.callData });
     watch(() => props.callData, (val) => { data.value = { ...val }; });
 
+    // shared (w/o create)
+
     const updateCall = () => {
       if (props.type !== 'dispatch') return;
       setTimeout(() => socketWrapper.emit('calls:update', data.value), 100);
     };
 
-    socketWrapper.listen('updateActiveCalls', (payload: any) => {
-      for (let i = 0; i < payload.length; i += 1) {
-        if (payload[i].id === data.value.id) {
-          data.value = payload[i];
-          return;
+    if (props.type !== 'create') {
+      socketWrapper.listen('updateActiveCalls', (payload: any) => {
+        for (let i = 0; i < payload.length; i += 1) {
+          if (payload[i].id === data.value.id) {
+            data.value = payload[i];
+            return;
+          }
         }
-      }
 
-      props.window.doClose();
-    }, { ignoreWrapperID: true });
+        props.window.doClose();
+      }, { ignoreWrapperID: true });
 
-    socketWrapper.listen('calls:sound:notify', (payload:any) => {
-      if (data.value.id === payload) newCallNoteAudio.play();
-    }, { ignoreWrapperID: true });
+      socketWrapper.listen('calls:sound:notify', (payload:any) => {
+        if (data.value.id === payload) newCallNoteAudio.play();
+      }, { ignoreWrapperID: true });
+    }
+
+    // shared
 
     const newNote = ref('');
     const addNote = () => {
       socketWrapper.emit('calls:addNote', { callId: data.value.id, text: newNote.value, dispatcher: props.type === 'dispatch' });
       newNote.value = '';
     };
+
+    // dispatch
 
     const dispatchDetachUnit = (unit) => {
       $q.dialog({
@@ -214,11 +226,29 @@ export default defineComponent({
       }));
     };
 
+    // create
+
+    const createCall = () => {
+      socketWrapper.emit('calls:create', { dispatcher: true, callData: data.value }).onReturn((resp) => {
+        if (resp === 'error') return;
+
+        props.window.doClose();
+      });
+    };
+
+    // ==
+
     return {
       data,
+
+      // create
+      createCall,
+
+      // dispatch
       updateCall,
       dispatchArchiveCall,
 
+      // shared (w/o create)
       addNote,
       newNote,
       notesComputed: computed(() => bbCodeParser.parse(data?.value?.notes || 'Тут пока пусто.')),
@@ -226,6 +256,7 @@ export default defineComponent({
       dispatchAttachUnit,
       dispatchDetachUnit,
 
+      // shared for all
       callTypeList,
       unitStatusList,
       statusListComputed: computed(() => Object.entries(callStatusList).map((val) => ({

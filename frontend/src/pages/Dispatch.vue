@@ -34,7 +34,13 @@
 
     <div class="q-mt-sm row q-col-gutter-xs text-left">
       <div class="col-12 col-md-6">
-        <div class="accent q-pa-sm">
+        <div class="accent q-pa-sm relative-position">
+          <div class="absolute-right q-ma-sm">
+            <q-btn
+              size="sm" outline color="green" label="Создать" icon="fas fa-plus"
+              @click="openCreateCallWindow"
+            />
+          </div>
           <p class="text-h6 q-mb-sm">Список звонков</p>
           <call-list />
         </div>
@@ -97,9 +103,20 @@ export default {
       }));
     };
 
+    const openCreateCallWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'calls/View',
+        title: 'Создание звонка',
+        type: 'dialog',
+        initialWidth: '50vw',
+        props: { type: 'create' },
+      }));
+    };
+
     return {
       switchSignal,
       signalStatus: computed(() => store.getters['other/getSignal']),
+      openCreateCallWindow,
     };
   },
 };

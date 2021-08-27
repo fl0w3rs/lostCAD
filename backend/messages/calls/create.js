@@ -5,7 +5,7 @@ module.exports = {
   }) => {
     if (!socket.isAuthenticated) return;
 
-    if (data?.type === 'civilian') { // ! CIVILIAN
+    if (!data?.dispatcher) { // ! CIVILIAN
       if (!await socket.isDepartmentTypeAvailable('civilian')) return;
 
       const validation = new Validator(data?.callData, {
@@ -46,9 +46,55 @@ module.exports = {
         socket.emit('errorNotify', 'Произошла непредвиденная ошибка при создании вызова.');
         emitReturn('error');
       }
-    } else if (data?.type === 'dispatch') { // ! DISPATCH
+    } else { // ! DISPATCH
       if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
-      console.log('lol');
+
+      const validation = new Validator(data?.callData, {
+        caller: vtemplates.rules.call.caller,
+        location: vtemplates.rules.call.location,
+        blockNumber: vtemplates.rules.call.block,
+        description: vtemplates.rules.call.description,
+
+        status: vtemplates.rules.call.status,
+        priority: vtemplates.rules.call.priority,
+        type: vtemplates.rules.call.type,
+      });
+
+      validation.setAttributeNames({
+        caller: vtemplates.names.call.caller,
+        location: vtemplates.names.call.location,
+        blockNumber: vtemplates.names.call.block,
+        description: vtemplates.names.call.description,
+
+        status: vtemplates.names.call.status,
+        priority: vtemplates.names.call.priority,
+        type: vtemplates.names.call.type,
+      });
+
+      if (validation.fails()) {
+        socket.emit('errorNotifyUnescaped', Object.values(validation.errors.all()).join('<br/>'));
+        emitReturn('error');
+        return;
+      }
+
+      const {
+        caller, location, blockNumber, description, status, priority, type,
+      } = data.callData;
+
+      const call = await db.cad.Call.create({
+        caller, location, blockNumber, description, status, priority, type,
+      });
+
+      if (call) {
+        socket.emit('successNotify', 'Вызов успешно создан.');
+        emitReturn('success');
+
+        io.emit('calls:sound:new');
+        io.updateActiveCalls();
+      } else {
+        socket.emit('errorNotify', 'Произошла непредвиденная ошибка при создании вызова.');
+        emitReturn('error');
+      }
     }
   },
 };

@@ -54,6 +54,10 @@ module.exports = {
       location: 'required|max:64',
       block: 'required|numeric',
       description: 'required|max:4096',
+
+      status: 'required|max:32',
+      priority: 'required|max:32',
+      type: 'required|max:96',
     },
 
   },
@@ -107,6 +111,10 @@ module.exports = {
       location: 'Местоположение',
       block: 'Блок',
       description: 'Описание',
+
+      status: 'Статус',
+      priority: 'Приоритет',
+      type: 'Тип',
     },
   },
 };

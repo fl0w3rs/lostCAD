@@ -124,7 +124,7 @@ export default defineComponent({
     };
 
     const createCall = () => {
-      socketWrapper.emit('calls:create', { type: 'civilian', callData }).onReturn((resp) => {
+      socketWrapper.emit('calls:create', { callData }).onReturn((resp) => {
         if (resp === 'success') props.window.doClose();
       });
     };
