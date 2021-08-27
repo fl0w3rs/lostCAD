@@ -158,10 +158,6 @@ table > tbody > tr > td:nth-child(1) {
   text-align: center;
 }
 
-.q-table td, .q-table th {
-  white-space: normal !important;
-}
-
 .tc-table-border-bottom > td {
   border-bottom: 1px solid rgba(255, 255, 255, 0.28) !important;
 }

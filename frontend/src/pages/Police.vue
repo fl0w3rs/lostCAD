@@ -37,7 +37,7 @@
               </div>
             </div>
             <p class="text-h6 q-mb-sm">Вызов #{{currentUnit?.call?.id || '666'}}</p>
-            <call-view :callData="currentUnit?.call || {}" />
+            <call-view type="view" :callData="currentUnit?.call || {}" />
           </div>
         </div>
       </div>

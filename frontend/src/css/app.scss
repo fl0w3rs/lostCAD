@@ -65,3 +65,9 @@ p {
 .border-maroon-thick {
   border: 2px #5f1919 solid;
 }
+
+//
+
+.q-table td, .q-table th {
+  white-space: normal !important;
+}

@@ -1,11 +1,14 @@
 <template>
   <div class="row q-col-gutter-xs">
-    <div class="col-12 q-mb-xs q-gutter-xs text-center" v-if="isDispatcher">
+    <div class="col-12 q-mb-xs q-gutter-xs text-center" v-if="canEdit">
       <q-btn size="sm"
         @click="dispatchArchiveCall" label="Архивировать" icon="archive" color="grey" outline />
     </div>
     <div class="col-6 col-md-4">
-      <q-input label="Заявитель" outlined dense readonly v-model="data.caller"></q-input>
+      <q-input
+        label="Заявитель" :readonly="!canCreate"
+        outlined dense v-model="data.caller"
+      ></q-input>
     </div>
     <div class="col-6 col-md-4">
       <q-select
@@ -15,7 +18,7 @@
         option-label="text"
         option-value="value"
         @update:model-value="updateCall"
-        :readonly="!isDispatcher"
+        :readonly="!canEdit && !canCreate"
         options-dense
       ></q-select>
     </div>
@@ -24,7 +27,7 @@
         label="Приоритет" outlined dense
         @update:model-value="updateCall"
         v-model="data.priority" :options="['Низкий', 'Средний', 'Высокий']"
-        :readonly="!isDispatcher"
+        :readonly="!canEdit && !canCreate"
         options-dense
       ></q-select>
     </div>
@@ -32,20 +35,20 @@
       <q-input
         @update:model-value="updateCall"
         label="Местоположение" debounce="1000" outlined dense v-model="data.location"
-        :readonly="!isDispatcher"></q-input>
+        :readonly="!canEdit && !canCreate"></q-input>
     </div>
     <div class="col-6 col-md-2">
       <q-input
         @update:model-value="updateCall"
         label="Блок" debounce="1000" outlined dense v-model="data.blockNumber"
-        :readonly="!isDispatcher"></q-input>
+        :readonly="!canEdit && !canCreate"></q-input>
     </div>
     <div class="col-6 col-md-5">
       <q-select
         @update:model-value="updateCall"
         label="Тип вызова" outlined dense
         v-model="data.type" :options="callTypeList"
-        :readonly="!isDispatcher"
+        :readonly="!canEdit && !canCreate"
         options-dense
       >
         <template v-slot:selected-item="scope">
@@ -55,10 +58,10 @@
     </div>
     <div class="col-12">
       <q-input
-        label="Описание" readonly outlined dense
+        label="Описание" :readonly="!canCreate" outlined dense
         v-model="data.description" type="textarea"></q-input>
     </div>
-    <template v-if="true">
+    <template v-if="!canCreate">
       <div class="col-12">
         <q-field outlined readonly dense label="Примечания к вызову" stack-label>
           <template v-slot:control>
@@ -79,7 +82,7 @@
         </q-input>
       </div>
 
-      <div class="col-12" v-if="isDispatcher">
+      <div class="col-12" v-if="canEdit">
         <q-field outlined readonly dense label="Прикреплённые юниты" stack-label>
           <template v-slot:control>
             <div class="q-gutter-xs q-my-sm">
@@ -129,7 +132,7 @@ export default defineComponent({
       type: Object,
       required: true,
     },
-    isDispatcher: {
+    type: {
       type: Boolean,
     },
     window: {
@@ -145,6 +148,7 @@ export default defineComponent({
     watch(() => props.callData, (val) => { data.value = { ...val }; });
 
     const updateCall = () => {
+      if (props.type !== 'dispatch') return;
       setTimeout(() => socketWrapper.emit('calls:update', data.value), 100);
     };
 
@@ -165,7 +169,7 @@ export default defineComponent({
 
     const newNote = ref('');
     const addNote = () => {
-      socketWrapper.emit('calls:addNote', { callId: data.value.id, text: newNote.value, dispatcher: props.isDispatcher });
+      socketWrapper.emit('calls:addNote', { callId: data.value.id, text: newNote.value, dispatcher: props.type === 'dispatch' });
       newNote.value = '';
     };
 
@@ -227,6 +231,9 @@ export default defineComponent({
       statusListComputed: computed(() => Object.entries(callStatusList).map((val) => ({
         value: val[0], text: val[1].text,
       }))),
+
+      canEdit: props.type === 'dispatch',
+      canCreate: props.type === 'create',
     };
   },
 });

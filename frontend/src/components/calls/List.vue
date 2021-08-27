@@ -35,7 +35,7 @@ export default defineComponent({
         initialHeight: '520px',
         props: {
           callData: row,
-          isDispatcher: true,
+          type: 'dispatch',
         },
       }));
     };

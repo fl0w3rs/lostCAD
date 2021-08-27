@@ -350,10 +350,6 @@ td {
   border: 0 !important;
 }
 
-.q-table td, .q-table th {
-  white-space: normal !important;
-}
-
 table > thead > tr > th:nth-child(7) {
   width: 82px;
 }
