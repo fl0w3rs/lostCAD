@@ -6,6 +6,9 @@
       @row-click="onClick"
       flat
       class="bg-transparent"
+      :pagination="{
+        rowsPerPage: 0
+      }"
     >
 
     </q-table>

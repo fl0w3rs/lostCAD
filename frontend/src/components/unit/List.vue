@@ -7,6 +7,9 @@
       @row-click="onClick"
       flat
       class="bg-transparent"
+      :pagination="{
+        rowsPerPage: 0
+      }"
     >
 
       <template v-slot:body-cell="props">
