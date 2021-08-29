@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 module.exports = {
   message: 'lookup:ncic',
   callback: async ({
-    socket, Validator, data, db, emitReturn,
+    socket, Validator, data, db, emitReturn, utils,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -50,23 +50,30 @@ module.exports = {
     const vehicles = [];
     const weapons = [];
 
+    const bolos = await db.cad.Bolo.findAll({ where: { type: 'character' } });
+    const boloMappedCharacterIds = bolos.map((val) => parseInt(val.data.characterId, 10));
+
     for (let i = 0; i < characters.length; i += 1) {
       const lVehicles = await characters[i].getVehicles();
       const lWeapons = await characters[i].getWeapons();
 
+      characters[i] = utils.convertToPlainObject(characters[i]);
+
+      characters[i].bolo = boloMappedCharacterIds.includes(characters[i].id);
+
       for (let j = 0; j < lVehicles.length; j += 1) {
         vehicles.push({
           ...lVehicles[j].dataValues,
-          charName: characters[i].dataValues.name,
-          charSurname: characters[i].dataValues.surname,
+          charName: characters[i].name,
+          charSurname: characters[i].surname,
         });
       }
 
       for (let j = 0; j < lWeapons.length; j += 1) {
         weapons.push({
           ...lWeapons[j].dataValues,
-          charName: characters[i].dataValues.name,
-          charSurname: characters[i].dataValues.surname,
+          charName: characters[i].name,
+          charSurname: characters[i].surname,
         });
       }
     }

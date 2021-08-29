@@ -152,12 +152,18 @@
       class="rounded-borders row justify-center"
       v-if="type == 'dmv'"
     >
+      <!-- <div
+        class="col-12 q-my-sm bg-red text-white text-bold text-h6 text-center"
+        v-if="character.bolo"
+      >
+        ВЛАДЕЛЕЦ В РОЗЫСКЕ
+      </div> -->
       <div class="col-12">
         <q-btn
-          color="white"
+          :color="character.bolo ? 'red' : 'white'"
           outline
           class="full-width"
-          :label="`${character.name} ${character.surname}`"
+          :label="`${character.name} ${character.surname} ${character.bolo ? '[В РОЗЫСКЕ]' : ''}`"
           @click="openCharacterWindow"
         />
       </div>
@@ -325,8 +331,7 @@ export default {
     const character = ref({});
 
     if (props.type == 'dmv') {
-      socketWrapper.emit('lookup/requestCharacter', { id: props.vehicle.characterId });
-      socketWrapper.listen('lookup/responseCharacter', (payload) => {
+      socketWrapper.emit('lookup/requestCharacter', { id: props.vehicle.characterId }).onReturn((payload) => {
         character.value = payload.data;
       });
     }

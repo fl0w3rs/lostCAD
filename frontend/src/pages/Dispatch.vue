@@ -22,11 +22,7 @@
         <lookup-button />
         <ten-codes-button />
         <penal-code-button />
-        <q-btn
-          label="РОЗЫСК"
-          outline
-          size="sm"
-        />
+        <bolos-button />
         <dispatcher-list-button />
 
       </div>
@@ -73,6 +69,8 @@ import TenCodesButton from 'src/components/TenCodesButton.vue';
 import { windowWrapper } from 'src/store/windows/types';
 import CallList from 'src/components/calls/List.vue';
 import DispatchDuty from 'src/components/dispatch/Duty.vue';
+import BolosButton from 'src/components/bolos/Button.vue';
+
 import DispatcherListButton from 'src/components/dispatch/DispatcherListButton.vue';
 
 export default {
@@ -90,6 +88,7 @@ export default {
     CallList,
     DispatchDuty,
     DispatcherListButton,
+    BolosButton,
   },
 
   setup() {

@@ -95,7 +95,13 @@
             row-key="id"
             class="shadow-0 bg-grey-10 accentBorder full-width"
             @row-click="onNcicRowClick"
-          />
+          >
+            <template v-slot:body-cell-isWanted="props">
+              <q-td :props="props" style="width: 82px">
+                <q-badge label="В РОЗЫСКЕ" color="red" v-if="props.row.bolo" />
+              </q-td>
+            </template>
+          </q-table>
         </div>
 
         <template
@@ -341,6 +347,9 @@ export default {
       ncicTab: ref(null),
 
       ncicColumns: [
+        {
+          name: 'isWanted',
+        },
         {
           name: 'name',
           align: 'center',

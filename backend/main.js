@@ -80,6 +80,26 @@ const utils = {
 
     return cached;
   },
+  async getBolos() {
+    const bolos = await db.cad.Bolo.findAll();
+    const bolosMapped = [];
+
+    for (let i = 0; i < bolos.length; i += 1) {
+      const bolo = utils.convertToPlainObject(bolos[i]);
+      if (bolo.type == 'character') {
+        bolo.characterData = await db.cad.Character.findOne({
+          where: { id: bolo?.data?.characterId || 0 },
+        });
+      } else if (bolo.type == 'vehicle') {
+        bolo.vehicleData = await db.cad.Vehicle.findOne({
+          where: { id: bolo?.data?.vehicleId || 0 },
+        });
+      }
+      bolosMapped.push(bolo);
+    }
+
+    return bolosMapped;
+  },
   async getTenCodes() {
     const data = await this.settings.get('tenCodes');
     return data;

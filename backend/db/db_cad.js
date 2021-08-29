@@ -215,6 +215,33 @@ const Call = sequelize.define('call',
     tableName: 'calls',
   });
 
+const Bolo = sequelize.define('bolo',
+  {
+    type: DataTypes.STRING(64),
+    data: DataTypes.JSON,
+    priority: DataTypes.STRING(64),
+    reasons: DataTypes.JSON,
+  },
+  {
+    tableName: 'bolos',
+  });
+
+const Citation = sequelize.define('citation',
+  {
+
+  },
+  {
+    tableName: 'citations',
+  });
+
+const Arrest = sequelize.define('arrest',
+  {
+
+  },
+  {
+    tableName: 'arrests',
+  });
+
 // unit
 
 Unit.hasMany(User);
@@ -251,8 +278,18 @@ Character.belongsTo(User);
 Call.hasMany(Unit);
 Unit.belongsTo(Call);
 
-// User.sync({ alter: true });
-// Department.sync({ alter: true });
+// citation n arr
+
+Character.hasMany(Citation);
+Citation.belongsTo(Character);
+
+Character.hasMany(Arrest);
+Arrest.belongsTo(Character);
+
+// Character.sync({ alter: true });
+// Bolo.sync({ alter: true });
+// Citation.sync({ alter: true });
+// Arrest.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;
@@ -264,6 +301,9 @@ exports.Weapon = Weapon;
 exports.Unit = Unit;
 exports.Setting = Setting;
 exports.Call = Call;
+exports.Bolo = Bolo;
+exports.Arrest = Arrest;
+exports.Citation = Citation;
 
 // const createTables = async () => {
 //   const keys = Object.keys(exports);

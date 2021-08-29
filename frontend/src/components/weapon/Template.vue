@@ -49,11 +49,11 @@
     >
       <div class="col-12">
         <q-btn
-          color="white"
+          :color="character.bolo ? 'red' : 'white'"
           outline
           class="full-width"
-          :label="`${character.name} ${character.surname}`"
-          @click="openCharacterWindow(character)"
+          :label="`${character.name} ${character.surname} ${character.bolo ? '[В РОЗЫСКЕ]' : ''}`"
+          @click="openCharacterWindow"
         />
       </div>
     </div>
@@ -195,8 +195,7 @@ export default {
     const character = ref({});
 
     if (props.type == 'fld') {
-      socketWrapper.emit('lookup/requestCharacter', { id: props.weapon.characterId });
-      socketWrapper.listen('lookup/responseCharacter', (payload) => {
+      socketWrapper.emit('lookup/requestCharacter', { id: props.weapon.characterId }).onReturn((payload) => {
         character.value = payload.data;
       });
     }
