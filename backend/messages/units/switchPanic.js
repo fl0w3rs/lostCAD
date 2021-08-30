@@ -7,7 +7,7 @@ module.exports = {
 
     const addSignals = async () => {
       const signal = (await utils.settings.get('signal')).split(', ').filter((o) => o);
-      signal.push(99, 100);
+      signal.push('99', '100');
 
       const signalWithoutDuplicates = [...new Set(signal)];
       const newSignal = signalWithoutDuplicates.join(', ');
@@ -28,7 +28,7 @@ module.exports = {
       await unit.save();
 
       if (unit.panic) {
-        addSignals();
+        setTimeout(addSignals, 2000);
 
         io.emit('panic:sound');
       }
@@ -45,7 +45,7 @@ module.exports = {
       await unit.save();
 
       if (unit.panic) {
-        addSignals();
+        setTimeout(addSignals, 2000);
         io.emit('panic:sound');
       }
 
