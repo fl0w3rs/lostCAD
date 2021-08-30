@@ -1,5 +1,10 @@
 <template>
   <div class="text-uppercase">
+    <div class="text-right q-mb-xs" v-if="currentDepartment === 'dispatch'">
+      <q-btn
+        label="ДОБАВИТЬ" @click="openCreateWindow"
+        color="green" icon="fas fa-plus" outline size="sm" />
+    </div>
     <q-table
       :columns="columns" :rows="bolos"
       class="bg-transparent" flat
@@ -64,25 +69,13 @@
 
 <script lang="ts">
 import { SocketWrapper } from 'src/boot/socketio-instance';
-import { defineComponent, onBeforeMount, ref } from 'vue';
+import {
+  defineComponent, onBeforeMount, ref, computed,
+} from 'vue';
 import bbCodeParser from 'js-bbcode-parser';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
-
-const priorityList = {
-  low: {
-    text: 'Низкий',
-    class: 'text-green',
-  },
-  middle: {
-    text: 'Средний',
-    class: 'text-orange',
-  },
-  high: {
-    text: 'Высокий',
-    class: 'text-red',
-  },
-};
+import { boloPriorityList } from 'src/utils/constants';
 
 const typeList = {
   vehicle: 'Транспортное средство',
@@ -114,9 +107,23 @@ export default defineComponent({
       }));
     };
 
+    const openCreateWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'bolos/Template',
+        type: 'dialog',
+        props: {
+          type: 'create',
+        },
+        initialWidth: '50vw',
+      }));
+    };
+
     return {
       bbCodeParser,
       openBoloWindow,
+
+      openCreateWindow,
+      currentDepartment: computed(() => store.getters['user/getCurrentDepartment']),
 
       bolos,
       columns: [
@@ -149,8 +156,8 @@ export default defineComponent({
           field: 'priority',
           label: 'Приоритет',
           align: 'right',
-          format: (val) => priorityList[val]?.text || val,
-          classes: (row) => priorityList[row.priority]?.class || '',
+          format: (val) => boloPriorityList[val]?.text || val,
+          classes: (row) => boloPriorityList[row.priority]?.class || '',
         },
       ],
     };

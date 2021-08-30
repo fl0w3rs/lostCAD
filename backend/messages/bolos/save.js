@@ -1,7 +1,7 @@
 module.exports = {
   message: 'bolos:save',
   callback: async ({
-    socket, db, utils, data, emitReturn,
+    socket, db, utils, data, emitReturn, io,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -14,12 +14,13 @@ module.exports = {
 
     bolo.reasons = data?.reasons || [];
     bolo.data = data?.data || {};
-    bolo.type = data?.type;
+    bolo.type = data?.type || 'custom';
+    bolo.priority = data?.priority || 'low';
 
     await bolo.save();
 
     const bolos = await utils.getBolos();
-    socket.emit('bolos:update', bolos);
+    io.emit('bolos:update', bolos);
 
     emitReturn(true);
   },

@@ -1003,3 +1003,18 @@ export const callTypeList = [
   'Пожар',
   'HAZMAT ситуация',
 ];
+
+export const boloPriorityList = {
+  low: {
+    text: 'Низкий',
+    class: 'text-green',
+  },
+  middle: {
+    text: 'Средний',
+    class: 'text-orange',
+  },
+  high: {
+    text: 'Высокий',
+    class: 'text-red',
+  },
+};

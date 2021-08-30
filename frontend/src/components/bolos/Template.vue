@@ -1,5 +1,5 @@
 <template>
-  <div class="row text-uppercase">
+  <div class="row text-uppercase q-col-gutter-xs">
     <div
       class="q-mb-md col-12 text-right"
       v-if="currentDepartment === 'dispatch' && type === 'view'"
@@ -14,6 +14,15 @@
         @click="save"
       />
       <q-btn
+        v-if="editMode"
+        label="Удалить"
+        icon="delete"
+        color="red"
+        class="q-mr-sm"
+        outline size="sm"
+        @click="remove"
+      />
+      <q-btn
         :label="editMode ? 'Режим просмотра' : 'Режим редактирования'"
         :icon="editMode ? 'visibility' : 'edit'"
         :color="editMode ? 'grey' : 'orange'"
@@ -21,11 +30,31 @@
         @click="editMode = !editMode"
       />
     </div>
-    <div class="col-12">
+    <div
+      class="q-mb-md col-12 text-right"
+      v-if="type === 'create'"
+    >
+      <q-btn
+        label="Создать"
+        icon="check"
+        color="green"
+        class="q-mr-sm"
+        outline size="sm"
+        @click="create"
+      />
+    </div>
+    <div class="col-12 col-md-6">
       <q-select
         dense options-dense outlined label="Тип"
         emit-value map-options :readonly="!canEdit"
         :options="boloTypeList" v-model="data.type"
+      ></q-select>
+    </div>
+    <div class="col-12 col-md-6">
+      <q-select
+        dense options-dense outlined label="Приоритет"
+        emit-value map-options :readonly="!canEdit"
+        :options="boloPriorityListComputed" v-model="data.priority"
       ></q-select>
     </div>
     <div class="q-mt-sm col-12">
@@ -132,6 +161,7 @@ import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
+import { boloPriorityList } from 'src/utils/constants';
 
 import _ from 'lodash';
 
@@ -150,6 +180,7 @@ export default defineComponent({
   components: { Character, Vehicle },
   setup(props: any) {
     const data = reactive(_.cloneDeep(props.boloData) || {});
+    if (!data.data) data.data = {};
 
     const socketWrapper = new SocketWrapper();
     const $q = useQuasar();
@@ -207,6 +238,32 @@ export default defineComponent({
       wasSaved = true;
     };
 
+    const remove = () => {
+      if (!editMode.value) return;
+
+      socketWrapper.emit('bolos:delete', data).onReturn((resp) => {
+        if (!resp) return;
+        props.window.doClose();
+        $q.notify({
+          type: 'positive',
+          message: 'Успешно удалено.',
+        });
+      });
+    };
+
+    const create = () => {
+      if (props.type !== 'create') return;
+
+      socketWrapper.emit('bolos:create', data).onReturn((resp) => {
+        if (!resp) return;
+        props.window.doClose();
+        $q.notify({
+          type: 'positive',
+          message: 'Успешно создано.',
+        });
+      });
+    };
+
     const selectCharacter = () => {
       store.commit('windows/open', windowWrapper({
         component: 'Lookup',
@@ -228,9 +285,16 @@ export default defineComponent({
 
       addReason,
       removeReason,
+
       save,
+      remove,
+      create,
+
       selectCharacter,
 
+      boloPriorityListComputed: Object.entries(boloPriorityList).map(
+        (val) => ({ value: val[0], label: val[1].text }),
+      ),
       currentDepartment: computed(() => store.getters['user/getCurrentDepartment']),
       editMode,
 
