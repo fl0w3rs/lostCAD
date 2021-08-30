@@ -11,7 +11,7 @@
       <div class="row q-gutter-xs justify-center">
         <dispatch-duty />
         <q-btn
-          label="СИГНАЛ"
+          label="КОД"
           outline
           class="q-ml-md"
           @click="switchSignal"
@@ -96,7 +96,7 @@ export default {
     const switchSignal = () => {
       store.commit('windows/open', windowWrapper({
         component: 'dispatch/EditSignal',
-        title: 'Редактирование сигнала',
+        title: 'Редактирование кода',
         type: 'dialog',
       }));
     };

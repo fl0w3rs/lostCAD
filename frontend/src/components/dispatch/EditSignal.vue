@@ -1,8 +1,8 @@
 <template>
   <div class="text-uppercase row">
     <small class="text-center text-warning q-mb-sm">
-      Для указания нескольких сигналов используйте запятую с пробелом как разделитель,
-      иначе система не распознает сигнал как отдельный.
+      Для указания нескольких кодов используйте запятую с пробелом как разделитель,
+      иначе система не распознает код как отдельный.
     </small>
     <div class="col-12">
       <q-input
@@ -10,7 +10,7 @@
         square
         outlined
         v-model="signalStatus"
-        label="Текущий сигнал"
+        label="Текущий код"
       />
     </div>
 
@@ -52,14 +52,14 @@ export default defineComponent({
       if (resp !== 'success') {
         $q.notify({
           type: 'negative',
-          message: 'Произошла ошибка при изменении сигнала.',
+          message: 'Произошла ошибка при изменении кода.',
         });
         return;
       }
 
       $q.notify({
         type: 'positive',
-        message: 'Сигнал успешно изменён.',
+        message: 'Код успешно изменён.',
       });
 
       props.window.doClose();

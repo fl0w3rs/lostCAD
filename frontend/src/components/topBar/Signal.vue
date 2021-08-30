@@ -1,6 +1,6 @@
 <template>
   <div v-if="signalList.length > 0" class="full-width text-center bg-red text-white text-bold">
-    СИГНАЛ{{ signalList.length > 1 ? 'Ы' : '' }}
+    КОД{{ signalList.length > 1 ? 'Ы' : '' }}
     <span v-for="(signal, key) in signalList" :key="key">
       <!-- {{key}} {{signalList.length}}, -->
       {{ key != 0 ? (key + 1 == signalList.length) ? ' И ' : ', ' : '' }}
