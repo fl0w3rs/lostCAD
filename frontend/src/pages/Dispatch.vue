@@ -61,7 +61,6 @@ import DispatchLog from 'src/components/dispatch/Log.vue';
 import UnitList from 'src/components/unit/List.vue';
 import SignalBar from 'src/components/topBar/Signal.vue';
 import { useStore } from 'vuex';
-import { computed } from 'vue';
 import LookupButton from 'src/components/LookupButton.vue';
 import PenalCodeButton from 'src/components/PenalCodeButton.vue';
 import PriorityButton from 'src/components/PriorityButton.vue';
@@ -114,7 +113,6 @@ export default {
 
     return {
       switchSignal,
-      signalStatus: computed(() => store.getters['other/getSignal']),
       openCreateCallWindow,
     };
   },

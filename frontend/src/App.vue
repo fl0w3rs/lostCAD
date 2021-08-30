@@ -98,8 +98,8 @@ const useSounds = () => {
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('updateSignal', (data) => {
-    // eslint-disable-next-line eqeqeq
-    if (data == 100) signalAudio.play();
+    const signals = data.split(', ');
+    if (signals.includes('100')) signalAudio.play();
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('doPriority', () => {
@@ -112,8 +112,9 @@ const useSounds = () => {
     interval = setInterval(() => {
       if (!canPlay()) return;
 
-      // eslint-disable-next-line eqeqeq
-      if (store.getters['other/getSignal'] == 100) signalAudio.play();
+      const signals = store.getters['other/getSignal'].split(', ') || [];
+
+      if (signals.includes('100')) signalAudio.play();
 
       setTimeout(() => {
         if (!canPlay()) return;

@@ -1,5 +1,9 @@
 <template>
   <div class="text-uppercase row">
+    <small class="text-center text-warning q-mb-sm">
+      Для указания нескольких сигналов используйте запятую с пробелом как разделитель,
+      иначе система не распознает сигнал как отдельный.
+    </small>
     <div class="col-12">
       <q-input
         dense
