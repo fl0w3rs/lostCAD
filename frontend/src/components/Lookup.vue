@@ -133,6 +133,14 @@
                 name="weapons" :label="`ОРУЖИЕ (${ncicResults?.weapons?.length})`"
                 v-if="ncicResults?.weapons?.length > 0 && allowedTypes.fld"
               />
+              <q-tab
+                name="arrests" :label="`АРЕСТЫ (${ncicResults?.arrests?.length})`"
+                v-if="ncicResults?.arrests?.length > 0"
+              />
+              <q-tab
+                name="citations" :label="`ШТРАФЫ (${ncicResults?.citations?.length})`"
+                v-if="ncicResults?.citations?.length > 0"
+              />
             </q-tabs>
 
             <q-separator />
@@ -152,6 +160,14 @@
                   showOwners="true"
                   :weapons="ncicResults.weapons"
                 />
+              </q-tab-panel>
+
+              <q-tab-panel name="arrests">
+
+              </q-tab-panel>
+
+              <q-tab-panel name="citations">
+
               </q-tab-panel>
             </q-tab-panels>
           </q-card>

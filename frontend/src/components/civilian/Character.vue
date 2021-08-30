@@ -186,122 +186,126 @@
       </div>
     </div>
 
-    <div class="text-left sectionTitle q-mt-md">ИНФОРМАЦИЯ О ЛИЦЕНЗИЯХ</div>
-    <div class="section rounded-borders row justify-center">
-      <div class="col-6">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.gunLicense"
-          label="Лицензия на оружие"
-          :options="licenseOptionList"
-        />
+    <template v-if="!hideLic">
+      <div class="text-left sectionTitle q-mt-md">ИНФОРМАЦИЯ О ЛИЦЕНЗИЯХ</div>
+      <div class="section rounded-borders row justify-center">
+        <div class="col-6">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.gunLicense"
+            label="Лицензия на оружие"
+            :options="licenseOptionList"
+          />
+        </div>
+        <div class="col-6">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.hiddenGunLicense"
+            label="Лицензия на скрытое ношение оружия"
+            :options="licenseOptionList"
+          />
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.driverLicense"
+            label="Лицензия на вождение"
+            :options="licenseOptionList"
+          />
+        </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.pilotLicense"
+            label="Лицензия пилота"
+            :options="licenseOptionList"
+          />
+        </div>
+        <div class="col-12 col-md-4">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.boatLicense"
+            label="Лодочная лицензия"
+            :options="licenseOptionList"
+          />
+        </div>
       </div>
-      <div class="col-6">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.hiddenGunLicense"
-          label="Лицензия на скрытое ношение оружия"
-          :options="licenseOptionList"
-        />
-      </div>
-      <div class="col-6 col-md-4">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.driverLicense"
-          label="Лицензия на вождение"
-          :options="licenseOptionList"
-        />
-      </div>
-      <div class="col-6 col-md-4">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.pilotLicense"
-          label="Лицензия пилота"
-          :options="licenseOptionList"
-        />
-      </div>
-      <div class="col-12 col-md-4">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.boatLicense"
-          label="Лодочная лицензия"
-          :options="licenseOptionList"
-        />
-      </div>
-    </div>
+    </template>
 
-    <div class="text-left sectionTitle q-mt-md">МЕДИЦИНСКАЯ КАРТА</div>
-    <div class="section rounded-borders row justify-center">
-      <div class="col-6 col-md-4">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.bloodType"
-          label="Группа крови"
-          :options="bloodTypeList"
-        />
-      </div>
+    <template v-if="!hideMed">
+      <div class="text-left sectionTitle q-mt-md">МЕДИЦИНСКАЯ КАРТА</div>
+      <div class="section rounded-borders row justify-center">
+        <div class="col-6 col-md-4">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.bloodType"
+            label="Группа крови"
+            :options="bloodTypeList"
+          />
+        </div>
 
-      <div class="col-6 col-md-4">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.rhesusFactor"
-          label="Резус-фактор"
-          :options="rhesusFactorList"
-        />
-      </div>
+        <div class="col-6 col-md-4">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.rhesusFactor"
+            label="Резус-фактор"
+            :options="rhesusFactorList"
+          />
+        </div>
 
-      <div class="col-5 col-md-4">
-        <q-select
-          :disable="disable"
-          dense
-          options-dense
-          square
-          outlined
-          v-model="info.invalidity"
-          label="Инвалидность"
-          :options="invalidityList"
-        />
-      </div>
+        <div class="col-5 col-md-4">
+          <q-select
+            :disable="disable"
+            dense
+            options-dense
+            square
+            outlined
+            v-model="info.invalidity"
+            label="Инвалидность"
+            :options="invalidityList"
+          />
+        </div>
 
-      <div class="col-7 col-md-12">
-        <q-input
-          :disable="disable"
-          dense
-          square
-          outlined
-          v-model="info.chronicDiseases"
-          label="Хронические болезни"
-        />
+        <div class="col-7 col-md-12">
+          <q-input
+            :disable="disable"
+            dense
+            square
+            outlined
+            v-model="info.chronicDiseases"
+            label="Хронические болезни"
+          />
+        </div>
       </div>
-    </div>
+    </template>
 
     <div
       class="full-width q-mt-md row justify-center"
@@ -376,6 +380,8 @@ export default {
     window: { type: Object, required: false, default: null },
     type: { type: String, required: true },
     character: { type: Object, required: false, default: null },
+    hideMed: Boolean,
+    hideLic: Boolean,
   },
 
   setup(props) {

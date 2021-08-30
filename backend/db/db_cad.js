@@ -228,7 +228,8 @@ const Bolo = sequelize.define('bolo',
 
 const Citation = sequelize.define('citation',
   {
-
+    data: DataTypes.JSON,
+    reasons: DataTypes.JSON,
   },
   {
     tableName: 'citations',
@@ -236,7 +237,8 @@ const Citation = sequelize.define('citation',
 
 const Arrest = sequelize.define('arrest',
   {
-
+    data: DataTypes.JSON,
+    reasons: DataTypes.JSON,
   },
   {
     tableName: 'arrests',
@@ -287,7 +289,6 @@ Character.hasMany(Arrest);
 Arrest.belongsTo(Character);
 
 // Character.sync({ alter: true });
-// Bolo.sync({ alter: true });
 // Citation.sync({ alter: true });
 // Arrest.sync({ alter: true });
 

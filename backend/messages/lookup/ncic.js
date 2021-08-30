@@ -45,17 +45,36 @@ module.exports = {
         [Op.and]: conditions,
       },
       limit: 10,
+      include: [
+        {
+          model: db.cad.Vehicle,
+        },
+        {
+          model: db.cad.Weapon,
+        },
+        {
+          model: db.cad.Arrest,
+        },
+        {
+          model: db.cad.Citation,
+        },
+      ],
     }) || [];
+    const characterIds = characters.map((val) => val.id);
 
     const vehicles = [];
     const weapons = [];
+    const citations = [];
+    const arrests = [];
 
-    const bolos = await db.cad.Bolo.findAll({ where: { type: 'character' } });
+    const bolos = await db.cad.Bolo.findAll({ where: { type: 'character', 'data.characterId': { [Op.in]: characterIds } } });
     const boloMappedCharacterIds = bolos.map((val) => parseInt(val.data.characterId, 10));
 
     for (let i = 0; i < characters.length; i += 1) {
-      const lVehicles = await characters[i].getVehicles();
-      const lWeapons = await characters[i].getWeapons();
+      const lVehicles = characters[i].vehicles;
+      const lWeapons = characters[i].weapons;
+      const lCitations = characters[i].citations;
+      const lArrests = characters[i].arrests;
 
       characters[i] = utils.convertToPlainObject(characters[i]);
 
@@ -76,8 +95,24 @@ module.exports = {
           charSurname: characters[i].surname,
         });
       }
+
+      for (let j = 0; j < lCitations.length; j += 1) {
+        citations.push({
+          ...lCitations[j].dataValues,
+          character: characters[i],
+        });
+      }
+
+      for (let j = 0; j < lArrests.length; j += 1) {
+        arrests.push({
+          ...lArrests[j].dataValues,
+          character: characters[i],
+        });
+      }
     }
 
-    emitReturn({ characters, vehicles, weapons });
+    emitReturn({
+      characters, vehicles, weapons, arrests, citations,
+    });
   },
 };
