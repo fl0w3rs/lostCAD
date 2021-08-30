@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-col-gutter-xs">
+  <div class="row q-col-gutter-xs text-uppercase">
     <div class="col-12 q-mb-xs q-gutter-xs text-center" v-if="canEdit">
       <q-btn size="sm"
         @click="dispatchArchiveCall" label="Архивировать" icon="archive" color="grey" outline />
