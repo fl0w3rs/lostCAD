@@ -205,7 +205,7 @@ export default {
     };
 
     const remove = (key) => {
-      codes.value.splice(key);
+      codes.value.splice(key, 1);
     };
 
     const create = () => {

@@ -9,6 +9,7 @@
       narrow-indicator
       active-color="white"
       indicator-color="red-10"
+      v-if="!searchMode"
     >
       <q-tab
         name="ncic"
@@ -108,6 +109,7 @@
           v-if="
             (ncicResults?.weapons?.length > 0 || ncicResults?.vehicles?.length > 0)
             && (allowedTypes.fld || allowedTypes.dmv)
+            && !searchMode
           "
         >
           <div
@@ -276,6 +278,9 @@ export default {
   props: {
     window: { type: Object, required: false, default: null },
     types: { type: Object, required: false, default: null },
+    searchMode: Boolean,
+    defaultTab: String,
+    onNcicRowClickOverwrite: Function,
   },
 
   setup(params) {
@@ -299,7 +304,10 @@ export default {
       });
     };
 
-    const onNcicRowClick = (evt, row) => {
+    const onNcicRowClick = params?.onNcicRowClickOverwrite ? ((evt, row) => {
+      params.window.doClose();
+      params.onNcicRowClickOverwrite(evt, row);
+    }) : ((evt, row) => {
       store.commit('windows/open', windowWrapper({
         component: 'civilian/Character',
         type: 'draggable',
@@ -308,7 +316,7 @@ export default {
         title: `Просмотр ${row.name} ${row.surname}`,
         props: { type: 'ncic', character: row },
       }));
-    };
+    });
 
     //
 
@@ -359,7 +367,7 @@ export default {
       requestFld,
       fldResults,
 
-      tab: ref('ncic'),
+      tab: ref(params?.defaultTab || 'ncic'),
       ncicTab: ref(null),
 
       ncicColumns: [

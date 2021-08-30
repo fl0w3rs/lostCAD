@@ -2,6 +2,7 @@
   "dependencies": {
     "esbuild": "^0.12.16",
     "esbuild-plugin-import-glob": "^0.1.1",
+    "lodash": "^4.17.21",
     "mysql2": "^2.2.5"
   }
 }

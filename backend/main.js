@@ -86,13 +86,13 @@ const utils = {
 
     for (let i = 0; i < bolos.length; i += 1) {
       const bolo = utils.convertToPlainObject(bolos[i]);
-      if (bolo.type == 'character') {
+      if (bolo.type == 'character' && bolo?.data?.characterId) {
         bolo.characterData = await db.cad.Character.findOne({
-          where: { id: bolo?.data?.characterId || 0 },
+          where: { id: bolo?.data?.characterId },
         });
-      } else if (bolo.type == 'vehicle') {
+      } else if (bolo.type == 'vehicle' && bolo?.data?.vehicleId) {
         bolo.vehicleData = await db.cad.Vehicle.findOne({
-          where: { id: bolo?.data?.vehicleId || 0 },
+          where: { id: bolo?.data?.vehicleId },
         });
       }
       bolosMapped.push(bolo);

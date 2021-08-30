@@ -192,6 +192,7 @@
                 />
 
                 <q-btn
+                  v-if="mode === 'select'"
                   @click="processClick(element)" color="green"
                   size="sm" padding="xs" outline icon="check">
 
@@ -439,7 +440,7 @@ export default {
     const expands = ref({});
 
     const remove = (key) => {
-      penalCode.value.splice(key);
+      penalCode.value.splice(key, 1);
       delete expands.value[key];
     };
 

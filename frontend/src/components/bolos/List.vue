@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-uppercase">
     <q-table
       :columns="columns" :rows="bolos"
       class="bg-transparent" flat
@@ -11,26 +11,37 @@
       <template v-slot:body-cell-wanted="props">
         <q-td :props="props">
           <template v-if="props.row.type === 'character'">
-            <b>
-              {{props.row.characterData.name}} {{props.row.characterData.surname}}
-            </b><br/><p class="text-grey">
-              Пол: {{props.row.characterData.sex}}<br/>
-              Раса: {{props.row.characterData.race}}<br/>
-              Цвет волос: {{props.row.characterData.hairColor}}<br/>
-              Цвет глаз: {{props.row.characterData.eyeColor}}
-            </p>
+            <template v-if="props.row.characterData">
+              <b>
+                {{props.row.characterData.name}} {{props.row.characterData.surname}}
+              </b><br/><p class="text-grey">
+                Пол: {{props.row.characterData.sex}}<br/>
+                Раса: {{props.row.characterData.race}}<br/>
+                Цвет волос: {{props.row.characterData.hairColor}}<br/>
+                Цвет глаз: {{props.row.characterData.eyeColor}}
+              </p>
+            </template>
+
+            <template v-else>
+              Ошибка загрузки
+            </template>
           </template>
 
           <template v-if="props.row.type === 'vehicle'">
-            <!-- {{props.row}} -->
-            <b>
-              {{props.row.vehicleData.mark}} {{props.row.vehicleData.model}}
-            </b><br/><p class="text-grey">
-              Номера: {{props.row.vehicleData.numberplate}}<br/>
-              Тип кузова: {{props.row.vehicleData.type}}<br/>
-              Цвет: {{props.row.vehicleData.color}}<br/>
-              VIN: {{props.row.vehicleData.vin}}
-            </p>
+            <template v-if="props.row.vehicleData">
+              <b>
+                {{props.row.vehicleData.mark}} {{props.row.vehicleData.model}}
+              </b><br/><p class="text-grey">
+                Номера: {{props.row.vehicleData.numberplate}}<br/>
+                Тип кузова: {{props.row.vehicleData.type}}<br/>
+                Цвет: {{props.row.vehicleData.color}}<br/>
+                VIN: {{props.row.vehicleData.vin}}
+              </p>
+            </template>
+
+            <template v-else>
+              Ошибка загрузки
+            </template>
           </template>
 
           <template v-if="props.row.type === 'custom'">
