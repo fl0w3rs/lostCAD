@@ -6,6 +6,7 @@
       :pagination="{
         rowsPerPage: 0
       }"
+      @row-click="openBoloWindow"
     >
       <template v-slot:body-cell-wanted="props">
         <q-td :props="props">
@@ -54,6 +55,8 @@
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { defineComponent, onBeforeMount, ref } from 'vue';
 import bbCodeParser from 'js-bbcode-parser';
+import { useStore } from 'vuex';
+import { windowWrapper } from 'src/store/windows/types';
 
 const priorityList = {
   low: {
@@ -79,6 +82,7 @@ const typeList = {
 export default defineComponent({
   setup() {
     const socketWrapper = new SocketWrapper();
+    const store = useStore();
 
     const bolos = ref([]);
 
@@ -90,8 +94,19 @@ export default defineComponent({
       socketWrapper.emit('bolos:get');
     });
 
+    const openBoloWindow = (evt, row) => {
+      store.commit('windows/open', windowWrapper({
+        component: 'bolos/Template',
+        type: 'dialog',
+        initialWidth: '50vw',
+        props: { boloData: row, type: 'view' },
+      }));
+    };
+
     return {
       bbCodeParser,
+      openBoloWindow,
+
       bolos,
       columns: [
         {
@@ -109,7 +124,7 @@ export default defineComponent({
         },
         {
           name: 'wanted',
-          label: 'Разыскиваемое',
+          label: 'Объект розыска',
           align: 'center',
         },
         {

@@ -12,6 +12,13 @@
       </small>
     </div>
 
+    <div
+      class="text-center"
+      v-if="mode === 'select'"
+    >
+      <span class="text-orange text-h6 text-bold">Выберите статью</span>
+    </div>
+
     <q-markup-table dense
       class="col-12 shadow-0 tableNoHoverEffect"
     >
@@ -183,6 +190,13 @@
                   :icon="expands[index] ? 'arrow_drop_up' : 'arrow_drop_down'"
                   @click="expands[index] = !expands[index]"
                 />
+
+                <q-btn
+                  @click="processClick(element)" color="green"
+                  size="sm" padding="xs" outline icon="check">
+
+                </q-btn>
+
                 <q-btn
                   v-if="admin"
                   padding="xs"
@@ -374,6 +388,9 @@ export default {
   props: {
     admin: { type: Boolean, required: false, default: false },
     window: { type: Object },
+
+    mode: { type: String },
+    onClick: { type: Function },
   },
   setup(props) {
     const $q = useQuasar();
@@ -394,6 +411,14 @@ export default {
     getPenalCode().then((result) => {
       penalCode.value = result;
     });
+
+    const processClick = (row) => {
+      if (props.mode !== 'select') return;
+
+      props.onClick(row);
+
+      props.window.doClose();
+    };
 
     const save = () => {
       for (let i = 0; i < penalCode.value.length; i += 1) {
@@ -455,6 +480,7 @@ export default {
       chargeTypeList,
 
       onEnd,
+      processClick,
       expands,
     };
   },
