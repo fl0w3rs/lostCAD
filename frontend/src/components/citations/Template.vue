@@ -146,16 +146,16 @@
       <div class="section q-mt-xs row">
         <div class="col-12">
           <q-input
-            dense outlined square v-model="data.data.arrestInfo.officers"
+            dense outlined square v-model="data.data.additionalInfo.officers"
             label="Участвовавшие офицеры" autogrow
                 :readonly="!canEdit" />
         </div>
         <div class="col-12 col-md-6">
-          <q-input dense outlined square v-model="data.data.arrestInfo.date" label="Дата"
+          <q-input dense outlined square v-model="data.data.additionalInfo.date" label="Дата"
                 :readonly="!canEdit" type="date" stack-label />
         </div>
         <div class="col-12 col-md-6">
-          <q-input dense outlined square v-model="data.data.arrestInfo.time" label="Время"
+          <q-input dense outlined square v-model="data.data.additionalInfo.time" label="Время"
                 :readonly="!canEdit" type="time" stack-label />
         </div>
       </div>
@@ -216,7 +216,7 @@ export default defineComponent({
       };
     }
 
-    if (!data?.data?.arrestInfo) data.data.arrestInfo = {};
+    if (!data?.data?.additionalInfo) data.data.additionalInfo = {};
 
     if (!data?.reasons) data.reasons = [];
 

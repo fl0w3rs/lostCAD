@@ -165,7 +165,10 @@
               </q-tab-panel>
 
               <q-tab-panel name="arrests">
-
+                <arrest-list
+                  :arrestList="ncicResults.arrests"
+                  dense
+                />
               </q-tab-panel>
 
               <q-tab-panel name="citations">
@@ -271,6 +274,7 @@ import { SocketWrapper } from 'src/boot/socketio-instance';
 import VehicleList from 'components/vehicle/List';
 import WeaponList from 'components/weapon/List';
 import CitationList from 'components/citations/List';
+import ArrestList from 'components/arrests/List';
 
 import { date } from 'quasar';
 import { windowWrapper } from 'src/store/windows/types';
@@ -278,7 +282,9 @@ import { windowWrapper } from 'src/store/windows/types';
 export default {
   name: 'Lookup',
 
-  components: { VehicleList, WeaponList, CitationList },
+  components: {
+    VehicleList, WeaponList, CitationList, ArrestList,
+  },
 
   props: {
     window: { type: Object, required: false, default: null },

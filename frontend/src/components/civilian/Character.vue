@@ -2,6 +2,10 @@
   <div class="text-uppercase">
     <div class="q-mb-md q-gutter-xs text-right" v-if="type === 'ncic' && !hideActionButtons">
       <q-btn
+        label="Выписать арест" color="grey" size="sm" outline icon="fas fa-police-box"
+        @click="openArrestWindow"
+      />
+      <q-btn
         label="Выписать штраф" color="grey" size="sm" outline icon="fas fa-ticket-alt"
         @click="openTicketWindow"
       />
@@ -516,6 +520,18 @@ export default {
       props.window.doClose();
     });
 
+    const openArrestWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        type: 'dialog',
+        component: 'arrests/Template',
+        initialWidth: '50vw',
+        props: {
+          type: 'create',
+          characterId: info.value.id,
+        },
+      }));
+    };
+
     const openTicketWindow = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
@@ -552,6 +568,7 @@ export default {
       streetFilterFn,
       licenseOptionList,
 
+      openArrestWindow,
       openTicketWindow,
     };
   },

@@ -53,7 +53,7 @@
           <tbody v-if="
             (element.article.includes(searchText) || element.title.includes(searchText))
             && (!hideRowsWithoutCitationAmount || Number(element.ticketAmount) > 0)
-            && (!hideRowsWithoutImprisonmentTime || Number(element.imprisonmentTime) > 0)
+            && (!hideRowsWithoutImprisonmentTime || element.imprisonmentTime.length > 0)
           ">
             <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
               <td>
