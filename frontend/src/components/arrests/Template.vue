@@ -171,7 +171,7 @@
       </div>
     </div>
     <div class="col-12 q-mt-md text-center q-gutter-xs" v-if="type === 'create'">
-      <q-btn label="Выписать" color="orange" outline icon="fa fa-ticket-alt"
+      <q-btn label="Выписать" color="orange" outline icon="content_paste"
         @click="create"></q-btn>
     </div>
   </div>

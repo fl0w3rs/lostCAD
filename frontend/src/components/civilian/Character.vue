@@ -2,7 +2,7 @@
   <div class="text-uppercase">
     <div class="q-mb-md q-gutter-xs text-right" v-if="type === 'ncic' && !hideActionButtons">
       <q-btn
-        label="Выписать арест" color="grey" size="sm" outline icon="fas fa-police-box"
+        label="Выписать арест" color="grey" size="sm" outline icon="content_paste"
         @click="openArrestWindow"
       />
       <q-btn
