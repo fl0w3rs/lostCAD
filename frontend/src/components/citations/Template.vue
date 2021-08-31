@@ -97,11 +97,11 @@
             </div>
             <div class="col-12 col-md-5">
               <q-select
-                v-model="article.chargeType"
+                v-model="article.violationType"
                 dense
                 square outlined
-                :options="chargeTypeList"
-                label="Тип обвинения"
+                :options="violationTypeList"
+                label="Вид нарушения"
                 :readonly="!canEdit"
               >
                 <template v-slot:selected-item="scope">
@@ -109,21 +109,7 @@
                 </template>
               </q-select>
             </div>
-            <div class="col-12 col-md-6">
-              <q-select
-                v-model="article.punishmentType"
-                dense
-                square outlined
-                :options="punishmentTypeList"
-                label="Тип наказания"
-                :readonly="!canEdit"
-              >
-                <template v-slot:selected-item="scope">
-                  <div class="ellipsis">{{scope.opt}}</div>
-                </template>
-              </q-select>
-            </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12">
               <q-input
                 v-model="article.ticketAmount"
                 dense
@@ -141,14 +127,9 @@
         <span class="text-grey" v-if="data.reasons.length === 0">
           Статьи не указаны
         </span>
-        <div v-if="calculatedTicketAmount > 0">
-          Сумма штрафа по статьям: ${{ calculatedTicketAmount }}
+        <div v-if="calculatedTicketAmount > 0" class="text-bold">
+          Сумма штрафа: <span class="text-green">${{ calculatedTicketAmount }}</span>
         </div>
-        <q-input
-          label="Итоговая сумма штрафа" dense outlined prefix="$"
-          v-model="data.data.ticketAmount"
-          :readonly="!canEdit"
-        />
       </div>
     </div>
     <div class="col-12 q-mt-sm">
@@ -175,11 +156,11 @@
         </div>
         <div class="col-12 col-md-6">
           <q-input dense outlined square v-model="data.data.arrestInfo.date" label="Дата"
-                :readonly="!canEdit" type="date" />
+                :readonly="!canEdit" type="date" stack-label />
         </div>
         <div class="col-12 col-md-6">
           <q-input dense outlined square v-model="data.data.arrestInfo.time" label="Время"
-                :readonly="!canEdit" type="time" />
+                :readonly="!canEdit" type="time" stack-label />
         </div>
       </div>
     </div>
@@ -195,7 +176,7 @@ import Character from 'src/components/civilian/Character.vue';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
-import { punishmentTypeList, chargeTypeList } from 'src/utils/constants';
+import { violationTypeList } from 'src/utils/constants';
 
 export default defineComponent({
   props: [
@@ -315,8 +296,7 @@ export default defineComponent({
       addOwnReason,
       deleteReason,
 
-      punishmentTypeList,
-      chargeTypeList,
+      violationTypeList,
       calculatedTicketAmount,
     };
   },
