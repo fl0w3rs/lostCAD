@@ -244,6 +244,14 @@ const Arrest = sequelize.define('arrest',
     tableName: 'arrests',
   });
 
+const VehicleImpoundment = sequelize.define('vehicleImpoundment',
+  {
+    data: DataTypes.JSON,
+  },
+  {
+    tableName: 'vehicleImpoundments',
+  });
+
 // unit
 
 Unit.hasMany(User);
@@ -288,9 +296,14 @@ Citation.belongsTo(Character);
 Character.hasMany(Arrest);
 Arrest.belongsTo(Character);
 
+Vehicle.hasMany(VehicleImpoundment);
+VehicleImpoundment.belongsTo(Vehicle);
+
 // Character.sync({ alter: true });
 // Citation.sync({ alter: true });
 // Arrest.sync({ alter: true });
+// VehicleImpoundment.sync({ alter: true });
+// Vehicle.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;
@@ -305,6 +318,7 @@ exports.Call = Call;
 exports.Bolo = Bolo;
 exports.Arrest = Arrest;
 exports.Citation = Citation;
+exports.VehicleImpoundment = VehicleImpoundment;
 
 // const createTables = async () => {
 //   const keys = Object.keys(exports);
