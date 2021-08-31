@@ -175,11 +175,11 @@
         </div>
         <div class="col-12 col-md-6">
           <q-input dense outlined square v-model="data.data.arrestInfo.date" label="Дата"
-                :readonly="!canEdit" />
+                :readonly="!canEdit" type="date" />
         </div>
         <div class="col-12 col-md-6">
           <q-input dense outlined square v-model="data.data.arrestInfo.time" label="Время"
-                :readonly="!canEdit" />
+                :readonly="!canEdit" type="time" />
         </div>
       </div>
     </div>
