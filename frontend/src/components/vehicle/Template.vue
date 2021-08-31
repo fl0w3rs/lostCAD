@@ -1,5 +1,12 @@
 <template>
   <div class="text-uppercase">
+    <div class="q-mb-md q-gutter-xs text-right" v-if="type === 'dmv' && !hideActionButtons">
+      <q-btn
+        label="Выписать изъятие" color="grey" size="sm" outline icon="garage"
+        @click="openImpoundmentWindow"
+      />
+    </div>
+
     <div class="text-left sectionTitle">РЕГИСТРАЦИОННАЯ ИНФОРМАЦИЯ</div>
     <div class="section rounded-borders row justify-center">
       <div class="col-6 col-md-4">
@@ -242,6 +249,7 @@ export default {
     window: { type: Object, required: false, default: null },
     type: { type: String, required: true },
     vehicle: { type: Object, required: false, default: null },
+    hideActionButtons: Boolean,
   },
 
   setup(props) {
@@ -370,6 +378,18 @@ export default {
       }));
     };
 
+    const openImpoundmentWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        type: 'dialog',
+        component: 'vehicleImpoundment/Template',
+        initialWidth: '50vw',
+        props: {
+          type: 'create',
+          vehicleId: info.value.id,
+        },
+      }));
+    };
+
     return {
       create,
       save,
@@ -395,6 +415,7 @@ export default {
       modelFilterFn,
       onModelUpdate,
 
+      openImpoundmentWindow,
       openCharacterWindow,
     };
   },
