@@ -24,6 +24,7 @@
         <penal-code-button />
         <bolos-button />
         <dispatcher-list-button />
+        <new-record-button />
 
       </div>
     </div>
@@ -69,6 +70,7 @@ import { windowWrapper } from 'src/store/windows/types';
 import CallList from 'src/components/calls/List.vue';
 import DispatchDuty from 'src/components/dispatch/Duty.vue';
 import BolosButton from 'src/components/bolos/Button.vue';
+import NewRecordButton from 'src/components/NewRecordButton.vue';
 
 import DispatcherListButton from 'src/components/dispatch/DispatcherListButton.vue';
 
@@ -88,6 +90,7 @@ export default {
     DispatchDuty,
     DispatcherListButton,
     BolosButton,
+    NewRecordButton,
   },
 
   setup() {
