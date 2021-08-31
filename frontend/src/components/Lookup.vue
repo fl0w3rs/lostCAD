@@ -152,6 +152,7 @@
                 <VehicleList
                   type="dmv"
                   showOwners="true"
+                  :onRowClickOverwrite="onDmvRowClick"
                   :vehicles="ncicResults.vehicles"
                 />
               </q-tab-panel>
@@ -169,7 +170,10 @@
               </q-tab-panel>
 
               <q-tab-panel name="citations">
-
+                <citation-list
+                  :citationList="ncicResults.citations"
+                  dense
+                />
               </q-tab-panel>
             </q-tab-panels>
           </q-card>
@@ -266,6 +270,7 @@ import { useStore } from 'vuex';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import VehicleList from 'components/vehicle/List';
 import WeaponList from 'components/weapon/List';
+import CitationList from 'components/citations/List';
 
 import { date } from 'quasar';
 import { windowWrapper } from 'src/store/windows/types';
@@ -273,14 +278,16 @@ import { windowWrapper } from 'src/store/windows/types';
 export default {
   name: 'Lookup',
 
-  components: { VehicleList, WeaponList },
+  components: { VehicleList, WeaponList, CitationList },
 
   props: {
     window: { type: Object, required: false, default: null },
     types: { type: Object, required: false, default: null },
     searchMode: Boolean,
     defaultTab: String,
+    closeOnOverwriteCall: Boolean,
     onNcicRowClickOverwrite: Function,
+    onDmvRowClickOverWrite: Function,
   },
 
   setup(params) {
@@ -305,7 +312,7 @@ export default {
     };
 
     const onNcicRowClick = params?.onNcicRowClickOverwrite ? ((evt, row) => {
-      params.window.doClose();
+      if (params?.closeOnOverwriteCall) params.window.doClose();
       params.onNcicRowClickOverwrite(evt, row);
     }) : ((evt, row) => {
       store.commit('windows/open', windowWrapper({
@@ -347,6 +354,11 @@ export default {
       });
     };
 
+    const onDmvRowClick = params?.onDmvRowClickOverwrite ? ((evt, row) => {
+      if (params?.closeOnOverwriteCall) params.window.doClose();
+      params.onDmvRowClickOverwrite(evt, row);
+    }) : null;
+
     return {
       allowedTypes: {
         ncic: params?.types?.ncic == undefined ? true : params?.types?.ncic,
@@ -362,6 +374,7 @@ export default {
       dmv,
       requestDmv,
       dmvResults,
+      onDmvRowClick,
 
       fld,
       requestFld,

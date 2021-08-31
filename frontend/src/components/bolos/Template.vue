@@ -272,6 +272,7 @@ export default defineComponent({
         props: {
           searchMode: true,
           defaultTab: 'ncic',
+          closeOnOverwriteCall: true,
           onNcicRowClickOverwrite: (evt, row) => {
             data.characterData = row;
             data.data.characterId = row.id;

@@ -160,6 +160,10 @@
         </div>
       </div>
     </div>
+    <div class="col-12 q-mt-md text-center q-gutter-xs" v-if="type === 'create'">
+      <q-btn label="Выписать" color="orange" outline icon="fa fa-ticket-alt"
+        @click="create"></q-btn>
+    </div>
   </div>
 </template>
 
@@ -172,17 +176,20 @@ import Character from 'src/components/civilian/Character.vue';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   props: [
     'citationData',
     'type',
     'characterId',
+    'window',
   ],
   components: { Character },
   setup(props: any) {
     const socketWrapper = new SocketWrapper();
     const store = useStore();
+    const $q = useQuasar();
 
     const canEdit = computed(() => props.type === 'create');
 
@@ -235,6 +242,7 @@ export default defineComponent({
         props: {
           searchMode: true,
           defaultTab: 'ncic',
+          closeOnOverwriteCall: true,
           onNcicRowClickOverwrite: (evt, row) => {
             data.characterId = row.id;
           },
@@ -283,14 +291,30 @@ export default defineComponent({
       return Number(amount);
     });
 
+    const create = () => {
+      socketWrapper.emit('citations:create', data).onReturn((val) => {
+        if (!val) return;
+        props.window.doClose();
+        $q.notify({
+          type: 'positive',
+          message: 'Штраф успешно выписан.',
+        });
+      });
+    };
+
     return {
       data,
       characterData,
+
       openSelectCharacter,
+
       canEdit,
+
       addReason,
       addOwnReason,
       deleteReason,
+
+      create,
 
       calculatedTicketAmount,
     };

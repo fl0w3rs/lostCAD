@@ -23,13 +23,15 @@ import { windowWrapper } from 'src/store/windows/types';
 let store;
 
 export default {
-  props: ['vehicles', 'type', 'showOwners'],
+  props: ['vehicles', 'type', 'showOwners', 'onRowClickOverwrite'],
   setup(props) {
     store = useStore();
 
     store.dispatch('characters/requestVehicles');
 
-    const onClickVehicleRow = (evt, row) => {
+    const onClickVehicleRow = props?.onRowClickOverwrite ? ((evt, row) => {
+      props.onRowClickOverwrite(evt, row);
+    }) : ((evt, row) => {
       store.commit('windows/open', windowWrapper({
         component: 'vehicle/Template',
         props: { type: props.type === 'dmv' ? 'dmv' : 'edit', vehicle: row },
@@ -38,7 +40,7 @@ export default {
         initialWidth: '700px',
         initialHeight: '350px',
       }));
-    };
+    });
 
     const vehicleList = props.vehicles ? computed(() => props.vehicles) : computed(() => store.getters['characters/getSelectedCharacterVehicleList']);
 
