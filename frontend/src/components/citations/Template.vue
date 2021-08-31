@@ -96,18 +96,14 @@
                 :readonly="!canEdit" />
             </div>
             <div class="col-12 col-md-5">
-              <q-select
+              <q-input
                 v-model="article.violationType"
                 dense
                 square outlined
-                :options="violationTypeList"
                 label="Вид нарушения"
                 :readonly="!canEdit"
               >
-                <template v-slot:selected-item="scope">
-                  <div class="ellipsis">{{scope.opt}}</div>
-                </template>
-              </q-select>
+              </q-input>
             </div>
             <div class="col-12">
               <q-input
@@ -176,7 +172,6 @@ import Character from 'src/components/civilian/Character.vue';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
-import { violationTypeList } from 'src/utils/constants';
 
 export default defineComponent({
   props: [
@@ -296,7 +291,6 @@ export default defineComponent({
       addOwnReason,
       deleteReason,
 
-      violationTypeList,
       calculatedTicketAmount,
     };
   },

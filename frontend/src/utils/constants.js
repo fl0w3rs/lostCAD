@@ -898,13 +898,6 @@ export const departmentTypeList = [
   'civilian', 'police', 'fire', 'dispatch',
 ];
 
-export const violationTypeList = [
-  'Проступок',
-  'Уголовное преступление',
-  'Правонарушение',
-  'Предупреждение',
-];
-
 export const callStatusList = {
   processing: {
     text: 'В обработке',

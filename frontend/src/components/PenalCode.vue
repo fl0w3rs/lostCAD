@@ -106,12 +106,11 @@
                     v-slot="scope"
                     buttons
                   >
-                    <q-select
+                    <q-input
                       color="white"
                       v-model="scope.value"
                       dense
                       autofocus
-                      :options="violationTypeList"
                     />
                   </q-popup-edit>
                 </span>
@@ -303,12 +302,11 @@
                 />
               </td>
               <td>
-                <q-select
+                <q-input
                   color="white"
                   v-model="newArticle.violationType"
                   dense
                   outlined
-                  :options="violationTypeList"
                   label="Вид нарушения"
                 />
               </td>
@@ -424,7 +422,6 @@ import { getPenalCode } from 'src/utils/api.js';
 import draggable from 'vuedraggable';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
-import { violationTypeList } from 'src/utils/constants';
 
 export default {
   components: { draggable },
@@ -521,7 +518,6 @@ export default {
       save,
       remove,
       create,
-      violationTypeList,
 
       onEnd,
       processClick,
