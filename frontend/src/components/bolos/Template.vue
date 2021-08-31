@@ -108,7 +108,7 @@
           </p>
 
           <character
-            :hideMed="true" v-if="data.type === 'character'"
+            :hideMed="true"
             type="ncic" :character="data.characterData"
           />
 
@@ -116,9 +116,35 @@
 
         <div v-else>
           <p class="text-h6 text-bold">
-            Объект поиска не выбран <q-btn
-              size="sm" outline label="Выбрать человека"
+            Объект розыска не выбран <q-btn
+              size="sm" outline label="Найти"
               @click="selectCharacter">
+            </q-btn>
+          </p>
+        </div>
+      </div>
+
+      <div v-if="canEdit && data?.type === 'vehicle'">
+        <div v-if="data?.data?.vehicleId && data?.vehicleData" class="relative-position">
+          <p class="text-h6 text-bold">
+            Выбранное транспортное средство
+            <q-btn
+              size="sm" outline label="Выбрать другое"
+              @click="data.data.vehicleId = null;">
+            </q-btn>
+          </p>
+
+          <vehicle
+            type="ncic" :vehicle="data.vehicleData"
+          />
+
+        </div>
+
+        <div v-else>
+          <p class="text-h6 text-bold">
+            Объект розыска не выбран <q-btn
+              size="sm" outline label="Найти"
+              @click="selectVehicle">
             </q-btn>
           </p>
         </div>
@@ -281,6 +307,23 @@ export default defineComponent({
       }));
     };
 
+    const selectVehicle = () => {
+      store.commit('windows/open', windowWrapper({
+        component: 'Lookup',
+        type: 'dialog',
+        initialWidth: '50vw',
+        props: {
+          searchMode: true,
+          defaultTab: 'dmv',
+          closeOnOverwriteCall: true,
+          onDmvRowClickOverwrite: (evt, row) => {
+            data.vehicleData = row;
+            data.data.vehicleId = row.id;
+          },
+        },
+      }));
+    };
+
     return {
       data,
 
@@ -292,6 +335,7 @@ export default defineComponent({
       create,
 
       selectCharacter,
+      selectVehicle,
 
       boloPriorityListComputed: Object.entries(boloPriorityList).map(
         (val) => ({ value: val[0], label: val[1].text }),

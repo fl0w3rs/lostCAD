@@ -151,8 +151,7 @@
               <q-tab-panel name="vehicles">
                 <VehicleList
                   type="dmv"
-                  showOwners="true"
-                  :onRowClickOverwrite="onDmvRowClick"
+                  :showOwners="true"
                   :vehicles="ncicResults.vehicles"
                 />
               </q-tab-panel>
@@ -160,7 +159,7 @@
               <q-tab-panel name="weapons">
                 <WeaponList
                   type="fld"
-                  showOwners="true"
+                  :showOwners="true"
                   :weapons="ncicResults.weapons"
                 />
               </q-tab-panel>
@@ -221,6 +220,7 @@
         <VehicleList
           type="dmv"
           :vehicles="dmvResults"
+          :onRowClickOverwrite="onDmvRowClick"
         />
       </q-tab-panel>
 
@@ -287,7 +287,7 @@ export default {
     defaultTab: String,
     closeOnOverwriteCall: Boolean,
     onNcicRowClickOverwrite: Function,
-    onDmvRowClickOverWrite: Function,
+    onDmvRowClickOverwrite: Function,
   },
 
   setup(params) {
@@ -354,10 +354,10 @@ export default {
       });
     };
 
-    const onDmvRowClick = params?.onDmvRowClickOverwrite ? ((evt, row) => {
+    const onDmvRowClick = params?.onDmvRowClickOverwrite ? (evt, row) => {
       if (params?.closeOnOverwriteCall) params.window.doClose();
       params.onDmvRowClickOverwrite(evt, row);
-    }) : null;
+    } : null;
 
     return {
       allowedTypes: {
