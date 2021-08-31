@@ -1,5 +1,11 @@
 <template>
   <div class="text-uppercase">
+    <div class="q-mb-md q-gutter-xs text-right" v-if="type === 'ncic' && !hideActionButtons">
+      <q-btn
+        label="Выписать штраф" color="grey" size="sm" outline icon="fas fa-ticket-alt"
+        @click="openTicketWindow"
+      />
+    </div>
     <div class="text-left sectionTitle">ИЗОБРАЖЕНИЕ ПЕРСОНАЖА</div>
     <div class="section rounded-borders row justify-center">
       <div class="col-12 text-center">
@@ -372,6 +378,7 @@ import { useStore } from 'vuex';
 import {
   ref, watch, computed,
 } from 'vue';
+import { windowWrapper } from 'src/store/windows/types';
 
 export default {
   name: 'Character',
@@ -382,6 +389,7 @@ export default {
     character: { type: Object, required: false, default: null },
     hideMed: Boolean,
     hideLic: Boolean,
+    hideActionButtons: Boolean,
   },
 
   setup(props) {
@@ -507,6 +515,18 @@ export default {
       props.window.doClose();
     });
 
+    const openTicketWindow = () => {
+      store.commit('windows/open', windowWrapper({
+        type: 'dialog',
+        component: 'citations/Template',
+        initialWidth: '50vw',
+        props: {
+          type: 'create',
+          characterId: info.value.id,
+        },
+      }));
+    };
+
     return {
       info,
 
@@ -530,6 +550,8 @@ export default {
 
       streetFilterFn,
       licenseOptionList,
+
+      openTicketWindow,
     };
   },
 };

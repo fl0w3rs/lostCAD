@@ -311,8 +311,8 @@ export default {
       store.commit('windows/open', windowWrapper({
         component: 'civilian/Character',
         type: 'draggable',
-        initialHeight: '355px',
-        initialWidth: '700px',
+        initialHeight: '700px',
+        initialWidth: '50vw',
         title: `Просмотр ${row.name} ${row.surname}`,
         props: { type: 'ncic', character: row },
       }));
