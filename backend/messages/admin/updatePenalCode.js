@@ -11,8 +11,10 @@ module.exports = {
     const validation = new Validator(tmp, {
       'data.*.article': 'required|string|min:1|max:10',
       'data.*.title': 'required|string|min:1|max:128',
-      'data.*.chargeType': 'required|string|min:1|max:24',
-      'data.*.punishmentType': 'required|string|min:1|max:24',
+      'data.*.violationType': 'required|string|min:1|max:24',
+      'data.*.carEvacuation': 'required|boolean',
+      'data.*.confiscateDriverLicense': 'required|boolean',
+      'data.*.confiscateGunLicense': 'required|boolean',
       'data.*.ticketAmount': 'present|numeric',
       'data.*.imprisonmentTime': 'present|string|max:16',
       'data.*.desc': 'present|string|max:1024',

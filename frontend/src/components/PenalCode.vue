@@ -32,10 +32,12 @@
         <tr>
           <th class="text-left">Статья</th>
           <th class="text-center">Заголовок</th>
-          <th class="text-center">Тип обвинения</th>
-          <th class="text-center">Тип наказания</th>
-          <th class="text-center">Сумма штрафа</th>
-          <th class="text-center">Время заключения</th>
+          <th class="text-center">Вид нарушения</th>
+          <th class="text-center">Изъятие лицензии на вождение</th>
+          <th class="text-center">Изъятие лицензии на оружие</th>
+          <th class="text-center">Эвакуация ТС</th>
+          <th class="text-center">Штраф</th>
+          <th class="text-center">Тюремное заключение</th>
           <th></th>
         </tr>
       </thead>
@@ -97,10 +99,10 @@
               </td>
               <td class="text-center">
                 <span>
-                  {{ element.chargeType }}
+                  {{ element.violationType }}
                   <q-popup-edit
                     v-if="admin"
-                    v-model="element.chargeType"
+                    v-model="element.violationType"
                     v-slot="scope"
                     buttons
                   >
@@ -109,26 +111,55 @@
                       v-model="scope.value"
                       dense
                       autofocus
-                      :options="chargeTypeList"
+                      :options="violationTypeList"
                     />
                   </q-popup-edit>
                 </span>
               </td>
+              <!-- ВОждение -->
               <td class="text-center">
                 <span>
-                  {{ element.punishmentType }}
+                  {{ element.confiscateDriverLicense ? 'Да' : 'Нет' }}
                   <q-popup-edit
                     v-if="admin"
-                    v-model="element.punishmentType"
+                    v-model="element.confiscateDriverLicense"
                     v-slot="scope"
                     buttons
                   >
-                    <q-select
-                      color="white"
-                      v-model="scope.value"
-                      dense
-                      :options="punishmentTypeList"
-                      autofocus
+                    <q-checkbox
+                      v-model="scope.value" color="teal" label="Изъятие лицензии на вождение"
+                    />
+                  </q-popup-edit>
+                </span>
+              </td>
+              <!-- Оружие -->
+              <td class="text-center">
+                <span>
+                  {{ element.confiscateGunLicense ? 'Да' : 'Нет' }}
+                  <q-popup-edit
+                    v-if="admin"
+                    v-model="element.confiscateGunLicense"
+                    v-slot="scope"
+                    buttons
+                  >
+                    <q-checkbox
+                      v-model="scope.value" color="teal" label="Изъятие лицензии на оружие"
+                    />
+                  </q-popup-edit>
+                </span>
+              </td>
+              <!-- Эвакуация -->
+              <td class="text-center">
+                <span>
+                  {{ element.carEvacuation ? 'Да' : 'Нет' }}
+                  <q-popup-edit
+                    v-if="admin"
+                    v-model="element.carEvacuation"
+                    v-slot="scope"
+                    buttons
+                  >
+                    <q-checkbox
+                      v-model="scope.value" color="teal" label="Эвакуация авто"
                     />
                   </q-popup-edit>
                 </span>
@@ -220,7 +251,7 @@
               :class="expands[index] ? 'pc-table-border-bottom' : ''"
             >
               <td
-                colspan="7"
+                colspan="9"
                 style="padding-top: 0!important;"
               >
                 <p class="text-bold text-h6">Описание</p>
@@ -274,22 +305,27 @@
               <td>
                 <q-select
                   color="white"
-                  v-model="newArticle.chargeType"
+                  v-model="newArticle.violationType"
                   dense
                   outlined
-                  :options="chargeTypeList"
-                  label="Тип обвинения"
+                  :options="violationTypeList"
+                  label="Вид нарушения"
                 />
               </td>
               <td>
-                <q-select
-                  color="white"
-                  v-model="newArticle.punishmentType"
-                  dense
-                  outlined
-                  :options="punishmentTypeList"
-                  label="Тип наказания"
-                />
+                <div class="row justify-center">
+                  <q-checkbox v-model="newArticle.confiscateDriverLicense" />
+                </div>
+              </td>
+              <td>
+                <div class="row justify-center">
+                  <q-checkbox v-model="newArticle.confiscateGunLicense" />
+                </div>
+              </td>
+              <td>
+                <div class="row justify-center">
+                  <q-checkbox v-model="newArticle.carEvacuation" />
+                </div>
               </td>
               <td>
                 <q-input
@@ -327,7 +363,7 @@
             </tr>
 
             <tr>
-              <td colspan="6">
+              <td colspan="8">
                 <div class="row">
                   <div class="col-12">
                     <q-input
@@ -388,7 +424,7 @@ import { getPenalCode } from 'src/utils/api.js';
 import draggable from 'vuedraggable';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
-import { punishmentTypeList, chargeTypeList } from 'src/utils/constants';
+import { violationTypeList } from 'src/utils/constants';
 
 export default {
   components: { draggable },
@@ -408,8 +444,10 @@ export default {
     const initialArticle = {
       article: '',
       title: '',
-      chargeType: '',
-      punishmentType: '',
+      violationType: '',
+      confiscateDriverLicense: false,
+      confiscateGunLicense: false,
+      carEvacuation: false,
       ticketAmount: '',
       imprisonmentTime: '',
       desc: '',
@@ -455,8 +493,7 @@ export default {
       const errorMessages = [];
       if (newArticle.article.length < 1 || newArticle.article.length > 10) errorMessages.push('Длинна статьи должна быть от 1 до 10 символов.');
       if (newArticle.title.length < 1 || newArticle.title.length > 128) errorMessages.push('Длинна заголовка должна быть от 1 до 128 символов.');
-      if (newArticle.chargeType.length < 1 || newArticle.chargeType.length > 24) errorMessages.push('Длинна типа обвинения должна быть от 1 до 24 символов.');
-      if (newArticle.punishmentType.length < 1 || newArticle.punishmentType.length > 24) errorMessages.push('Длинна типа наказания должна быть от 1 до 24 символов.');
+      if (newArticle.violationType.length < 1 || newArticle.violationType.length > 24) errorMessages.push('Длинна типа обвинения должна быть от 1 до 24 символов.');
 
       if (errorMessages.length !== 0) {
         $q.notify({
@@ -484,8 +521,7 @@ export default {
       save,
       remove,
       create,
-      punishmentTypeList,
-      chargeTypeList,
+      violationTypeList,
 
       onEnd,
       processClick,

@@ -898,22 +898,11 @@ export const departmentTypeList = [
   'civilian', 'police', 'fire', 'dispatch',
 ];
 
-export const chargeTypeList = [
+export const violationTypeList = [
   'Проступок',
   'Уголовное преступление',
   'Правонарушение',
   'Предупреждение',
-];
-
-export const punishmentTypeList = [
-  'Citation Release',
-  'Recognizance Release',
-  'Cash Bail',
-  'Surety Bond',
-  'Property Bond',
-  'Federal Bail Bond',
-  'Immigration Bail Bond',
-  'No Bail',
 ];
 
 export const callStatusList = {
