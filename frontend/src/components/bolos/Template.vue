@@ -211,7 +211,7 @@ export default defineComponent({
         props: {
           mode: 'select',
           onClick: (row) => {
-            if (typeof data.reasons === 'object') data.reasons = Object.values(data.reasons);
+            if (!data.reasons) data.reasons = [];
             data.reasons.push(row);
           },
         },

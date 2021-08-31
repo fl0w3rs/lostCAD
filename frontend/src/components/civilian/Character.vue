@@ -20,6 +20,7 @@
           square
           outlined
           v-model="info.image"
+          v-if="type !== 'ncic'"
           label="Ссылка на изображение"
         />
       </div>
@@ -169,7 +170,7 @@
           </template>
         </q-select>
       </div>
-      <div class="col-6 col-md-2">
+      <div :class="type === 'ncic' ? 'col-md-6' : 'col-md-2'" class="col-6">
         <q-input
           :disable="disable"
           type="number"
@@ -180,7 +181,7 @@
           label="Номер блока"
         />
       </div>
-      <div class="col-6 col-md-4">
+      <div class="col-6 col-md-4" v-if="type !== 'ncic'">
         <q-input
           :disable="disable"
           dense
