@@ -19,6 +19,12 @@
       <span class="text-orange text-h6 text-bold">Выберите статью</span>
     </div>
 
+    <div class="row justify-end q-mb-sm">
+      <q-input v-model="searchText" outlined label="Поиск" dense>
+
+      </q-input>
+    </div>
+
     <q-markup-table dense
       class="col-12 shadow-0 tableNoHoverEffect"
     >
@@ -42,7 +48,7 @@
         @end="onEnd"
       >
         <template #item="{element, index}">
-          <tbody>
+          <tbody v-if="element.article.includes(searchText) || element.title.includes(searchText)">
             <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
               <td>
                 <span>
@@ -397,6 +403,7 @@ export default {
     const $q = useQuasar();
     const socketWrapper = new SocketWrapper();
 
+    const searchText = ref('');
     const penalCode = ref([]);
     const initialArticle = {
       article: '',
@@ -483,6 +490,7 @@ export default {
       onEnd,
       processClick,
       expands,
+      searchText,
     };
   },
 };
