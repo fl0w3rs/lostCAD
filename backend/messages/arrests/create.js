@@ -13,6 +13,21 @@ module.exports = {
     if (!data?.characterId) return;
     if (!data?.reasons?.length) return;
 
+    const character = await db.cad.Character.findOne({
+      where: {
+        id: data.characterId,
+      },
+    });
+    if (!character) return;
+
+    if (data?.data?.confiscation?.driverLicense) character.driverLicense = 'Отозвана';
+    if (data?.data?.confiscation?.hiddenGunLicense) character.hiddenGunLicense = 'Отозвана';
+    if (data?.data?.confiscation?.gunLicense) character.gunLicense = 'Отозвана';
+    if (data?.data?.confiscation?.pilotLicense) character.pilotLicense = 'Отозвана';
+    if (data?.data?.confiscation?.boatLicense) character.boatLicense = 'Отозвана';
+
+    await character.save();
+
     const arrest = await db.cad.Arrest.create({
       characterId: data.characterId,
       reasons: data.reasons,
