@@ -13,11 +13,7 @@
         <lookup-button />
         <ten-codes-button />
         <penal-code-button />
-        <q-btn
-          label="РОЗЫСК"
-          outline
-          size="sm"
-        />
+        <bolos-button />
       </div>
     </div>
 
@@ -53,8 +49,9 @@ import SignalBar from 'src/components/topBar/Signal.vue';
 import LookupButton from 'src/components/LookupButton.vue';
 import PenalCodeButton from 'src/components/PenalCodeButton.vue';
 import TenCodesButton from 'src/components/TenCodesButton.vue';
-
+import BolosButton from 'src/components/bolos/Button.vue';
 import CallView from 'src/components/calls/View.vue';
+
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 
@@ -68,7 +65,7 @@ export default {
     LookupButton,
     PenalCodeButton,
     TenCodesButton,
-
+    BolosButton,
     CallView,
   },
 
