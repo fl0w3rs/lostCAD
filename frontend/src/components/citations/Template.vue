@@ -248,6 +248,7 @@ export default defineComponent({
         component: 'PenalCode',
         initialWidth: '70vw',
         props: {
+          hideRowsWithoutCitationAmount: true,
           mode: 'select',
           onClick: (row) => {
             data.reasons.push(row);

@@ -50,7 +50,11 @@
         @end="onEnd"
       >
         <template #item="{element, index}">
-          <tbody v-if="element.article.includes(searchText) || element.title.includes(searchText)">
+          <tbody v-if="
+            (element.article.includes(searchText) || element.title.includes(searchText))
+            && (!hideRowsWithoutCitationAmount || Number(element.ticketAmount) > 0)
+            && (!hideRowsWithoutImprisonmentTime || Number(element.imprisonmentTime) > 0)
+          ">
             <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
               <td>
                 <span>
@@ -431,6 +435,8 @@ export default {
 
     mode: { type: String },
     onClick: { type: Function },
+    hideRowsWithoutCitationAmount: { type: Boolean },
+    hideRowsWithoutImprisonmentTime: { type: Boolean },
   },
   setup(props) {
     const $q = useQuasar();
