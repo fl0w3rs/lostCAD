@@ -9,8 +9,8 @@ module.exports = {
     tmp.data = data;
 
     const validation = new Validator(tmp, {
-      'data.*.code': 'required|string|min:1|max:10',
-      'data.*.desc': 'required|string|min:1|max:128',
+      'data.*.code': 'required|string|min:1|max:16',
+      'data.*.desc': 'required|string|min:1|max:256',
     });
 
     if (validation.fails()) {

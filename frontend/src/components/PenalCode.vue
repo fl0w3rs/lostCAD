@@ -52,8 +52,9 @@
         <template #item="{element, index}">
           <tbody v-if="
             (element.article.includes(searchText) || element.title.includes(searchText))
-            && (!hideRowsWithoutCitationAmount || Number(element.ticketAmount) > 0)
-            && (!hideRowsWithoutImprisonmentTime || element.imprisonmentTime.length > 0)
+            // eslint-disable-next-line max-len
+            && (!onlyCitations || (Number(element.ticketAmount) > 0 && !element.imprisonmentTime.length))
+            && (!onlyArrests || element.imprisonmentTime.length > 0)
           ">
             <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
               <td>
@@ -435,8 +436,8 @@ export default {
 
     mode: { type: String },
     onClick: { type: Function },
-    hideRowsWithoutCitationAmount: { type: Boolean },
-    hideRowsWithoutImprisonmentTime: { type: Boolean },
+    onlyCitations: { type: Boolean },
+    onlyArrests: { type: Boolean },
   },
   setup(props) {
     const $q = useQuasar();
