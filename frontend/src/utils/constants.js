@@ -858,6 +858,12 @@ export const identifierRankList = [
   'CADET', 'LEOI', 'LEOII', 'LEOIII', 'LEOIII+', 'SGI', 'SGII', 'LT', 'CPT',
 ];
 
+export const boloFlagList = {
+  armed: 'Вооружён',
+  violent: 'Опасен',
+  mentallyIll: 'Психически болен',
+};
+
 export const weaponModelList = [
   'Glock17 (Combat pistol)',
   'CZ-97 (Heavy pistol)',

@@ -57,6 +57,23 @@
         :options="boloPriorityListComputed" v-model="data.priority"
       ></q-select>
     </div>
+    <div class="col-12">
+      <div class="text-left text-bold sectionTitle">ФЛАГИ</div>
+      <div class="section q-ml-xs q-mt-xs q-pa-xs q-gutter-xs">
+        <q-checkbox
+          v-model="data.data.flags.armed" label="Вооружен" color="teal"
+          :disable="!canEdit"
+        />
+        <q-checkbox
+          v-model="data.data.flags.violent" label="Опасен" color="teal"
+          :disable="!canEdit"
+        />
+        <q-checkbox
+          v-model="data.data.flags.mentallyIll" label="Психически болен" color="teal"
+          :disable="!canEdit"
+        />
+      </div>
+    </div>
     <div class="q-mt-sm col-12">
       <div class="q-pa-md bg-grey-10 rounded-borders relative-position accent">
         <div class="absolute-right q-pa-sm" v-if="canEdit">
@@ -207,6 +224,13 @@ export default defineComponent({
   setup(props: any) {
     const data = reactive(_.cloneDeep(props.boloData) || {});
     if (!data.data) data.data = {};
+    if (!data.data.flags) {
+      data.data.flags = {
+        armed: false,
+        violent: false,
+        mentallyIll: false,
+      };
+    }
 
     const socketWrapper = new SocketWrapper();
     const $q = useQuasar();

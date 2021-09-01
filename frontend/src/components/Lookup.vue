@@ -98,8 +98,22 @@
             @row-click="onNcicRowClick"
           >
             <template v-slot:body-cell-isWanted="props">
-              <q-td :props="props" style="width: 82px">
-                <q-badge label="В РОЗЫСКЕ" color="red" v-if="props.row.bolo" />
+              <q-td :props="props">
+                <div class="column justify-center q-gutter-xs">
+                  <span>
+                    <q-badge label="В РОЗЫСКЕ" color="red" v-if="props.row.bolo" />
+                  </span>
+                  <span
+                    v-for="flag in Object.entries(props.row.boloFlags).filter((val) => !!val[1])"
+                    :key="flag[0]"
+                  >
+                    <q-badge
+                      color="red"
+                      :label="boloFlagList[flag[0]] || flag[0]"
+                    ></q-badge>
+                  </span>
+
+                </div>
               </q-td>
             </template>
           </q-table>
@@ -275,6 +289,7 @@ import VehicleList from 'components/vehicle/List';
 import WeaponList from 'components/weapon/List';
 import CitationList from 'components/citations/List';
 import ArrestList from 'components/arrests/List';
+import { boloFlagList } from 'src/utils/constants';
 
 import { date } from 'quasar';
 import { windowWrapper } from 'src/store/windows/types';
@@ -388,6 +403,7 @@ export default {
 
       tab: ref(params?.defaultTab || 'ncic'),
       ncicTab: ref(null),
+      boloFlagList,
 
       ncicColumns: [
         {

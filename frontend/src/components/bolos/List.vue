@@ -63,6 +63,23 @@
           </template>
         </q-td>
       </template>
+
+      <template v-slot:body-cell-flags="props">
+        <q-td :props="props">
+          <div class="row q-gutter-xs">
+            <div
+              v-for="(flag, key) in props?.row?.data?.flags" :key="key"
+            >
+              <q-badge
+                v-if="flag"
+                color="red"
+                :label="boloFlagList[key] || key"
+              ></q-badge>
+            </div>
+          </div>
+
+        </q-td>
+      </template>
     </q-table>
   </div>
 </template>
@@ -75,7 +92,7 @@ import {
 import bbCodeParser from 'js-bbcode-parser';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
-import { boloPriorityList } from 'src/utils/constants';
+import { boloPriorityList, boloFlagList } from 'src/utils/constants';
 
 const typeList = {
   vehicle: 'Транспортное средство',
@@ -122,11 +139,16 @@ export default defineComponent({
       bbCodeParser,
       openBoloWindow,
 
+      boloFlagList,
+
       openCreateWindow,
       currentDepartment: computed(() => store.getters['user/getCurrentDepartment']),
 
       bolos,
       columns: [
+        {
+          name: 'flags',
+        },
         {
           name: 'id',
           field: 'id',

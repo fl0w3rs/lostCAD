@@ -71,6 +71,8 @@ module.exports = {
     const boloMappedCharacterIds = bolos.map((val) => parseInt(val.data.characterId, 10));
 
     for (let i = 0; i < characters.length; i += 1) {
+      const character = characters[i];
+
       const lVehicles = characters[i].vehicles;
       const lWeapons = characters[i].weapons;
       const lCitations = characters[i].citations;
@@ -79,6 +81,19 @@ module.exports = {
       characters[i] = utils.convertToPlainObject(characters[i]);
 
       characters[i].bolo = boloMappedCharacterIds.includes(characters[i].id);
+      characters[i].boloFlags = {
+        mentallyIll: false,
+        armed: false,
+        violent: false,
+      };
+
+      for (let j = 0; j < bolos.length; j += 1) {
+        if (bolos[j].type == 'character' && bolos[j]?.data?.characterId == character.id) {
+          if (bolos[j]?.data?.flags?.mentallyIll) characters[i].boloFlags.mentallyIll = true;
+          if (bolos[j]?.data?.flags?.armed) characters[i].boloFlags.armed = true;
+          if (bolos[j]?.data?.flags?.violent) characters[i].boloFlags.violent = true;
+        }
+      }
 
       for (let j = 0; j < lVehicles.length; j += 1) {
         vehicles.push({
