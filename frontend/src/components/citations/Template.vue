@@ -1,23 +1,6 @@
 <template>
   <div class="row text-uppercase">
     <div class="col-12">
-      <div class="text-left text-bold sectionTitle">ФЛАГИ</div>
-      <div class="section q-mt-xs q-pa-xs q-gutter-xs">
-        <q-checkbox
-          v-model="data.data.flags.armed" label="Вооружен" color="teal"
-          :disable="!canEdit"
-        />
-        <q-checkbox
-          v-model="data.data.flags.violent" label="Опасен" color="teal"
-          :disable="!canEdit"
-        />
-        <q-checkbox
-          v-model="data.data.flags.mentallyIll" label="Психически болен" color="teal"
-          :disable="!canEdit"
-        />
-      </div>
-    </div>
-    <div class="col-12 q-mt-sm">
       <div class="text-left text-bold sectionTitle">КОНФИСКАЦИЯ ЛИЦЕНЗИЙ</div>
       <div class="section q-mt-xs q-pa-xs q-gutter-xs">
         <q-checkbox
@@ -197,14 +180,6 @@ export default defineComponent({
     if (!data?.data) data.data = {};
 
     data.characterId = props?.characterId || data?.characterId || null;
-
-    if (!data?.data?.flags) {
-      data.data.flags = {
-        armed: false,
-        violent: false,
-        mentallyIll: false,
-      };
-    }
 
     if (!data?.data?.confiscation) {
       data.data.confiscation = {
