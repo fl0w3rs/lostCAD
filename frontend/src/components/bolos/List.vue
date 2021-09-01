@@ -1,5 +1,5 @@
 <template>
-  <div class="text-uppercase">
+  <div class="text-uppercase q-pr-md">
     <div class="text-right q-mb-xs" v-if="currentDepartment === 'dispatch'">
       <q-btn
         label="ДОБАВИТЬ" @click="openCreateWindow"
