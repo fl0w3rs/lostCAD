@@ -14,11 +14,12 @@
         <ten-codes-button />
         <penal-code-button />
         <bolos-button />
+        <self-dispatch-button />
       </div>
     </div>
 
     <div class="q-mt-sm">
-      <div class="row">
+      <div class="row q-col-gutter-xs">
         <div class="col-12 col-md-6">
           <div class="accent q-pa-sm relative-position">
             <div
@@ -36,6 +37,14 @@
             <call-view type="view" :callData="currentUnit?.call || {}" />
           </div>
         </div>
+        <div class="col-12 col-md-6">
+          <div class="accent q-pa-sm">
+            <unit-list :type="selfDispatchStatus ? 'dispatch' : 'view'" />
+          </div>
+          <div class="accent q-pa-sm q-mt-xs">
+            <call-list :isDispatch="!!selfDispatchStatus" />
+          </div>
+        </div>
       </div>
     </div>
 
@@ -51,9 +60,12 @@ import PenalCodeButton from 'src/components/PenalCodeButton.vue';
 import TenCodesButton from 'src/components/TenCodesButton.vue';
 import BolosButton from 'src/components/bolos/Button.vue';
 import CallView from 'src/components/calls/View.vue';
+import UnitList from 'src/components/unit/List.vue';
+import CallList from 'src/components/calls/List.vue';
 
 import { useStore } from 'vuex';
 import { computed } from 'vue';
+import SelfDispatchButton from 'src/components/SelfDispatchButton.vue';
 
 export default {
   name: 'PolicePage',
@@ -67,12 +79,16 @@ export default {
     TenCodesButton,
     BolosButton,
     CallView,
+    UnitList,
+    CallList,
+    SelfDispatchButton,
   },
 
   setup() {
     const store = useStore();
     return {
       currentUnit: computed(() => store.getters['unit/getCurrentUnit']),
+      selfDispatchStatus: computed(() => store.getters['other/getSelfDispatchStatus']),
     };
   },
 };

@@ -39,7 +39,7 @@
             />
           </div>
           <p class="text-h6 q-mb-sm">Список звонков</p>
-          <call-list />
+          <call-list :isDispatch="true" />
         </div>
       </div>
       <div class="col-12 col-md-6">

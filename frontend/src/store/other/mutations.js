@@ -25,6 +25,14 @@ const mutations = {
 
   'SOCKET_DISPATCH:DUTY:UPDATEDISPATCHERLIST': (state, payload) => {
     state.dispatcherList = payload;
+
+    if (Object.keys(payload).length > 0) state.selfDispatchStatus = false;
+  },
+  updateSelfDispatchStatus: (state, payload) => {
+    state.selfDispatchStatus = payload;
+  },
+  switchSelfDispatchStatus: (state) => {
+    state.selfDispatchStatus = !state.selfDispatchStatus;
   },
 
 };

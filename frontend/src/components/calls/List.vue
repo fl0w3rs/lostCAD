@@ -23,7 +23,13 @@ import { defineComponent, onBeforeMount, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
-  setup() {
+  props: {
+    isDispatch: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup(props) {
     const store = useStore();
 
     onBeforeMount(() => {
@@ -39,7 +45,7 @@ export default defineComponent({
         initialHeight: '520px',
         props: {
           callData: row,
-          type: 'dispatch',
+          type: props.isDispatch ? 'dispatch' : 'view',
         },
       }));
     };

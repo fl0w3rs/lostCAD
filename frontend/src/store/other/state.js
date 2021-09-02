@@ -7,5 +7,6 @@ export default function () {
     signal: 0,
     soundMuted: LocalStorage.getItem('soundMuted') || false,
     dispatcherList: {},
+    selfDispatchStatus: false,
   };
 }

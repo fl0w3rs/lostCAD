@@ -167,7 +167,7 @@ export default defineComponent({
           }
         }
 
-        props.window.doClose();
+        props.window?.doClose();
       }, { ignoreWrapperID: true });
 
       socketWrapper.listen('calls:sound:notify', (payload:any) => {
