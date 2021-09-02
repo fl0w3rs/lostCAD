@@ -50,7 +50,7 @@ export default {
 
     const openIdentifierWindow = () => {
       store.commit('windows/open', windowWrapper({
-        component: 'Identifier',
+        component: 'identifier/ViewOwn',
         type: 'dialog',
         title: 'Идентификатор',
       }));

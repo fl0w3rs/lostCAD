@@ -1,6 +1,12 @@
 <template>
   <div class="row text-uppercase">
     <div class="col-12">
+      <div class="text-left text-bold sectionTitle">РЕГУЛИРУЮЩИЙ ОРГАН</div>
+      <div class="section q-mt-xs">
+        <identifier :identifierData="data.data.identifierInfo" />
+      </div>
+    </div>
+    <div class="col-12 q-mt-sm">
       <div class="text-left text-bold sectionTitle">КОНФИСКАЦИЯ ЛИЦЕНЗИЙ</div>
       <div class="section q-mt-xs q-pa-xs q-gutter-xs">
         <q-checkbox
@@ -170,6 +176,7 @@ import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
 import { useQuasar } from 'quasar';
+import Identifier from 'src/components/identifier/View.vue';
 
 export default defineComponent({
   props: [
@@ -178,7 +185,7 @@ export default defineComponent({
     'characterId',
     'window',
   ],
-  components: { Character },
+  components: { Character, Identifier },
   setup(props: any) {
     const socketWrapper = new SocketWrapper();
     const store = useStore();
@@ -204,6 +211,8 @@ export default defineComponent({
     if (!data?.data?.additionalInfo) data.data.additionalInfo = {};
 
     if (!data?.reasons) data.reasons = [];
+
+    if (props.type === 'create') data.data.identifierInfo = store.getters['identifier/getSelectedIdentifierObject'];
 
     const characterData = ref < null | Record<string, unknown> >(null);
 
@@ -277,6 +286,14 @@ export default defineComponent({
     });
 
     const create = () => {
+      if (!data.data.identifierInfo) {
+        $q.notify({
+          type: 'negative',
+          message: 'Идентификатор не выбран.',
+        });
+        return;
+      }
+
       socketWrapper.emit('arrests:create', data).onReturn((val) => {
         if (!val) return;
         props.window.doClose();
