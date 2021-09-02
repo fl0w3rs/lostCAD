@@ -17,9 +17,9 @@ module.exports = {
     };
 
     if (data?.dispatch) {
-      if (
-        !await socket.isDepartmentTypeAvailable('dispatch')
-      ) return;
+      // if (
+      //   !await socket.isDepartmentTypeAvailable('dispatch')
+      // ) return;
 
       const unit = await db.cad.Unit.findOne({ where: { id: data?.unitId } });
       if (!unit) return;

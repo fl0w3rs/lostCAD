@@ -47,7 +47,7 @@ module.exports = {
         emitReturn('error');
       }
     } else { // ! DISPATCH
-      if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
+      // if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
 
       const validation = new Validator(data?.callData, {
         caller: vtemplates.rules.call.caller,

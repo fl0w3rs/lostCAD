@@ -4,7 +4,7 @@ module.exports = {
     socket, data, db, io,
   }) => {
     if (!socket.isAuthenticated) return;
-    if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
+    // if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
 
     if (!data?.unitId) return;
 
