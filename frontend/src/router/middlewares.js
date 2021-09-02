@@ -19,6 +19,12 @@ export function admin({ next, store }) {
   return next();
 }
 
+export function emptyDepartment({ next, store }) {
+  store.commit('user/setCurrentDepartment', null);
+
+  return next();
+}
+
 const depts = {
   police: {},
   dispatch: {},

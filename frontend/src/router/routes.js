@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 import {
-  auth, admin, police, fire, civilian, dispatch,
+  auth, admin, police, fire, civilian, dispatch, emptyDepartment,
 } from './middlewares';
 
 const routes = [
@@ -9,8 +9,8 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Login.vue') },
-      { path: 'home', component: () => import('pages/Home.vue'), meta: { middlewares: [auth] } },
+      { path: '', component: () => import('pages/Login.vue'), meta: { middlwares: [emptyDepartment] } },
+      { path: 'home', component: () => import('pages/Home.vue'), meta: { middlewares: [auth, emptyDepartment] } },
       { path: 'civilian', component: () => import('pages/Civilian.vue'), meta: { middlewares: [auth, civilian] } },
       { path: 'dispatch', component: () => import('pages/Dispatch.vue'), meta: { middlewares: [auth, dispatch] } },
       { path: 'fire', component: () => import('pages/Fire.vue'), meta: { middlewares: [auth, fire] } },
@@ -18,7 +18,7 @@ const routes = [
 
       { path: 'admin', component: () => import('pages/Admin.vue'), meta: { middlewares: [auth, admin] } },
 
-      { path: 'error', component: () => import('pages/Error.vue') },
+      { path: 'error', component: () => import('pages/Error.vue'), meta: { middlewares: [emptyDepartment] } },
     ],
   },
 
@@ -27,6 +27,7 @@ const routes = [
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue'),
+    meta: { middlewares: [emptyDepartment] },
   },
 ];
 

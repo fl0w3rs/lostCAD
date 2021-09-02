@@ -83,6 +83,7 @@ const useSounds = () => {
   const canPlay = () => (
     !store.getters['other/isSoundMuted']
     && store.getters['user/getCurrentDepartment'] !== 'civilian'
+    && store.getters['user/getCurrentDepartment'] !== null
   );
 
   socketWrapper.listen('panic:sound', () => {
