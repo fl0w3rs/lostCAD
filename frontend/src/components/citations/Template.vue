@@ -222,6 +222,7 @@ export default defineComponent({
       store.commit('windows/open', windowWrapper({
         component: 'Lookup',
         type: 'dialog',
+        title: 'Выбор персонажа',
         initialWidth: '50vw',
         props: {
           searchMode: true,
@@ -237,6 +238,7 @@ export default defineComponent({
     const addReason = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
+        title: 'Выбор статьи',
         component: 'PenalCode',
         initialWidth: '70vw',
         props: {

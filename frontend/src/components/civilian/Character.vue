@@ -357,7 +357,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 /* eslint-disable eqeqeq */
 
 import {
@@ -416,7 +416,7 @@ export default {
     const disable = props.type == 'view' || props.type == 'ncic';
 
     const age = computed(() => {
-      const diffTime = Date.now() - new Date(info.value.dob);
+      const diffTime = Date.now() - new Date(info.value.dob).getTime();
       const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
       return diffYears || 0;
     });
@@ -523,6 +523,7 @@ export default {
     const openArrestWindow = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
+        title: 'Создание ареста',
         component: 'arrests/Template',
         initialWidth: '50vw',
         props: {
@@ -537,6 +538,7 @@ export default {
         type: 'dialog',
         component: 'citations/Template',
         initialWidth: '50vw',
+        title: 'Создание штрафа',
         props: {
           type: 'create',
           characterId: info.value.id,

@@ -23,6 +23,7 @@ export default defineComponent({
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
         component: 'citations/Template',
+        title: 'Штраф',
         initialWidth: '50vw',
         props: {
           citationData: row,

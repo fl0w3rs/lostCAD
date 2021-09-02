@@ -220,6 +220,7 @@ export default defineComponent({
         type: 'dialog',
         component: 'calls/AttachUnit',
         initialWidth: '20vw',
+        title: 'Прикрепление юнитов',
         props: {
           callId: data.value.id,
         },

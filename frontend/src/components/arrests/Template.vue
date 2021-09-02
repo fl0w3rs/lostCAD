@@ -231,6 +231,7 @@ export default defineComponent({
     const openSelectCharacter = () => {
       store.commit('windows/open', windowWrapper({
         component: 'Lookup',
+        title: 'Выбор персонажа',
         type: 'dialog',
         initialWidth: '50vw',
         props: {
@@ -247,6 +248,7 @@ export default defineComponent({
     const addReason = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
+        title: 'Выбор статьи',
         component: 'PenalCode',
         initialWidth: '70vw',
         props: {

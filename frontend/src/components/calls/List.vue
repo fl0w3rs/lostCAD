@@ -34,6 +34,7 @@ export default defineComponent({
       store.commit('windows/open', windowWrapper({
         component: 'calls/View',
         type: 'draggable',
+        title: 'Просмотр вызова',
         initialWidth: '50vw',
         initialHeight: '520px',
         props: {

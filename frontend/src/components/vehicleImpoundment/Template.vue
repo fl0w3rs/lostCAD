@@ -110,6 +110,7 @@ export default defineComponent({
         component: 'Lookup',
         type: 'dialog',
         initialWidth: '50vw',
+        title: 'Выбор Т/С',
         props: {
           searchMode: true,
           defaultTab: 'dmv',
@@ -126,6 +127,7 @@ export default defineComponent({
         type: 'dialog',
         component: 'PenalCode',
         initialWidth: '70vw',
+        title: 'Выбор статьи',
         props: {
           onlyArrests: true,
           mode: 'select',

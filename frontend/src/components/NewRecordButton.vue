@@ -43,6 +43,7 @@ export default defineComponent({
     const openCitationWindow = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
+        title: 'Создание штрафа',
         component: 'citations/Template',
         initialWidth: '50vw',
         props: {
@@ -53,6 +54,7 @@ export default defineComponent({
     const openArrestWindow = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
+        title: 'Создание ареста',
         component: 'arrests/Template',
         initialWidth: '50vw',
         props: {
@@ -64,6 +66,7 @@ export default defineComponent({
     const openVehicleImpoundmentWindow = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
+        title: 'Создание изъятия Т/С',
         component: 'vehicleImpoundment/Template',
         initialWidth: '50vw',
         props: {

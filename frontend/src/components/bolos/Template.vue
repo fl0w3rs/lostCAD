@@ -258,6 +258,7 @@ export default defineComponent({
         type: 'dialog',
         component: 'PenalCode',
         initialWidth: '70vw',
+        title: 'Выбор статьи',
         props: {
           mode: 'select',
           onClick: (row) => {
@@ -319,6 +320,7 @@ export default defineComponent({
         component: 'Lookup',
         type: 'dialog',
         initialWidth: '50vw',
+        title: 'Выбор персонажа',
         props: {
           searchMode: true,
           defaultTab: 'ncic',
@@ -335,6 +337,7 @@ export default defineComponent({
       store.commit('windows/open', windowWrapper({
         component: 'Lookup',
         type: 'dialog',
+        title: 'Выбор Т/С',
         initialWidth: '50vw',
         props: {
           searchMode: true,

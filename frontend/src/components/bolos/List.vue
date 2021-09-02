@@ -118,6 +118,7 @@ export default defineComponent({
     const openBoloWindow = (evt, row) => {
       store.commit('windows/open', windowWrapper({
         component: 'bolos/Template',
+        title: 'Розыск',
         type: 'dialog',
         initialWidth: '50vw',
         props: { boloData: row, type: 'view' },
@@ -126,6 +127,7 @@ export default defineComponent({
 
     const openCreateWindow = () => {
       store.commit('windows/open', windowWrapper({
+        title: 'Создание элемента розыска',
         component: 'bolos/Template',
         type: 'dialog',
         props: {

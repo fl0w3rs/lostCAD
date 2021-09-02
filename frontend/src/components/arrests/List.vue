@@ -22,6 +22,7 @@ export default defineComponent({
     const onRowClick = (evt, row) => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
+        title: 'Арест',
         component: 'arrests/Template',
         initialWidth: '50vw',
         props: {
