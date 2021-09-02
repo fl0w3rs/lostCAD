@@ -82,8 +82,8 @@ module.exports = {
 
       characters[i].bolo = boloMappedCharacterIds.includes(characters[i].id);
       characters[i].boloFlags = {
-        mentallyIll: false,
         armed: false,
+        mentallyIll: false,
         violent: false,
       };
 

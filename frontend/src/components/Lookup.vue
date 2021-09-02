@@ -99,19 +99,27 @@
           >
             <template v-slot:body-cell-isWanted="props">
               <q-td :props="props">
-                <div class="column justify-center q-gutter-xs">
-                  <span>
-                    <q-badge label="В РОЗЫСКЕ" color="red" v-if="props.row.bolo" />
-                  </span>
-                  <span
-                    v-for="flag in Object.entries(props.row.boloFlags).filter((val) => !!val[1])"
-                    :key="flag[0]"
-                  >
-                    <q-badge
-                      color="red"
-                      :label="boloFlagList[flag[0]] || flag[0]"
-                    ></q-badge>
-                  </span>
+                <div class="column items-center justify-center q-gutter-xs">
+                  <div class="row justify-center q-gutter-xs">
+                    <div class="q-gutter-xs text-center">
+                      <q-badge label="В РОЗЫСКЕ" color="red" v-if="props.row.bolo" />
+                      <template
+                        v-for="
+                        (flag, key) in Object.entries(props.row.boloFlags).filter((val) => !!val[1])
+                        "
+                        :key="flag[0]"
+                      >
+
+                        <br v-if="key % 2 == 1" />
+                        <q-badge
+                          color="red"
+                          :label="boloFlagList[flag[0]] || flag[0]"
+                        ></q-badge>
+
+                      </template>
+                    </div>
+
+                  </div>
 
                 </div>
               </q-td>
@@ -408,6 +416,7 @@ export default {
       ncicColumns: [
         {
           name: 'isWanted',
+          headerStyle: 'width: 256px',
         },
         {
           name: 'name',
