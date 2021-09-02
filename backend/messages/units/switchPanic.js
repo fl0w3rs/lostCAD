@@ -27,9 +27,10 @@ module.exports = {
       unit.panic = !unit.dataValues.panic;
       await unit.save();
 
-      if (unit.panic) {
-        setTimeout(addSignals, 2000);
+      await io.updateAllUnits();
 
+      if (unit.panic) {
+        addSignals();
         io.emit('panic:sound');
       }
     } else {
@@ -44,14 +45,14 @@ module.exports = {
       unit.panic = !unit.panic;
       await unit.save();
 
+      await io.updateAllUnits();
+
       if (unit.panic) {
-        setTimeout(addSignals, 2000);
+        addSignals();
         io.emit('panic:sound');
       }
 
       io.sendDispatchLogMessage(`[b]Юнит ${unit.callsign}[/b]: ${unit.panic ? 'включена' : 'выключена'} кнопка паники.`);
     }
-
-    io.updateAllUnits();
   },
 };

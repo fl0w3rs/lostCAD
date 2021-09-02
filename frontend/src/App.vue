@@ -86,6 +86,20 @@ const useSounds = () => {
     && store.getters['user/getCurrentDepartment'] !== null
   );
 
+  const getUnits = () => store.getters['unit/getAllUnits'];
+
+  const isPanicEnabled = () => {
+    const units = getUnits();
+
+    for (let i = 0; i < units.length; i += 1) {
+      // eslint-disable-next-line no-continue
+      if (!units[i].panic) continue;
+      return true;
+    }
+
+    return false;
+  };
+
   socketWrapper.listen('panic:sound', () => {
     panicAudio.play();
   }, { ignoreWrapperID: true });
@@ -99,6 +113,8 @@ const useSounds = () => {
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('updateSignal', (data) => {
+    if (isPanicEnabled()) return;
+
     const signals = data.split(', ');
     if (signals.includes('100')) signalAudio.play();
   }, { ignoreWrapperID: true });
@@ -113,21 +129,16 @@ const useSounds = () => {
     interval = setInterval(() => {
       if (!canPlay()) return;
 
-      const signals = store.getters['other/getSignal'].split(', ') || [];
+      if (!isPanicEnabled()) {
+        const signals = store.getters['other/getSignal'].split(', ') || [];
 
-      if (signals.includes('100')) signalAudio.play();
+        if (signals.includes('100')) signalAudio.play();
+      }
 
       setTimeout(() => {
         if (!canPlay()) return;
 
-        const units = store.getters['unit/getAllUnits'];
-
-        for (let i = 0; i < units.length; i += 1) {
-          // eslint-disable-next-line no-continue
-          if (!units[i].panic) continue;
-          panicAudio.play();
-          break;
-        }
+        if (isPanicEnabled()) panicAudio.play();
       }, 5000);
     }, 12000);
   });
