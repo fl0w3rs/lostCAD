@@ -64,11 +64,11 @@ import BolosButton from 'src/components/bolos/Button.vue';
 import CallView from 'src/components/calls/View.vue';
 import UnitList from 'src/components/unit/List.vue';
 import CallList from 'src/components/calls/List.vue';
+import SelfDispatchButton from 'src/components/SelfDispatchButton.vue';
+import NewRecordButton from 'src/components/NewRecordButton.vue';
 
 import { useStore } from 'vuex';
 import { computed } from 'vue';
-import SelfDispatchButton from 'src/components/SelfDispatchButton.vue';
-import NewRecordButton from 'src/components/NewRecordButton.vue';
 
 export default {
   name: 'PolicePage',

@@ -279,7 +279,6 @@ export default defineComponent({
     };
 
     const onLocationUpdate = (val) => {
-      // console.log(data.value);
       data.value.location = val;
 
       setTimeout(() => {
