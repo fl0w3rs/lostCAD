@@ -19,7 +19,7 @@ export default {
     const store = useStore();
     onBeforeMount(() => { store.dispatch('other/requestSignal'); });
     return {
-      signalList: computed(() => store.getters['other/getSignal'].split(', ').filter((o) => o)),
+      signalList: computed(() => (store.getters['other/getSignal'] || '').split(', ').filter((o) => o)),
     };
   },
 };

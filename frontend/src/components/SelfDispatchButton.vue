@@ -1,5 +1,5 @@
 <template>
-  <q-btn label="дисп =)"
+  <q-btn label="Диспетчерская"
     :color="selfDispatchStatus ? 'green' : 'white'" size="sm"
     outline @click="onClick" v-if="isSelfDispatchAvailable">
 
