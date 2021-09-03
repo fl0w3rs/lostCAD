@@ -14,7 +14,9 @@
         <ten-codes-button />
         <penal-code-button />
         <bolos-button />
+        <new-record-button />
         <self-dispatch-button />
+
       </div>
     </div>
 
@@ -66,6 +68,7 @@ import CallList from 'src/components/calls/List.vue';
 import { useStore } from 'vuex';
 import { computed } from 'vue';
 import SelfDispatchButton from 'src/components/SelfDispatchButton.vue';
+import NewRecordButton from 'src/components/NewRecordButton.vue';
 
 export default {
   name: 'PolicePage',
@@ -82,6 +85,7 @@ export default {
     UnitList,
     CallList,
     SelfDispatchButton,
+    NewRecordButton,
   },
 
   setup() {

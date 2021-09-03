@@ -32,10 +32,30 @@
       ></q-select>
     </div>
     <div class="col-6 col-md-5">
-      <q-input
+      <q-select
+        :readonly="!canEdit && !canCreate"
+        dense
+        options-dense
+        @filter="streetFilterFn"
+        outlined
+        v-model="data.location"
+        label="Местоположение"
+        :options="streetListFiltered"
+        hide-selected
+        use-input
+        input-debounce="0"
+        fill-input
+        @input-value="onLocationUpdate"
         @update:model-value="updateCall"
-        label="Местоположение" debounce="1000" outlined dense v-model="data.location"
-        :readonly="!canEdit && !canCreate"></q-input>
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              Не найдено
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
     </div>
     <div class="col-6 col-md-2">
       <q-input
@@ -118,13 +138,16 @@
 import {
   defineComponent, ref, computed, watch,
 } from 'vue';
-import { callStatusList, callTypeList, unitStatusList } from 'src/utils/constants';
+import {
+  callStatusList, callTypeList, unitStatusList, streetList,
+} from 'src/utils/constants';
 import bbCodeParser from 'js-bbcode-parser';
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { useQuasar } from 'quasar';
 import { useStore } from 'vuex';
 import { windowWrapper } from 'src/store/windows/types';
 import { Howl } from 'howler';
+import _ from 'lodash';
 
 const newCallNoteAudio = new Howl({
   src: [require('src/assets/sounds/newCallNote.mp3')],
@@ -148,8 +171,8 @@ export default defineComponent({
     const $q = useQuasar();
     const store = useStore();
 
-    const data = ref({ ...props.callData });
-    watch(() => props.callData, (val) => { data.value = { ...val }; });
+    const data = ref(_.cloneDeep(props.callData));
+    watch(() => props.callData, (val) => { data.value = _.cloneDeep(val); });
 
     // shared (w/o create)
 
@@ -162,7 +185,7 @@ export default defineComponent({
       socketWrapper.listen('updateActiveCalls', (payload: any) => {
         for (let i = 0; i < payload.length; i += 1) {
           if (payload[i].id === data.value.id) {
-            data.value = payload[i];
+            data.value = _.cloneDeep(payload[i]);
             return;
           }
         }
@@ -239,6 +262,33 @@ export default defineComponent({
 
     // ==
 
+    const streetListFiltered = ref(streetList);
+
+    const streetFilterFn = (val: any, update: any) => {
+      if (val === '') {
+        update(() => {
+          streetListFiltered.value = streetList;
+        });
+        return;
+      }
+
+      update(() => {
+        const needle = val.toLowerCase();
+        streetListFiltered.value = streetList.filter((v) => v.toLowerCase().indexOf(needle) > -1);
+      });
+    };
+
+    const onLocationUpdate = (val) => {
+      // console.log(data.value);
+      data.value.location = val;
+
+      setTimeout(() => {
+        if (data.value.location === val) updateCall();
+      }, 1500);
+    };
+
+    //
+
     return {
       data,
 
@@ -258,6 +308,10 @@ export default defineComponent({
       dispatchDetachUnit,
 
       // shared for all
+      streetListFiltered,
+      streetFilterFn,
+      onLocationUpdate,
+
       callTypeList,
       unitStatusList,
       statusListComputed: computed(() => Object.entries(callStatusList).map((val) => ({
