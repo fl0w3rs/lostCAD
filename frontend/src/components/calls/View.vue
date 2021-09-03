@@ -305,7 +305,7 @@ export default defineComponent({
       // shared (w/o create)
       addNote,
       newNote,
-      notesComputed: computed(() => bbCodeParser.parse(data?.value?.notes || 'Тут пока пусто.')),
+      notesComputed: computed(() => bbCodeParser.parse(data?.value?.notes || '')),
 
       dispatchAttachUnit,
       dispatchDetachUnit,
