@@ -92,14 +92,7 @@
             </q-item>
           </q-list>
         </q-btn-dropdown>
-        <q-btn
-          color="blue"
-          size="sm"
-          icon="fas fa-list"
-          outline
-          v-if="selectedCharacter != null"
-          label="Записи"
-        />
+        <records-button v-if="selectedCharacter != null" />
         <q-btn
           color="red"
           size="sm"
@@ -143,6 +136,7 @@ import { useStore } from 'vuex';
 
 import { SocketWrapper } from 'src/boot/socketio-instance';
 import { windowWrapper } from 'src/store/windows/types';
+import RecordsButton from 'src/components/civilian/RecordsButton.vue';
 
 export default {
   name: 'CivilianPage',
@@ -154,6 +148,7 @@ export default {
     WeaponList,
     Time,
     SignalBar,
+    RecordsButton,
   },
 
   setup() {

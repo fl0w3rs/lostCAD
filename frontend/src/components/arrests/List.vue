@@ -16,8 +16,8 @@ import { defineComponent } from 'vue';
 import { useStore } from 'vuex';
 
 export default defineComponent({
-  props: ['arrestList'],
-  setup() {
+  props: ['arrestList', 'disableNameColumn'],
+  setup(props) {
     const store = useStore();
     const onRowClick = (evt, row) => {
       store.commit('windows/open', windowWrapper({
@@ -41,15 +41,14 @@ export default defineComponent({
         },
         {
           name: 'name',
-          label: 'Имя и Фамилия',
+          label: props.disableNameColumn ? undefined : 'Имя и Фамилия',
           align: 'center',
-          field: (row) => `${row.character.name} ${row.character.surname}`,
+          field: (row) => (row.character ? `${row.character.name} ${row.character.surname}` : ''),
         },
         {
           name: 'reasons',
           label: 'Причины',
           align: 'center',
-          field: (row) => `${row.character.name} ${row.character.surname}`,
         },
       ],
     };
