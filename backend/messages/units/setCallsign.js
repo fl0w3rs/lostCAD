@@ -11,7 +11,7 @@ module.exports = {
       const unit = await db.cad.Unit.findOne({ where: { id: data?.unitId } });
       if (!unit) return;
 
-      unit.callsign = data?.newCallsign;
+      unit.callsign = data.newCallsign?.toUpperCase();
 
       await unit.save();
 
@@ -27,7 +27,7 @@ module.exports = {
       if (!unit) return;
 
       const oldCallsign = unit.callsign;
-      unit.callsign = data;
+      unit.callsign = data?.toUpperCase();
 
       await unit.save();
       await io.updateAllUnits();

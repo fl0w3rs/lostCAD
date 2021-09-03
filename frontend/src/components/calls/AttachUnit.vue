@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-col-gutter-xs">
+  <div class="row q-col-gutter-xs text-uppercase">
     <div class="col-9">
       <q-select
         :options="availableUnits" emit-value map-options

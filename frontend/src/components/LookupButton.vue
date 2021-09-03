@@ -35,7 +35,7 @@ export default defineComponent({
         type: 'draggable',
         title: 'База данных',
         initialWidth: '800px',
-        initialHeight: '400px',
+        initialHeight: '500px',
         props: { types: props.tabs },
       }));
     };

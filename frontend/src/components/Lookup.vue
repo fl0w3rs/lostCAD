@@ -416,7 +416,6 @@ export default {
       ncicColumns: [
         {
           name: 'isWanted',
-          headerStyle: 'width: 256px',
         },
         {
           name: 'name',

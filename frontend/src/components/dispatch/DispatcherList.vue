@@ -89,7 +89,7 @@ export default defineComponent({
           name: 'name',
           label: 'Диспетчер',
           field: 'name',
-          format: (val, row) => row.name + (row?.callsign ? ` [${row.callsign}]` : ''),
+          format: (val, row) => `${row.callsign ? `[${row.callsign}]` : ''} ${row.name}`,
           align: 'left',
         },
         {
