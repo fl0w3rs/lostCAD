@@ -8,31 +8,35 @@ module.exports = {
     if (!data?.dispatcher) { // ! CIVILIAN
       if (!await socket.isDepartmentTypeAvailable('civilian')) return;
 
-      const validation = new Validator(data?.callData, {
-        caller: vtemplates.rules.call.caller,
-        location: vtemplates.rules.call.location,
-        block: vtemplates.rules.call.block,
-        description: vtemplates.rules.call.description,
-      });
+      if (data.callData.isVoice == false) {
+        const validation = new Validator(data?.callData, {
+          caller: vtemplates.rules.call.caller,
+          location: vtemplates.rules.call.location,
+          block: vtemplates.rules.call.block,
+          description: vtemplates.rules.call.description,
+        });
 
-      validation.setAttributeNames({
-        caller: vtemplates.names.call.caller,
-        location: vtemplates.names.call.location,
-        block: vtemplates.names.call.block,
-        description: vtemplates.names.call.description,
-      });
+        validation.setAttributeNames({
+          caller: vtemplates.names.call.caller,
+          location: vtemplates.names.call.location,
+          block: vtemplates.names.call.block,
+          description: vtemplates.names.call.description,
+        });
 
-      if (validation.fails()) {
-        socket.emit('errorNotifyUnescaped', Object.values(validation.errors.all()).join('<br/>'));
-        emitReturn('error');
-        return;
+        if (validation.fails()) {
+          socket.emit('errorNotifyUnescaped', Object.values(validation.errors.all()).join('<br/>'));
+          emitReturn('error');
+          return;
+        }
       }
 
       const {
-        caller, location, block, description,
+        caller, location, block, description, isVoice,
       } = data.callData;
 
-      const call = await db.cad.Call.create({
+      const call = await db.cad.Call.create(isVoice ? {
+        isVoice, type: 'Голосовой вызов',
+      } : {
         caller, location, blockNumber: block, description,
       });
 

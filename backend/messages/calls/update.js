@@ -6,15 +6,17 @@ module.exports = {
     if (!socket.isAuthenticated) return;
     // if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
 
-    if (!data?.status || !data?.priority || !data?.location || !data?.type) return;
+    if (!data?.status || !data?.priority || !data?.type) return;
 
     const call = await db.cad.Call.findOne({ where: { id: data?.id } });
     if (!call) return;
 
     call.status = data.status;
     call.priority = data.priority;
-    call.location = data.location;
+    call.location = data.location || '';
     call.type = data.type;
+    call.caller = data?.caller || '';
+    call.description = data?.description || '';
     call.blockNumber = data?.blockNumber || null;
 
     await call.save();

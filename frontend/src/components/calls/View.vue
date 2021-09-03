@@ -6,8 +6,10 @@
     </div>
     <div class="col-6 col-md-4">
       <q-input
-        label="Заявитель" :readonly="!canCreate"
+        label="Заявитель" :readonly="!canCreate && !data.isVoice"
         outlined dense v-model="data.caller"
+        @update:model-value="updateCall"
+        debounce="1000"
       ></q-input>
     </div>
     <div class="col-6 col-md-4">
@@ -78,8 +80,10 @@
     </div>
     <div class="col-12">
       <q-input
-        label="Описание" :readonly="!canCreate" outlined dense
-        v-model="data.description" type="textarea"></q-input>
+        label="Описание" :readonly="!canCreate && !data.isVoice" outlined dense
+        v-model="data.description" type="textarea"
+        @update:model-value="updateCall"
+        debounce="1000"></q-input>
     </div>
     <template v-if="!canCreate">
       <div class="col-12">

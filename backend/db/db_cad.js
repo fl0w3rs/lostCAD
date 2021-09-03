@@ -204,6 +204,10 @@ const Call = sequelize.define('call',
       type: DataTypes.BOOLEAN,
       defaultValue: false,
     },
+    isVoice: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+    },
     notes: DataTypes.TEXT,
     caller: DataTypes.STRING(64),
     location: DataTypes.STRING(64),
@@ -303,7 +307,7 @@ VehicleImpoundment.belongsTo(Vehicle);
 // Citation.sync({ alter: true });
 // Arrest.sync({ alter: true });
 // VehicleImpoundment.sync({ alter: true });
-// Vehicle.sync({ alter: true });
+// Call.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;

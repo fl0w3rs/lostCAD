@@ -61,7 +61,7 @@
         color="red"
         outline
         size="sm"
-        @click="createCall"
+        @click="createCall(false)"
         label="Создать текстовый"
       />
       <q-btn
@@ -70,6 +70,7 @@
         outline
         size="sm"
         label="Создать голосовой"
+        @click="createCall(true)"
       />
     </div>
   </div>
@@ -123,8 +124,8 @@ export default defineComponent({
       });
     };
 
-    const createCall = () => {
-      socketWrapper.emit('calls:create', { callData }).onReturn((resp) => {
+    const createCall = (isVoice) => {
+      socketWrapper.emit('calls:create', { callData: { ...callData, isVoice: !!isVoice } }).onReturn((resp) => {
         if (resp === 'success') props.window.doClose();
       });
     };

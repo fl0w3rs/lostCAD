@@ -209,8 +209,8 @@ export default {
     };
 
     const create = () => {
-      if (newCode.code.length < 1 || newCode.code.length > 10) return;
-      if (newCode.desc.length < 1 || newCode.desc.length > 32) return;
+      if (newCode.code.length < 1 || newCode.code.length > 16) return;
+      if (newCode.desc.length < 1 || newCode.desc.length > 256) return;
 
       codes.value.push({ ...newCode });
 
