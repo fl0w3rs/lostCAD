@@ -171,7 +171,7 @@ export default defineComponent({
     const $q = useQuasar();
     const store = useStore();
 
-    const data = ref(_.cloneDeep(props.callData));
+    const data = ref(_.cloneDeep(props.callData) || {});
     watch(() => props.callData, (val) => { data.value = _.cloneDeep(val); });
 
     // shared (w/o create)

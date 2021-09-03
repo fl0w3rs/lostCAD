@@ -11,7 +11,7 @@ module.exports = {
     ) return;
 
     const user = await socket.getUser();
-    const unit = await db.cad.Unit.create({ callsign: data.callsign, status: 'unavail', log: '' });
+    const unit = await db.cad.Unit.create({ callsign: data.callsign.toUpperCase(), status: 'unavail', log: '' });
 
     user.unitId = unit.dataValues.id;
     await user.save();
