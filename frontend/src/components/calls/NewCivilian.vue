@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-uppercase">
     <div class="row q-col-gutter-xs">
       <div class="col-4">
         <q-select
