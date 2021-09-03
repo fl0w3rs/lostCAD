@@ -42,7 +42,7 @@ export default defineComponent({
         type: 'draggable',
         title: 'Просмотр вызова',
         initialWidth: '50vw',
-        initialHeight: '520px',
+        initialHeight: props.isDispatch ? '570px' : '465px',
         props: {
           callData: row,
           type: props.isDispatch ? 'dispatch' : 'view',
