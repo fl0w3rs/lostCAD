@@ -101,11 +101,11 @@ const utils = {
 
     const k = count.busy / count.total;
     if (k < 0.2) {
-      load = 'LOW';
+      load = 'Низкая';
     } else if (k < 0.7) {
-      load = 'MEDIUM';
+      load = 'Средняя';
     } else {
-      load = 'HIGH';
+      load = 'Высокая';
     }
 
     globalCache.set('unitLoad', load, 'forever');
@@ -274,7 +274,6 @@ app.get('/api/getAuthKey', (req, res) => {
 app.get('/api/getUnitLoad', async (req, res) => {
   res.append('Access-Control-Allow-Origin', req.get('origin'));
   res.json({
-    status: 'success',
     load: await utils.getUnitLoad(),
   });
 });
@@ -284,7 +283,6 @@ app.get('/api/getCode', async (req, res) => {
 
   res.append('Access-Control-Allow-Origin', req.get('origin'));
   res.json({
-    status: 'success',
     code: codes.includes('100'),
   });
 });
