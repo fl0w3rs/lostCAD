@@ -179,7 +179,7 @@ const Setting = sequelize.define('setting',
       type: DataTypes.STRING(32),
       unique: true,
     },
-    value: DataTypes.TEXT,
+    value: DataTypes.TEXT('medium'),
   },
   {
     tableName: 'settings',
@@ -333,7 +333,7 @@ VehicleImpoundment.belongsTo(Vehicle);
 User.hasMany(Log);
 Log.belongsTo(User);
 
-// Character.sync({ alter: true });
+// Setting.sync({ alter: true });
 // Citation.sync({ alter: true });
 // Arrest.sync({ alter: true });
 // VehicleImpoundment.sync({ alter: true });
