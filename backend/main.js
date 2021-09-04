@@ -279,6 +279,16 @@ app.get('/api/getUnitLoad', async (req, res) => {
   });
 });
 
+app.get('/api/getCode', async (req, res) => {
+  const codes = (await utils.settings.get('signal')).split(', ');
+
+  res.append('Access-Control-Allow-Origin', req.get('origin'));
+  res.json({
+    status: 'success',
+    code: codes.includes('100'),
+  });
+});
+
 const messageModules = [];
 for (let i = 0; i < messages.default.length; i += 1) {
   messageModules.push(messages.default[i].default);
