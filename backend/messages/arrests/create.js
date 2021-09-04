@@ -8,6 +8,7 @@ module.exports = {
     if (
       !await socket.isDepartmentTypeAvailable('police')
       && !await socket.isDepartmentTypeAvailable('dispatch')
+      && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
     if (!data?.characterId) return;
