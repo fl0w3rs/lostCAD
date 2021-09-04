@@ -1,12 +1,19 @@
+import config from '../config.js';
+
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('db_name', 'db_user', 'db_password', {
-  host: 'localhost',
-  dialect: 'mysql',
-  define: {
-    timestamps: false,
+const sequelize = new Sequelize(
+  config.db.forum.database,
+  config.db.forum.username,
+  config.db.forum.password,
+  {
+    host: config.db.forum.host,
+    dialect: 'mysql',
+    define: {
+      timestamps: false,
+    },
   },
-});
+);
 
 const core_members_known_devices = sequelize.define('core_members_known_devices',
   {

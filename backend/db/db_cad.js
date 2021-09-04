@@ -1,12 +1,19 @@
+import config from '../config.js';
+
 const { Sequelize, DataTypes } = require('sequelize');
 
-const sequelize = new Sequelize('db_name', 'db_user', 'db_password', {
-  host: 'localhost',
-  dialect: 'mysql',
-  define: {
-    timestamps: false,
+const sequelize = new Sequelize(
+  config.db.cad.database,
+  config.db.cad.username,
+  config.db.cad.password,
+  {
+    host: config.db.cad.host,
+    dialect: 'mysql',
+    define: {
+      timestamps: false,
+    },
   },
-});
+);
 
 const User = sequelize.define('user',
   {

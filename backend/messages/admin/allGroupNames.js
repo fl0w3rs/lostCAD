@@ -1,10 +1,12 @@
+import config from '../../config.js';
+
 module.exports = {
   message: 'admin/getAllGroupNames',
   callback: async ({ socket, db, emitReturn }) => {
     if (!(await socket.isAdmin())) return;
 
     const resp = (await db.forum.sequelize.query(`
-            SELECT g.g_id, l.word_custom FROM core_groups g INNER JOIN core_sys_lang_words l ON l.word_key = CONCAT('core_group_', g.g_id)
+            SELECT g.g_id, l.word_custom FROM core_groups g INNER JOIN core_sys_lang_words l ON l.word_key = CONCAT('core_group_', g.g_id) AND l.lang_id = ${config.languageId}
         `))[0];
 
     const data = [];

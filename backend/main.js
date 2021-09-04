@@ -8,6 +8,7 @@ import * as Sequelize from 'sequelize';
 import createCacheInstance from './helpers/cache.js';
 import db from './db/index';
 import vtemplates from './helpers/vtemplates.js';
+import config from './config.js';
 
 // eslint-disable-next-line import/no-unresolved
 import * as messages from './messages/**/*';
@@ -16,23 +17,12 @@ const Validator = require('validatorjs');
 
 Validator.useLang('ru');
 
-const adminGroups = [4];
-
 const globalCache = createCacheInstance();
-
-const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 const http = require('http').Server(app);
 
 app.use(cookieParser());
-
-if (process.env.NODE_ENV == 'dev') {
-  // app.use(createProxyMiddleware('/', { target: 'http://127.0.0.1:9110/', changeOrigin: true }));
-  app.all(
-    '/', createProxyMiddleware('/', { target: 'http://127.0.0.1:9110/', changeOrigin: true }),
-  );
-}
 
 const io = require('socket.io')(http, {
   path: '/socket',
@@ -511,7 +501,7 @@ io.on('connection', (socket) => {
 
   socket.isAdmin = async () => {
     const groups = await socket.getForumUserGroups();
-    return groups.intersects(adminGroups).length > 0;
+    return groups.intersects(config.adminGroups).length > 0;
   };
 
   socket.sendAllCharacters = async (cached = true) => {
