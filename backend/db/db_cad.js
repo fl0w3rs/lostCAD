@@ -27,6 +27,10 @@ const User = sequelize.define('user',
       type: DataTypes.STRING,
       defaultValue: 'off',
     },
+    lastLogin: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
   },
   {
     tableName: 'users',
@@ -256,6 +260,27 @@ const VehicleImpoundment = sequelize.define('vehicleImpoundment',
     tableName: 'vehicleImpoundments',
   });
 
+const Log = sequelize.define('log',
+  {
+    text: DataTypes.STRING(256),
+    additional: {
+      type: DataTypes.JSON,
+      defaultValue: {},
+    },
+  },
+  { tableName: 'logs' });
+
+User.prototype.addLog = function ({ text, data, socket }) {
+  this.createLog({
+    text: text || '',
+    additional: {
+      data: data || {},
+      ip: socket?.getIp() || 'Не определён',
+      time: Date.now(),
+    },
+  });
+};
+
 // unit
 
 Unit.hasMany(User);
@@ -303,11 +328,18 @@ Arrest.belongsTo(Character);
 Vehicle.hasMany(VehicleImpoundment);
 VehicleImpoundment.belongsTo(Vehicle);
 
+// logs
+
+User.hasMany(Log);
+Log.belongsTo(User);
+
 // Character.sync({ alter: true });
 // Citation.sync({ alter: true });
 // Arrest.sync({ alter: true });
 // VehicleImpoundment.sync({ alter: true });
 // Call.sync({ alter: true });
+// User.sync({ alter: true });
+// Log.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.User = User;
@@ -323,6 +355,7 @@ exports.Bolo = Bolo;
 exports.Arrest = Arrest;
 exports.Citation = Citation;
 exports.VehicleImpoundment = VehicleImpoundment;
+exports.Log = Log;
 
 // const createTables = async () => {
 //   const keys = Object.keys(exports);

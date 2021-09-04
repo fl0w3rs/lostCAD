@@ -309,6 +309,8 @@ io.on('connection', (socket) => {
     return cached;
   };
 
+  socket.getIp = () => socket.handshake.headers['cf-connecting-ip'];
+
   socket.getUser = async ({ skipCache = false, clearCache = false } = {}) => {
     if (clearCache) socket.cache.clear('cadUser');
     const cached = socket.cache.get('cadUser');
@@ -320,6 +322,7 @@ io.on('connection', (socket) => {
           { model: db.cad.Unit },
         ],
       }) || await db.cad.User.create({ fid: socket.userId });
+
       socket.cache.set('cadUser', data, 20);
       return data;
     }

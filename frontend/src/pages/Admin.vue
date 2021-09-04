@@ -13,6 +13,10 @@
           </div>
         </div>
 
+        <div class="q-mt-xs">
+          <user-list />
+        </div>
+
       </div>
 
     </div>
@@ -23,10 +27,13 @@
 import DepartmentList from 'components/admin/department/List.vue';
 import TenCodesButton from 'src/components/TenCodesButton.vue';
 import PenalCodeButton from 'src/components/PenalCodeButton.vue';
+import UserList from 'src/components/admin/UserList.vue';
 
 export default {
   name: 'AdminPage',
-  components: { DepartmentList, TenCodesButton, PenalCodeButton },
+  components: {
+    DepartmentList, TenCodesButton, PenalCodeButton, UserList,
+  },
   setup() {
     return {};
   },

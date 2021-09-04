@@ -38,6 +38,11 @@ module.exports = {
     const cadUser = await socket.getUser();
     socket.unitId = cadUser?.unit?.id || undefined;
 
+    cadUser.lastLogin = Date.now();
+    await cadUser.save();
+
+    cadUser.addLog({ text: 'Успешная авторизация.', socket });
+
     emitReturn({
       status: 'authenticated',
       userdata: {
