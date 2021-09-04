@@ -9,7 +9,7 @@ module.exports = {
       && !await socket.isDepartmentTypeAvailable('fire')
     ) return;
 
-    io.sendDispatchLogMessage(`[b]${await socket.getDisplayName()}[/b]: нажат приоритет.`);
+    io.sendDispatchLogMessage(`[b]${await socket.getDisplayName({ identifierCallsignPrefix: true })}[/b]: нажат приоритет.`);
 
     io.emit('doPriority', []);
   },

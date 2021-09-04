@@ -377,11 +377,17 @@ io.on('connection', (socket) => {
     return cached;
   };
 
-  socket.getDisplayName = async ({ unitPrefix = false, dispatchPrefix = false } = {}) => {
+  socket.getDisplayName = async ({
+    identifierCallsignPrefix = false, unitPrefix = false, dispatchPrefix = false,
+  } = {}) => {
     const identifier = await socket.getCurrentIdentifier();
     const forumUser = await socket.getForumUser();
 
     let name = `${identifier?.name || forumUser?.name}`;
+
+    if (identifierCallsignPrefix) {
+      name = `[${identifier?.callsign}] ` + name;
+    }
 
     if (unitPrefix) {
       const unit = await socket.getUnit();
