@@ -95,7 +95,7 @@
           </template>
         </q-field>
       </div>
-      <div class="col-12">
+      <div class="col-12" v-if="!data.archived">
         <q-input outlined dense @keyup.enter="addNote" label="Новое примечание" v-model="newNote">
           <template v-slot:append>
             <q-btn
@@ -181,11 +181,11 @@ export default defineComponent({
     // shared (w/o create)
 
     const updateCall = () => {
-      if (props.type !== 'dispatch') return;
+      if (props.type !== 'dispatch' || data.value.archived) return;
       setTimeout(() => socketWrapper.emit('calls:update', data.value), 100);
     };
 
-    if (props.type !== 'create') {
+    if (props.type !== 'create' && !data.value.archived) {
       socketWrapper.listen('updateActiveCalls', (payload: any) => {
         for (let i = 0; i < payload.length; i += 1) {
           if (payload[i].id === data.value.id) {
@@ -321,8 +321,8 @@ export default defineComponent({
         value: val[0], text: val[1].text,
       }))),
 
-      canEdit: props.type === 'dispatch',
-      canCreate: props.type === 'create',
+      canEdit: computed(() => props.type === 'dispatch' && !data.value.archived),
+      canCreate: computed(() => props.type === 'create'),
     };
   },
 });

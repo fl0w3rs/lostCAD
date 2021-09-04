@@ -415,6 +415,8 @@ table > thead > tr > th:nth-child(7) {
 </style>
 
 <script>
+/* eslint-disable no-continue */
+
 import {
   ref, reactive, watch,
 } from 'vue';
@@ -455,12 +457,12 @@ export default {
         if (
           props.onlyCitations
           && (!Number(article.ticketAmount) || article.imprisonmentTime.length > 0)
-        ) return;
+        ) continue;
 
         if (
           props.onlyArrests
           && !article.imprisonmentTime.length
-        ) return;
+        ) continue;
 
         if (
           article.article.toLowerCase().includes(searchT)
