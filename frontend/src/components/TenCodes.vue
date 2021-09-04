@@ -54,7 +54,7 @@
                   </q-popup-edit>
                 </span>
               </td>
-              <td class="text-center">
+              <td class="text-left">
                 <span>
                   {{ element.desc }}
                   <q-popup-edit
@@ -151,7 +151,7 @@ td {
 
 table > thead > tr > th:nth-child(1) {
   text-align: center;
-  width: 128px;
+  width: 100px;
 }
 
 table > tbody > tr > td:nth-child(1) {

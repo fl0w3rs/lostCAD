@@ -28,7 +28,7 @@ export default defineComponent({
       store.commit('windows/open', windowWrapper({
         component: 'TenCodes',
         title: 'Просмотр 10-кодов',
-        initialWidth: '30vw',
+        initialWidth: '35vw',
         type: 'dialog',
         props: {
           admin: props.admin,
