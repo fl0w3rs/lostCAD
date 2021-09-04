@@ -20,7 +20,7 @@
     </div>
 
     <div class="row justify-end q-mb-sm">
-      <q-input v-model="searchText" outlined label="Поиск" dense>
+      <q-input v-model="searchText" debounce="500" outlined label="Поиск" dense>
 
       </q-input>
     </div>
@@ -50,12 +50,7 @@
         @end="onEnd"
       >
         <template #item="{element, index}">
-          <tbody v-if="
-            (element.article.includes(searchText) || element.title.includes(searchText))
-            // eslint-disable-next-line max-len
-            && (!onlyCitations || (Number(element.ticketAmount) > 0 && !element.imprisonmentTime.length))
-            && (!onlyArrests || element.imprisonmentTime.length > 0)
-          ">
+          <tbody v-if="allowedKeys[index]">
             <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
               <td>
                 <span>
@@ -421,7 +416,7 @@ table > thead > tr > th:nth-child(7) {
 
 <script>
 import {
-  ref, reactive,
+  ref, reactive, watch,
 } from 'vue';
 import { getPenalCode } from 'src/utils/api.js';
 import draggable from 'vuedraggable';
@@ -443,8 +438,39 @@ export default {
     const $q = useQuasar();
     const socketWrapper = new SocketWrapper();
 
-    const searchText = ref('');
     const penalCode = ref([]);
+
+    const searchText = ref('');
+
+    const allowedKeys = ref({});
+
+    const recalcAllowedKeys = () => {
+      const searchT = searchText.value.toLowerCase();
+
+      allowedKeys.value = {};
+
+      for (let i = 0; i < penalCode.value.length; i += 1) {
+        const article = penalCode.value[i];
+
+        if (
+          props.onlyCitations
+          && (!Number(article.ticketAmount) || article.imprisonmentTime.length > 0)
+        ) return;
+
+        if (
+          props.onlyArrests
+          && !article.imprisonmentTime.length
+        ) return;
+
+        if (
+          article.article.toLowerCase().includes(searchT)
+          || article.title.toLowerCase().includes(searchT)
+        ) allowedKeys.value[i] = true;
+      }
+    };
+
+    watch(searchText, recalcAllowedKeys);
+
     const initialArticle = {
       article: '',
       title: '',
@@ -460,6 +486,7 @@ export default {
 
     getPenalCode().then((result) => {
       penalCode.value = result;
+      recalcAllowedKeys();
     });
 
     const processClick = (row) => {
@@ -525,6 +552,8 @@ export default {
       save,
       remove,
       create,
+
+      allowedKeys,
 
       onEnd,
       processClick,

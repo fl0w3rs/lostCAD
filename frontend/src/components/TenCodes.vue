@@ -151,7 +151,7 @@ td {
 
 table > thead > tr > th:nth-child(1) {
   text-align: center;
-  width: 96px;
+  width: 128px;
 }
 
 table > tbody > tr > td:nth-child(1) {
