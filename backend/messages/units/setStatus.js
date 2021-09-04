@@ -1,7 +1,7 @@
 module.exports = {
   message: 'units:setStatus',
   callback: async ({
-    socket, data, io, db,
+    socket, data, io, db, utils,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -39,6 +39,8 @@ module.exports = {
 
       io.updateAllUnits();
       io.updateActiveCalls();
+
+      utils.recalcUnitLoad();
     } else {
       if (
         !await socket.isDepartmentTypeAvailable('police')
@@ -58,6 +60,8 @@ module.exports = {
 
       io.updateActiveCalls();
       io.updateAllUnits();
+
+      utils.recalcUnitLoad();
     }
 
     //

@@ -1,7 +1,7 @@
 module.exports = {
   message: 'units:disband',
   callback: async ({
-    socket, io, db, data,
+    socket, io, db, data, utils,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -31,6 +31,8 @@ module.exports = {
 
       await unit.destroy();
       io.updateAllUnits();
+
+      utils.recalcUnitLoad();
     }
   },
 };

@@ -11,7 +11,7 @@ module.exports = () => ({
   get(name) {
     if (typeof this.list[name] !== 'object') return undefined;
 
-    if (Date.now() > this.list[name].existsUntil) {
+    if (this.list[name].existsUntil !== 'forever' & Date.now() > this.list[name].existsUntil) {
       delete this.list[name];
       return undefined;
     }

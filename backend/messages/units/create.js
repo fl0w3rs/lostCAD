@@ -1,7 +1,7 @@
 module.exports = {
   message: 'units:create',
   callback: async ({
-    socket, io, data, db, emitReturn,
+    socket, io, data, db, emitReturn, utils,
   }) => {
     if (!socket.isAuthenticated) return;
 
@@ -25,5 +25,7 @@ module.exports = {
 
     io.updateAllUnits();
     emitReturn('success');
+
+    utils.recalcUnitLoad();
   },
 };

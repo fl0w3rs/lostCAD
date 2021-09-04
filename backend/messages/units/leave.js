@@ -1,6 +1,8 @@
 module.exports = {
   message: 'units:leave',
-  callback: async ({ socket, io, db }) => {
+  callback: async ({
+    socket, io, db, utils,
+  }) => {
     if (!socket.isAuthenticated) return;
 
     if (
@@ -31,6 +33,8 @@ module.exports = {
     if (members.length === 0) {
       await io.sendLogMessageToUnit(unitId, 'юнит расформирован из-за отсутствия участников.');
       await unit.destroy();
+
+      utils.recalcUnitLoad();
     }
 
     await io.updateAllUnits();

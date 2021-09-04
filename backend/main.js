@@ -48,16 +48,6 @@ const io = require('socket.io')(http, {
   },
 });
 
-app.get('/api/getAuthKey', (req, res) => {
-  res.append('Access-Control-Allow-Origin', req.get('origin'));
-  res.json({ status: req.cookies.ips4_login_key ? 'success' : 'fail', auth_key: req.cookies.ips4_login_key });
-});
-
-app.get('/api/getUnitLoad', (req, res) => {
-  res.append('Access-Control-Allow-Origin', req.get('origin'));
-  res.json({ status: 'fail' });
-});
-
 // -+
 Date.now = () => new Date().getTime() / 1000 | 0;
 
@@ -79,6 +69,53 @@ const utils = {
     }
 
     return cached;
+  },
+  /*
+
+  А - общее количество юнитов
+  В - количество юнитов статус "занят"
+  k - загруженность
+
+  k = В/А
+
+  если k < 0,2 - низкая загруженность
+  если  k - от 0,2 до 0,7 - средняя загруженность
+  если k > 0,7 - высокая загруженность
+
+  */
+  async recalcUnitLoad() {
+    globalCache.clear('unitLoad');
+
+    const units = await db.cad.Unit.findAll();
+
+    const count = {
+      busy: 0,
+      total: units.length,
+    };
+
+    for (let i = 0; i < units.length; i += 1) {
+      if (units[i].status !== 'avail') count.busy += 1;
+    }
+
+    let load = '';
+
+    const k = count.busy / count.total;
+    if (k < 0.2) {
+      load = 'LOW';
+    } else if (k < 0.7) {
+      load = 'MEDIUM';
+    } else {
+      load = 'HIGH';
+    }
+
+    globalCache.set('unitLoad', load, 'forever');
+  },
+  async getUnitLoad() {
+    if (!globalCache.get('unitLoad')) await this.recalcUnitLoad();
+
+    const load = globalCache.get('unitLoad');
+
+    return load;
   },
   async getBolos() {
     const bolos = await db.cad.Bolo.findAll();
@@ -228,6 +265,19 @@ const utils = {
     globalCache.clear(name);
   },
 };
+
+app.get('/api/getAuthKey', (req, res) => {
+  res.append('Access-Control-Allow-Origin', req.get('origin'));
+  res.json({ status: req.cookies.ips4_login_key ? 'success' : 'fail', auth_key: req.cookies.ips4_login_key });
+});
+
+app.get('/api/getUnitLoad', async (req, res) => {
+  res.append('Access-Control-Allow-Origin', req.get('origin'));
+  res.json({
+    status: 'success',
+    load: await utils.getUnitLoad(),
+  });
+});
 
 const messageModules = [];
 for (let i = 0; i < messages.default.length; i += 1) {
