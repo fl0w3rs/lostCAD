@@ -5,6 +5,23 @@ module.exports = {
   }) => {
     if (!socket.isAuthenticated) return;
 
+    const addCallLog = async ({ callId = null, unit = null }) => {
+      if (!callId || !unit) return;
+
+      let text = '';
+      if (unit.status === 'onscene') {
+        text = `${unit.callsign} прибыл на вызов.`;
+      } else if (unit.status === 'enroute') {
+        text = `${unit.callsign} находится в пути.`;
+      } else return;
+
+      const call = await db.cad.Call.findOne({ where: { id: callId } });
+      if (call) {
+        call.addLog({ text });
+        await call.save();
+      }
+    };
+
     if (data?.dispatch) {
       // if (!await socket.isDepartmentTypeAvailable('dispatch')) return;
 
@@ -14,6 +31,11 @@ module.exports = {
       unit.status = data?.status;
 
       await unit.save();
+
+      await addCallLog({
+        callId: unit.callId,
+        unit,
+      });
 
       io.updateAllUnits();
       io.updateActiveCalls();
@@ -28,6 +50,11 @@ module.exports = {
 
       unit.status = data;
       await unit.save();
+
+      await addCallLog({
+        callId: unit.callId,
+        unit,
+      });
 
       io.updateActiveCalls();
       io.updateAllUnits();

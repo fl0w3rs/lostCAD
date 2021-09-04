@@ -132,6 +132,16 @@
       </div>
     </template>
 
+    <div class="col-12">
+        <q-field outlined readonly dense label="Лог вызова" stack-label>
+          <template v-slot:control>
+            <q-scroll-area class="full-width q-py-xs" style="height: 130px;">
+              <div style="height: inherit;" v-html="logComputed"></div>
+            </q-scroll-area>
+          </template>
+        </q-field>
+      </div>
+
     <div class="col-12 text-center q-gutter-sm q-mt-xs" v-if="canCreate">
       <q-btn color="green" label="Создать" @click="createCall" icon="fas fa-plus" outline />
     </div>
@@ -306,6 +316,7 @@ export default defineComponent({
       addNote,
       newNote,
       notesComputed: computed(() => bbCodeParser.parse(data?.value?.notes || '')),
+      logComputed: computed(() => bbCodeParser.parse(data?.value?.log || '')),
 
       dispatchAttachUnit,
       dispatchDetachUnit,

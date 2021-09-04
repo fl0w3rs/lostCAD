@@ -11,6 +11,12 @@ module.exports = {
     const unit = await db.cad.Unit.findOne({ where: { id: data?.unitId } });
     if (!unit) return;
 
+    const call = await db.cad.Call.findOne({ where: { id: unit.callId } });
+    if (call) {
+      call.addLog({ text: `${unit.callsign} откреплён диспетчером ${await socket.getDisplayName({ identifierCallsignPrefix: true })}.` });
+      await call.save();
+    }
+
     unit.callId = null;
     await unit.save();
 

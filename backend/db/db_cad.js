@@ -213,6 +213,7 @@ const Call = sequelize.define('call',
       defaultValue: false,
     },
     notes: DataTypes.TEXT,
+    log: DataTypes.TEXT,
     caller: DataTypes.STRING(64),
     location: DataTypes.STRING(64),
     blockNumber: DataTypes.INTEGER,
@@ -222,6 +223,12 @@ const Call = sequelize.define('call',
   {
     tableName: 'calls',
   });
+
+const getTimeString = () => new Date().toLocaleTimeString('ru-RU', { timeZone: 'Europe/Moscow' });
+
+Call.prototype.addLog = async function ({ text }) {
+  this.log = `[color=#9e9e9e][${getTimeString()}][/color] ${text}[br] ${this.log || ''}`;
+};
 
 const Bolo = sequelize.define('bolo',
   {

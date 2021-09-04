@@ -25,7 +25,10 @@ module.exports = {
     for (let i = 0; i < units.length; i += 1) {
       units[i].callId = data.callId;
       await units[i].save();
+      call.addLog({ text: `${units[i].callsign} прикреплён диспетчером ${await socket.getDisplayName({ identifierCallsignPrefix: true })}.` });
     }
+
+    await call.save();
 
     const unitIds = units.map((val) => val.id);
     (await io.fetchSockets()).forEach((sock) => {

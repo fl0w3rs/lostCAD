@@ -74,7 +74,7 @@ export default defineComponent({
         title: 'Просмотр вызова',
         initialWidth: '50vw',
         // eslint-disable-next-line no-nested-ternary
-        initialHeight: props.isArchive ? '420px' : props.isDispatch ? '570px' : '465px',
+        initialHeight: props.isArchive ? '570px' : props.isDispatch ? '720px' : '615px',
         props: {
           callData: row,
           type: props.isDispatch ? 'dispatch' : 'view',
