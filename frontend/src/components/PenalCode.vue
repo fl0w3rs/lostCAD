@@ -50,7 +50,7 @@
         @end="onEnd"
       >
         <template #item="{element, index}">
-          <tbody v-if="allowedKeys[index]">
+          <tbody v-if="admin || allowedKeys[index]">
             <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
               <td>
                 <span>

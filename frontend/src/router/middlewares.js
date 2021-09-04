@@ -1,6 +1,8 @@
 /* eslint-disable eqeqeq */
 // router/middlewares.js
 
+import { socketInstance } from 'src/boot/socketio-instance';
+
 export function auth({ next, store }) {
   if (store.getters['auth/isAuthenticated'] == false) {
     store.dispatch('error/show', { message: 'У Вас нет доступа' });
@@ -16,11 +18,15 @@ export function admin({ next, store }) {
     return next(false);
   }
 
+  socketInstance.emit('user:selectDepartment', 'admin');
+
   return next();
 }
 
 export function emptyDepartment({ next, store }) {
   store.commit('user/setCurrentDepartment', null);
+
+  socketInstance.emit('user:selectDepartment', null);
 
   return next();
 }
@@ -43,6 +49,8 @@ for (let i = 0; i < keys.length; i += 1) {
     }
 
     store.commit('user/setCurrentDepartment', name);
+
+    socketInstance.emit('user:selectDepartment', name);
 
     return next();
   };
