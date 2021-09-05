@@ -26,7 +26,7 @@ module.exports = {
       where: { id: user.currentIdentifier },
     });
 
-    if (identifier.id) {
+    if (identifier?.id) {
       await io.sendLogMessageToUnit(unitId, `${identifier.name} покинул(-а) юнит.`);
     }
 
