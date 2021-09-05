@@ -36,7 +36,7 @@ module.exports = {
         where: { id: user.currentIdentifier },
       });
 
-      io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} изменил(-а) маркировку с ${oldCallsign} на ${data}.`);
+      io.sendLogMessageToUnit(unit.dataValues.id, `${identifier.dataValues.name} изменил(-а) маркировку с ${oldCallsign} на ${data.toUpperCase()}.`);
     }
   },
 };
