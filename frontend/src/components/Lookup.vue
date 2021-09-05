@@ -129,9 +129,7 @@
 
         <template
           v-if="
-            (ncicResults?.weapons?.length > 0 || ncicResults?.vehicles?.length > 0)
-            && (allowedTypes.fld || allowedTypes.dmv)
-            && !searchMode
+            !searchMode
           "
         >
           <div

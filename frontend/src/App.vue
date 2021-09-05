@@ -80,7 +80,7 @@ const useSounds = () => {
   const store = useStore();
   const socketWrapper = new SocketWrapper();
 
-  const canPlay = ({ ignoreMuted = false }) => (ignoreMuted || !store.getters['other/isSoundMuted'])
+  const canPlay = (ignoreMuted = false) => (ignoreMuted || !store.getters['other/isSoundMuted'])
     && store.getters['user/getCurrentDepartment'] !== 'civilian'
     && store.getters['user/getCurrentDepartment'] !== null;
 
@@ -99,22 +99,22 @@ const useSounds = () => {
   };
 
   socketWrapper.listen('panic:sound', () => {
-    if (!canPlay({ ignoreMuted: true })) return;
+    if (!canPlay(true)) return;
     panicAudio.play();
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('calls:sound:new', () => {
-    if (!canPlay({ ignoreMuted: true })) return;
+    if (!canPlay(true)) return;
     newCallAudio.play();
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('calls:sound:attach', () => {
-    if (!canPlay({ ignoreMuted: true })) return;
+    if (!canPlay(true)) return;
     unitAttachAudio.play();
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('updateSignal', (data) => {
-    if (!canPlay({ ignoreMuted: true })) return;
+    if (!canPlay(true)) return;
     if (isPanicEnabled()) return;
 
     const signals = data.split(', ');
@@ -122,7 +122,7 @@ const useSounds = () => {
   }, { ignoreWrapperID: true });
 
   socketWrapper.listen('doPriority', () => {
-    if (!canPlay({ ignoreMuted: true })) return;
+    if (!canPlay(true)) return;
     priorityAudio.play();
   }, { ignoreWrapperID: true });
 
