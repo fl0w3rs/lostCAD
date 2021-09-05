@@ -258,7 +258,7 @@ const utils = {
 
 app.get('/api/getAuthKey', (req, res) => {
   res.append('Access-Control-Allow-Origin', req.get('origin'));
-  res.json({ status: req.cookies.ips4_login_key ? 'success' : 'fail', auth_key: req.cookies.ips4_login_key });
+  res.json({ status: req.cookies[config.loginKeyCookieName] ? 'success' : 'fail', auth_key: req.cookies[config.loginKeyCookieName] });
 });
 
 app.get('/api/getUnitLoad', async (req, res) => {
