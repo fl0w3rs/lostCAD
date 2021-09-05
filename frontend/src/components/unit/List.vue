@@ -26,7 +26,7 @@
           <span v-for="(val, key) in props.row.members" v-bind:key="val.id">
             <span v-if="key !== 0">, </span>{{val.callsign}}
             <q-tooltip class="bg-indigo text-center" :offset="[10, 10]">
-              <p>{{ val['name'] }}, {{ val['callsign'] }}</p>
+              <p>{{ val['name'] }}, {{ val['callsign'].toUpperCase() }}</p>
               <p>{{ val['department'] }} {{ val['rank'] }}</p>
             </q-tooltip>
           </span>

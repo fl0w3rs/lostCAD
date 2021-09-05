@@ -8,6 +8,11 @@ module.exports = {
       username: 'db_user',
       database: 'db_name',
       password: 'db_password',
+
+      // host: 'localhost',
+      // username: 'db_user',
+      // database: 'db_name',
+      // password: 'db_password',
     },
     forum: {
       host: 'localhost',

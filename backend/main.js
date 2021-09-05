@@ -443,13 +443,13 @@ io.on('connection', (socket) => {
     let name = `${identifier?.name || forumUser?.name}`;
 
     if (identifierCallsignPrefix) {
-      name = `[${identifier?.callsign}] ` + name;
+      name = `[${identifier?.callsign.toUpperCase()}] ` + name;
     }
 
     if (unitPrefix) {
       const unit = await socket.getUnit();
       if (unit) {
-        name += ` [${unit?.callsign}]`;
+        name += ` [${unit?.callsign.toUpperCase()}]`;
       }
     }
 
