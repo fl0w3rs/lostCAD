@@ -75,8 +75,18 @@ module.exports = {
 
       const lVehicles = characters[i].vehicles;
       const lWeapons = characters[i].weapons;
+
       const lCitations = characters[i].citations;
+      lCitations.forEach((val, index, arr) => {
+        arr[index].dataValues.data = JSON.parse(arr[index]?.dataValues?.data);
+        arr[index].dataValues.reasons = JSON.parse(arr[index]?.dataValues?.reasons);
+      });
+
       const lArrests = characters[i].arrests;
+      lArrests.forEach((val, index, arr) => {
+        arr[index].dataValues.data = JSON.parse(arr[index]?.dataValues?.data);
+        arr[index].dataValues.reasons = JSON.parse(arr[index]?.dataValues?.reasons);
+      });
 
       characters[i] = utils.convertToPlainObject(characters[i]);
 

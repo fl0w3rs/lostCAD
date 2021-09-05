@@ -17,7 +17,7 @@ module.exports = {
       'data.*.confiscateGunLicense': 'required|boolean',
       'data.*.ticketAmount': 'present|numeric',
       'data.*.imprisonmentTime': 'present|string|max:16',
-      'data.*.desc': 'present|string|max:1024',
+      'data.*.desc': 'present|string|max:2048',
     });
 
     if (validation.fails()) {

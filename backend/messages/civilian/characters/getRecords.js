@@ -14,6 +14,24 @@ module.exports = {
       ],
     });
 
-    emitReturn({ arrests: character.arrests, citations: character.citations });
+    const arrests = character.arrests.map((val) => {
+      const el = val.dataValues;
+
+      el.reasons = JSON.parse(el.reasons);
+      el.data = JSON.parse(el.data);
+
+      return el;
+    });
+
+    const citations = character.citations.map((val) => {
+      const el = val.dataValues;
+
+      el.reasons = JSON.parse(el.reasons);
+      el.data = JSON.parse(el.data);
+
+      return el;
+    });
+
+    emitReturn({ arrests, citations });
   },
 };
