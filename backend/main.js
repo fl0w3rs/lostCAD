@@ -277,6 +277,15 @@ app.get('/api/getCode', async (req, res) => {
   });
 });
 
+app.get('/api/getGameZone', async (req, res) => {
+  const gamezone = (await utils.settings.get('gamezone')).toUpperCase();
+
+  res.append('Access-Control-Allow-Origin', req.get('origin'));
+  res.json({
+    gamezone: gamezone || 'Ошибка',
+  });
+});
+
 const messageModules = [];
 for (let i = 0; i < messages.default.length; i += 1) {
   messageModules.push(messages.default[i].default);
