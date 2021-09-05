@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   config.db.forum.password,
   {
     host: config.db.forum.host,
-    dialect: 'mysql',
+    dialect: 'mariadb',
     define: {
       timestamps: false,
     },

@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   config.db.cad.password,
   {
     host: config.db.cad.host,
-    dialect: 'mysql',
+    dialect: 'mariadb',
     define: {
       timestamps: false,
     },
@@ -356,15 +356,15 @@ Log.belongsTo(User);
 // Log.sync({ alter: true });
 
 exports.sequelize = sequelize;
+exports.Call = Call;
+exports.Unit = Unit;
 exports.User = User;
 exports.Department = Department;
 exports.Character = Character;
 exports.Identifier = Identifier;
 exports.Vehicle = Vehicle;
 exports.Weapon = Weapon;
-exports.Unit = Unit;
 exports.Setting = Setting;
-exports.Call = Call;
 exports.Bolo = Bolo;
 exports.Arrest = Arrest;
 exports.Citation = Citation;
@@ -376,8 +376,11 @@ exports.Log = Log;
 //   for (let i = 0; i < keys.length; i += 1) {
 //     const obj = exports[keys[i]];
 
+//     // eslint-disable-next-line no-continue
 //     if (typeof obj !== 'function') continue;
 
 //     await obj.sync();
 //   }
 // };
+
+// createTables();
