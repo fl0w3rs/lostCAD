@@ -12,6 +12,7 @@ module.exports = {
     if (!call) return;
 
     call.archived = true;
+    call.status = 'completed';
     await call.save();
 
     for (let i = 0; i < call?.units?.length; i += 1) {
