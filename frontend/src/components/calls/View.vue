@@ -126,6 +126,13 @@
               >
                 Прикрепить
               </q-chip>
+              <q-chip
+                class="text-uppercase" outline clickable
+                @click="dispatchDetachAllUnits" color="red"
+                text-color="white" icon="close"
+              >
+                Открепить всех
+              </q-chip>
             </div>
           </template>
         </q-field>
@@ -252,6 +259,21 @@ export default defineComponent({
       });
     };
 
+    const dispatchDetachAllUnits = () => {
+      $q.dialog({
+        title: 'Открепить всех юнитов',
+        message: 'Вы уверены, что хотите открепить всех юнитов от вызова?',
+        cancel: true,
+        persistent: true,
+        ok: {
+          label: 'Да',
+          flat: true,
+        },
+      }).onOk(() => {
+        socketWrapper.emit('calls:detachAllUnits', { callId: data.value.id });
+      });
+    };
+
     const dispatchAttachUnit = () => {
       store.commit('windows/open', windowWrapper({
         type: 'dialog',
@@ -311,6 +333,7 @@ export default defineComponent({
       // dispatch
       updateCall,
       dispatchArchiveCall,
+      dispatchDetachAllUnits,
 
       // shared (w/o create)
       addNote,
