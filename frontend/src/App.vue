@@ -143,7 +143,7 @@ const useSounds = () => {
 
         if (isPanicEnabled()) panicAudio.play();
       }, 5000);
-    }, 12000);
+    }, 17000);
   });
 
   onBeforeUnmount(() => {

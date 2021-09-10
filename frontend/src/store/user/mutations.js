@@ -18,6 +18,7 @@ export function updateInfo(state, payload) {
 export function setCurrentDepartment(state, payload) {
   if (state.currentDepartment !== payload) {
     socketInstance.emit('units:leave', null);
+    socketInstance.emit('dispatch:duty:setStatus', 'off');
   }
 
   state.currentDepartment = payload;

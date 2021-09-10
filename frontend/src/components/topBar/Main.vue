@@ -53,6 +53,7 @@ export default {
         component: 'identifier/ViewOwn',
         type: 'dialog',
         title: 'Идентификатор',
+        initialWidth: '35vw',
       }));
     };
 

@@ -231,6 +231,12 @@ export default {
         {
           name: 'callsign', align: 'center', label: 'Позывной', field: 'callsign', sortable: false,
         },
+        {
+          name: 'department', align: 'center', label: 'Департамент', field: 'department', sortable: false,
+        },
+        {
+          name: 'division', align: 'center', label: 'Дивизия', field: 'division', sortable: false,
+        },
       ],
     };
   },
