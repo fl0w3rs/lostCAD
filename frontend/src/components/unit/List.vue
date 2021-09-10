@@ -134,7 +134,7 @@ export default {
           label: 'Прикреплённый вызов',
           align: 'center',
           sortable: true,
-          field: (row) => row.call.id || 'lol',
+          field: (row) => row.call?.id || 0,
           // format: (val, row) => row?.callData?.id || 'Нет',
         },
         {
