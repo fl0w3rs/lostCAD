@@ -164,8 +164,6 @@ export default {
       });
     };
 
-    // props.window.doClose();
-
     return {
       info, departmentTypeList, groupList, create, save, remove,
     };

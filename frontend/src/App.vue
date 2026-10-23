@@ -159,12 +159,10 @@ export default {
     const store = useStore();
 
     socketInstance.on('connect', () => {
-      console.log('socket connected');
       store.dispatch('auth/authRequest');
     });
 
     socketInstance.on('disconnect', () => {
-      console.log('socket disconnected');
       store.commit('auth/socketDisconnected');
     });
 

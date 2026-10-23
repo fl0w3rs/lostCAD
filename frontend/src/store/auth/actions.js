@@ -47,17 +47,8 @@ export function authRequest({ commit, dispatch }) {
       } else {
         applyError('Вы не авторизованы на форуме.');
       }
-    }).catch((rsn) => {
-      console.log(rsn);
-      if (process.env.DEV) {
-        socketWrapper.emit('authenticate', { key: 'REDACTED_DEV_LOGIN_KEY' }).onReturn((payload) => {
-          if (payload.status === 'authenticated') {
-            applySuccess(payload.userdata);
-          }
-        });
-      } else {
-        applyError('Ошибка аутентификации.');
-      }
+    }).catch(() => {
+      applyError('Ошибка аутентификации.');
     });
   });
 }
