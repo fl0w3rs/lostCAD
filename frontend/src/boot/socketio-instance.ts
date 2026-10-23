@@ -4,7 +4,7 @@ import type { Socket } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
 import { onBeforeMount, onBeforeUnmount } from 'vue';
 
-export const socketInstance = io('https://lostcad.fl0w3rs.dev', { path: '/socket' });
+export const socketInstance = io({ path: '/socket' });
 
 interface SocketMessage {
   wrapperId: string;

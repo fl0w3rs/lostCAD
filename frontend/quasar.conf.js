@@ -47,6 +47,10 @@ module.exports = function (/* ctx */) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
+
+      env: {
+        BUGSNAG_API_KEY: process.env.BUGSNAG_API_KEY || '',
+      },
       sourceMap: true,
 
       // transpile: false,
@@ -85,8 +89,12 @@ module.exports = function (/* ctx */) {
     devServer: {
       https: false,
       port: 9110,
-      // public: 'https://4000-cs-712998890491-default.cs-europe-west4-szqw.cloudshell.dev',
-      open: true, // opens browser window automatically
+      open: false,
+      // the backend serves both /api and the socket.io endpoint
+      proxy: {
+        '/api': process.env.API_URL || 'http://localhost:9669',
+        '/socket': { target: process.env.API_URL || 'http://localhost:9669', ws: true },
+      },
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
