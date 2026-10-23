@@ -4,6 +4,7 @@ module.exports = {
     socket, Validator, data, emitReturn, utils,
   }) => {
     if (!socket.isAuthenticated) return;
+    if (!(await socket.isAdmin())) return;
 
     const tmp = {};
     tmp.data = data;
