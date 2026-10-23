@@ -45,12 +45,12 @@
       <draggable
         v-model="penalCode"
         item-key="article"
-        tag="transition-group"
+        style="display: contents"
         :move="() => admin"
         @end="onEnd"
       >
         <template #item="{element, index}">
-          <tbody v-if="admin || allowedKeys[index]">
+          <tbody v-show="admin || allowedKeys[index]">
             <tr :class="expands[index] ? '' : 'pc-table-border-bottom'">
               <td>
                 <span>

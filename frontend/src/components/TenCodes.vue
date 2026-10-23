@@ -25,7 +25,7 @@
       <draggable
         v-model="codes"
         item-key="code"
-        tag="transition-group"
+        style="display: contents"
         :move="() => admin"
       >
         <template #item="{element, index}">
