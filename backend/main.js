@@ -585,4 +585,12 @@ io.on('connection', (socket) => {
   }
 });
 
-http.listen(9669);
+const start = async () => {
+  if (config.dbSync) {
+    await db.cad.sequelize.sync();
+  }
+
+  http.listen(config.port);
+};
+
+start();

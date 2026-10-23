@@ -347,13 +347,6 @@ VehicleImpoundment.belongsTo(Vehicle);
 User.hasMany(Log);
 Log.belongsTo(User);
 
-// Setting.sync({ alter: true });
-// Citation.sync({ alter: true });
-// Arrest.sync({ alter: true });
-// VehicleImpoundment.sync({ alter: true });
-// Call.sync({ alter: true });
-// User.sync({ alter: true });
-// Log.sync({ alter: true });
 
 exports.sequelize = sequelize;
 exports.Call = Call;
@@ -370,17 +363,3 @@ exports.Arrest = Arrest;
 exports.Citation = Citation;
 exports.VehicleImpoundment = VehicleImpoundment;
 exports.Log = Log;
-
-// const createTables = async () => {
-//   const keys = Object.keys(exports);
-//   for (let i = 0; i < keys.length; i += 1) {
-//     const obj = exports[keys[i]];
-
-//     // eslint-disable-next-line no-continue
-//     if (typeof obj !== 'function') continue;
-
-//     await obj.sync();
-//   }
-// };
-
-// createTables();
