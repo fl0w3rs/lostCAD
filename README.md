@@ -9,9 +9,11 @@ A CAD/MDT (Computer Aided Dispatch / Mobile Data Terminal) for a GTA roleplay se
 | | |
 |---|---|
 | ![Dispatch](docs/screenshots/03-dispatch.png) Dispatcher workstation | ![Call](docs/screenshots/07-call.png) Call card |
-| ![BOLOs](docs/screenshots/04-bolos.png) BOLOs | ![Lookup](docs/screenshots/05-lookup.png) Database lookup |
+| ![BOLOs](docs/screenshots/04-bolos.png) BOLOs | ![Lookup](docs/screenshots/05-lookup.png) Name lookup with records |
+| ![DMV](docs/screenshots/10-dmv.png) Plate lookup and vehicle card | ![Citation](docs/screenshots/11-citation.png) Citation |
 | ![Arrest](docs/screenshots/06-arrest.png) Arrest report | ![Civilian](docs/screenshots/08-civilian.png) Civilian character |
-| ![Penal code](docs/screenshots/09-penal-code.png) Penal code editor | ![Home](docs/screenshots/01-home.png) Department selection |
+| ![Penal code](docs/screenshots/09-penal-code.png) Penal code editor | ![Department](docs/screenshots/12-department.png) Department editor with forum groups |
+| ![Home](docs/screenshots/01-home.png) Department selection | |
 
 ## Features
 
