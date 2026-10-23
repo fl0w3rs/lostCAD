@@ -40,12 +40,6 @@ const io = require('socket.io')(http, {
 
 // -+
 Date.now = () => new Date().getTime() / 1000 | 0;
-
-// eslint-disable-next-line no-extend-native
-Array.prototype.intersects = function (arr) {
-  if (!Array.isArray(arr)) return false;
-  return this.filter((x) => arr.includes(x));
-};
 // -+
 
 const utils = {
@@ -406,13 +400,9 @@ io.on('connection', (socket) => {
     if (!cached) {
       const user = await socket.getForumUser();
 
-      let groups = [user.dataValues.member_group_id];
-      groups = groups.concat(user.dataValues.mgroup_others.split(','));
-
-      for (let i = 0; i < groups.length; i += 1) {
-        if (groups[i] == '') groups.splice(i, 1);
-        groups[i] = parseInt(groups[i], 10);
-      }
+      const groups = [user.dataValues.member_group_id, ...user.dataValues.mgroup_others.split(',')]
+        .filter((g) => g !== '')
+        .map(Number);
 
       socket.cache.set('groups', groups, 20);
       return groups;
@@ -427,7 +417,7 @@ io.on('connection', (socket) => {
     if (!cached) {
       const user = await socket.getUser();
       const data = await user.getCharacters();
-      socket.cache.set('cadUser', data, 20);
+      socket.cache.set('characters', data, 20);
       return data;
     }
 
@@ -479,7 +469,7 @@ io.on('connection', (socket) => {
 
         const groups = allDepartments[i].dataValues.groups.split(',').map(Number);
 
-        if (userGroups.intersects(groups).length > 0) {
+        if (userGroups.some((g) => groups.includes(g))) {
           availabeDepartments.push(allDepartments[i].dataValues);
         }
       }
@@ -510,7 +500,7 @@ io.on('connection', (socket) => {
 
   socket.isAdmin = async () => {
     const groups = await socket.getForumUserGroups();
-    return groups.intersects(config.adminGroups).length > 0;
+    return groups.some((g) => config.adminGroups.includes(g));
   };
 
   socket.sendAllCharacters = async (cached = true) => {
@@ -580,7 +570,9 @@ io.on('connection', (socket) => {
 
       ctx.data = data?.wrapperId ? data.payload : data;
 
-      messageModules[i].callback(ctx);
+      Promise.resolve()
+        .then(() => messageModules[i].callback(ctx))
+        .catch((err) => console.error(`${messageModules[i].message}:`, err));
     });
   }
 });
