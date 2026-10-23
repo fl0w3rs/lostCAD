@@ -9,6 +9,8 @@ const sequelize = new Sequelize(
   {
     host: config.db.cad.host,
     dialect: 'mariadb',
+    // MariaDB 10.5+ tags JSON columns, the connector would parse them before Sequelize does
+    dialectOptions: { autoJsonMap: false },
     define: {
       timestamps: false,
     },
