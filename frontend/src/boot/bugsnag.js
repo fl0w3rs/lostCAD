@@ -2,11 +2,12 @@ import { boot } from 'quasar/wrappers';
 import Bugsnag from '@bugsnag/js';
 import BugsnagPluginVue from '@bugsnag/plugin-vue';
 
-// "async" is optional;
-// more info on params: https://v2.quasar.dev/quasar-cli/boot-files
-export default boot(async ({ app }/* { app, router, ... } */) => {
+export default boot(({ app }) => {
+  // error reporting is optional: set BUGSNAG_API_KEY when building to enable it
+  if (!process.env.BUGSNAG_API_KEY) return;
+
   Bugsnag.start({
-    apiKey: 'YOUR_BUGSNAG_API_KEY',
+    apiKey: process.env.BUGSNAG_API_KEY,
     plugins: [new BugsnagPluginVue()],
   });
 
