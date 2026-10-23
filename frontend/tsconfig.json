@@ -3,5 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "noImplicitAny": false,
+    // vue-socket.io-extended pulls in legacy @types/socket.io-client that shadows the real typings
+    "types": ["node"],
   },
 }
